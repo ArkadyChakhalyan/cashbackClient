@@ -1,0 +1,74 @@
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { theme } from '../../style/theme.ts';
+import { Box, Button, Grow, Stack } from '@mui/material';
+import { LANDING_PAGE_BLOCKS, LANDING_PAGE_BUTTON_TIMEOUT, LANDING_PAGE_LOGIN } from './constants.ts';
+import { ERoutes } from '../../router/types.ts';
+import { Block } from '../../components/block/block.tsx';
+
+export const LandingPage = () => {
+    const navigate = useNavigate();
+
+    const [isShowButton, setShowButton] = useState(null);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShowButton(true);
+        }, LANDING_PAGE_BUTTON_TIMEOUT);
+    }, []);
+
+    return <Stack sx={containerStyle}>
+        {LANDING_PAGE_BLOCKS.map(block => {
+            const {
+                img,
+                isImgContainer,
+                isRevered,
+                title,
+                text,
+            } = block;
+            const imgEl = <Box component={'img'} alt={'preview'} src={img} />;
+            return <Block
+                title={title}
+                text={text}
+                img={isImgContainer ? <Stack sx={imageStyle}>{imgEl}</Stack> : imgEl}
+                isReversed={isRevered}
+            />;
+        })}
+        <Grow appear in={isShowButton} timeout={600}>
+            <Button
+                sx={buttonStyle}
+                onClick={() => navigate('/' + ERoutes.LOGIN)}
+            >
+                {LANDING_PAGE_LOGIN}
+            </Button>
+        </Grow>
+    </Stack>;
+}
+
+const containerStyle = {
+    height: `calc(100% - ${theme.spacing(8)})`,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    pt: 4,
+    pb: 20,
+    gap: 5,
+    [theme.breakpoints.down('sm')]: {
+        gap: 3,
+    }
+};
+
+const imageStyle = {
+    p: 3,
+    borderRadius: theme.spacing(4),
+    bgcolor: theme.palette.background.default,
+    [theme.breakpoints.up('md')]: {
+        mr: 2,
+    }
+}
+
+const buttonStyle = {
+    position: 'fixed',
+    bottom: theme.spacing(7),
+    width: theme.spacing(28),
+    boxShadow: theme.shadows[5],
+};

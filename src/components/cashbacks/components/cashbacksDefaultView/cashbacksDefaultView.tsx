@@ -1,0 +1,93 @@
+import React, { FC, useEffect, useState } from 'react';
+import { Box } from '@mui/material';
+import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
+import { TCashbackDefaultViewProps } from './types.ts';
+import { Cashback } from '../cashback/cashback.tsx';
+import { useUpdateCashbackMutation } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
+import { theme } from '../../../../style/theme.ts';
+import { showErrorSnackbar } from '../../../snackbarStack/helpers/showErrorSnackbar.ts';
+
+export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
+    cashbacks: _cashbacks,
+}) => {
+    const [updateCashback, {
+        isLoading,
+        isError,
+        isSuccess,
+        reset,
+    }] = useUpdateCashbackMutation();
+
+    const [cashbacks, setCashbacks] = useState([]);
+
+    useEffect(() => {
+        setCashbacks([..._cashbacks].sort((a, b) => a.orderNumber - b.orderNumber));
+    }, [_cashbacks]);
+
+    const onDragEnd = async (result: DropResult) => {
+        if (!result.destination) {
+            return;
+        }
+        const rollback = [...cashbacks];
+        const destIndex = result.destination.index;
+        const sourceIndex = result.source.index;
+        const updatedCashbacks = [...cashbacks];
+        const cashback = cashbacks[sourceIndex];
+        const updatedCashback = { ...cashback };
+        updatedCashbacks.splice(sourceIndex, 1);
+        updatedCashbacks.splice(destIndex, 0, updatedCashback);
+        const cashbackIndex = updatedCashbacks.findIndex(cashback => cashback.id === updatedCashback.id);
+        const beforeIndex = cashbackIndex - 1;
+        const afterIndex = cashbackIndex + 1;
+        const beforeOrderNumber = updatedCashbacks[beforeIndex]?.orderNumber ?? -1;
+        const afterOrderNumber = updatedCashbacks[afterIndex]?.orderNumber ?? beforeOrderNumber + 1;
+        updatedCashback.orderNumber = (beforeOrderNumber + afterOrderNumber) / 2;
+        setCashbacks(updatedCashbacks)
+        try {
+            updateCashback(updatedCashback);
+        } catch {
+            setCashbacks(rollback);
+        }
+    };
+
+    useEffect(() => {
+        if (!isError) return;
+        showErrorSnackbar();
+    }, [isError]);
+
+    return <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId={'default'}>
+            {(provided, snapshot) => (
+                <Box
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    flexGrow={1}
+                >
+                    {cashbacks.map((cashback, index) => (
+                        <Draggable key={cashback.id} draggableId={cashback.id} index={index}>
+                            {(provided, snapshot) => (
+                                <Box
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    sx={{ pb: theme.spacing() }}
+                                >
+                                    <Cashback
+                                        key={cashback.id}
+                                        bank={cashback.bank}
+                                        color={cashback.color}
+                                        icon={cashback.icon}
+                                        id={cashback.id}
+                                        name={cashback.name}
+                                        percentage={cashback.percentage}
+                                        isDragging={snapshot.isDragging}
+                                    />
+                                </Box>
+                            )}
+                        </Draggable>
+                    ))}
+                    {provided.placeholder}
+                </Box>
+            )}
+        </Droppable>
+    </DragDropContext>;
+}

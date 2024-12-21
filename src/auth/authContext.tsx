@@ -1,0 +1,37 @@
+import React, { createContext, FC, ReactNode, useContext, useState } from 'react';
+import { AUTH_TOKEN_LS } from './constants.ts';
+import { getAuthToken } from '../selectors/getAuthToken.ts';
+
+interface AuthContextProps {
+    isAuthenticated: boolean;
+    login: (token: string) => void;
+    logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextProps>(null);
+
+export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
+    const [isAuthenticated, setIsAuthenticated] = useState(!!getAuthToken());
+
+    const login = (token: string) => {
+        localStorage.setItem(AUTH_TOKEN_LS, token);
+        setIsAuthenticated(true);
+    };
+
+    const logout = () => {
+        localStorage.removeItem(AUTH_TOKEN_LS);
+        setIsAuthenticated(false);
+    };
+
+    return<AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        {children}
+    </AuthContext.Provider>;
+};
+
+export const useAuth = (): AuthContextProps => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};

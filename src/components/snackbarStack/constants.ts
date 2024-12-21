@@ -1,0 +1,2 @@
+export const SNACKBAR_STACK_MAX_COUNT = 3;
+export const SNACKBAR_STACK_HIDE_TIMEOUT = 4000;
