@@ -70,7 +70,7 @@ const buttonStyle = {
     fontWeight: 300,
 
     '.MuiLoadingButton-loadingIndicatorStart': {
-        left: theme.spacing(2.5),
+        left: theme.spacing(-1.5),
     },
     '.MuiButton-icon': {
         position: 'relative',

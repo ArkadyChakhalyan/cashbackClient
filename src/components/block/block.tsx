@@ -69,4 +69,7 @@ const imageStyle = {
     [theme.breakpoints.down('sm')]: {
         width: '90%',
     },
+    [theme.breakpoints.down(parseInt(theme.spacing(60)))]: {
+        width: '100%',
+    },
 };

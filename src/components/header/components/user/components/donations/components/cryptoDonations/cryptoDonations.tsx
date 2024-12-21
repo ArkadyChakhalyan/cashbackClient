@@ -21,8 +21,8 @@ export const CryptoDonations = () => {
         showSuccessSnackbar(CRYPTO_DONATIONS_COPIED);
     };
 
-    return <Stack alignItems={'center'} gap={1} width={'100%'}>
-        <Typography mb={1} variant={'body1'}>{CRYPTO_DONATIONS_TITLE}</Typography>
+    return <Stack alignItems={'center'} gap={1.5} width={'100%'}>
+        <Typography mb={0.5} variant={'body1'}>{CRYPTO_DONATIONS_TITLE}</Typography>
         <ToggleButtonGroup
             value={crypto}
             exclusive

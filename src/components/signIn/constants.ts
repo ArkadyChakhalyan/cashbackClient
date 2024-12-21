@@ -4,12 +4,12 @@ import { TSignInButtonProps } from './components/signInButton/types.ts';
 
 export const SIGN_IN_OPTIONS: TSignInButtonProps[] = [
     // {
-    //     label: 'Войти с Google',
+    //     label: 'Войти с помощью Google',
     //     provider: 'google',
     //     Icon: GoogleIcon,
     // },
     {
-        label: 'Войти с Yandex ID',
+        label: 'Войти с помощью Yandex ID',
         provider: 'yandex',
         Icon: YandexIcon,
     },

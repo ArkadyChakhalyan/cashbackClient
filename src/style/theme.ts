@@ -123,10 +123,13 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     fontWeight: 400,
-                    color: '#fff',
+                    color: '#ffffff',
                     textTransform: 'unset',
                     borderRadius: '24px',
                     transition: 'background 0.25s ease-in-out, color 0.25s ease-in-out',
+                    '&:hover, &:focus-visible, &:active': {
+                        backgroundColor: '#ab5e59',
+                    }
                 },
                 sizeLarge: {
                     height: 48,
