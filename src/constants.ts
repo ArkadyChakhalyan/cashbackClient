@@ -35,6 +35,31 @@ export const BANKS: IBank[] = [
         value: EBank.OZON,
     },
     {
+        iconUrl: './sovcom.png',
+        name: 'Совкомбанк',
+        value: EBank.SOVCOM,
+    },
+    {
+        iconUrl: './mts.png',
+        name: 'МТС Банк',
+        value: EBank.MTS,
+    },
+    {
+        iconUrl: './ural.png',
+        name: 'Уралсиб Банк',
+        value: EBank.URAL,
+    },
+    {
+        iconUrl: './raiffeisen.png',
+        name: 'Райфайзен Банк',
+        value: EBank.RAIFFEISEN,
+    },
+    {
+        iconUrl: './otp.png',
+        name: 'ОТП Банк',
+        value: EBank.OTP,
+    },
+    {
         iconUrl: './svoi.png',
         name: 'Свой Банк',
         value: EBank.SVOI,
