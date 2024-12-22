@@ -4,8 +4,8 @@ import path from 'path';
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa';
 
 const manifestForPlugin: Partial<VitePWAOptions> = {
-    registerType: 'prompt',
-    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+    registerType: 'autoUpdate',
+    includeAssets: ['favicon.ico', 'apple-touch-icon.png.png', 'masked-icon.svg'],
     manifest: {
         name: 'CashbackCheck',
         short_name: 'CashbackCheck',
@@ -15,11 +15,13 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
                 src: '/android-chrome-192x192.png',
                 sizes: '192x192',
                 type: 'image/png',
+                purpose: 'any',
             },
             {
-                src: '/android-chrome-512x512.png',
+                src: '/android-chrome-512-512.png',
                 sizes: '512x512',
                 type: 'image/png',
+                purpose: 'any',
             },
             {
                 src: '/apple-touch-icon.png',
@@ -38,9 +40,11 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
         background_color: '#120b1b',
         display: 'standalone',
         scope: '/',
-        start_url: '/',
+        start_url: '/login',
         orientation: 'portrait',
-
+        categories: [
+            'finance',
+        ],
     }
 }
 
@@ -49,6 +53,7 @@ export default defineConfig({
     server: {
         port: 3000,
         open: true,
+        host: true,
     },
     optimizeDeps: {
         exclude: ['js-big-decimal, @hello-pangea/dnd']

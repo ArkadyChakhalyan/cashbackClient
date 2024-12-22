@@ -33,7 +33,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const isLoading = useSelector(getIsLoading);
     const view = useSelector(getCashbacksView);
 
-    const [cashbacks, setCashbacks] = useState([]);
+    const [cashbacks, setCashbacks] = useState(null);
 
     useEffect(() => {
         if (!isError) return;
@@ -42,12 +42,13 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     }, [isError]);
 
     useEffect(() => {
-        setCashbacks(period === ECashbackPeriod.CURRENT_MONTH ? currentMonthCashbacks : nextMonthCashbacks);
-    }, [currentMonthCashbacks, nextMonthCashbacks, period]);
+        if (isLoading) return;
+        setCashbacks(period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks);
+    }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period]);
 
     return <Stack spacing={1.5} flexGrow={1}>
         {!isError && <CashbacksHeader/>}
-        {isLoading ?
+        {isLoading || !cashbacks ?
             Array(CASHBACKS_FAKE_COUNT).fill('').map((item, idx) => (
                 <Skeleton
                     key={idx}

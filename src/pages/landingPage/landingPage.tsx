@@ -28,6 +28,7 @@ export const LandingPage = () => {
             } = block;
             const imgEl = <Box component={'img'} alt={'preview'} src={img} />;
             return <Block
+                key={title}
                 title={title}
                 text={text}
                 img={isImgContainer ? <Stack sx={imageStyle}>{imgEl}</Stack> : imgEl}
@@ -54,6 +55,10 @@ const containerStyle = {
     gap: 5,
     [theme.breakpoints.down('sm')]: {
         gap: 3,
+    },
+    [theme.breakpoints.down('sm')]: {
+        pt: 3,
+        pb: 14,
     }
 };
 
@@ -63,7 +68,7 @@ const imageStyle = {
     bgcolor: theme.palette.background.default,
     [theme.breakpoints.up('md')]: {
         mr: 2,
-    }
+    },
 }
 
 const buttonStyle = {
@@ -71,4 +76,7 @@ const buttonStyle = {
     bottom: theme.spacing(7),
     width: theme.spacing(28),
     boxShadow: theme.shadows[5],
+    [theme.breakpoints.down('sm')]: {
+        bottom: theme.spacing(4),
+    }
 };
