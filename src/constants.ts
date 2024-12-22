@@ -1,6 +1,8 @@
 import { IBank } from './types.ts';
 import { EBank } from 'cashback-check-types/cashback';
 
+export const APP_NAME = 'CashbackCheck';
+
 export const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export const BANKS: IBank[] = [

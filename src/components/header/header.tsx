@@ -1,10 +1,10 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
-import { HEADER_APP_NAME } from './constants.ts';
 import { User } from './components/user/user.tsx';
 import { useAuth } from '../../auth/authContext.tsx';
 import { useLocation } from 'react-router-dom';
 import { ERoutes } from '../../router/types.ts';
+import { APP_NAME } from '../../constants.ts';
 
 export const Header = () => {
     const { isAuthenticated } = useAuth();
@@ -13,7 +13,7 @@ export const Header = () => {
     const isLoginRoute = location.pathname.includes(ERoutes.LOGIN);
 
     return <Stack sx={{ ...headerStyle, ...(isLoginRoute ? loginStyle : {}) }}>
-        <Typography fontFamily={'Poppins'} variant={'h5'} sx={logoStyle}>{HEADER_APP_NAME}</Typography>
+        <Typography fontFamily={'Poppins'} variant={'h5'} sx={logoStyle}>{APP_NAME}</Typography>
         {isAuthenticated && <User />}
     </Stack>;
 }
