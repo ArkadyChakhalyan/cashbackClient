@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_API_URL } from '../../constants.ts';
 import { EFetchMethod } from '../types.ts';
-import { ICashback } from 'cashback-check-types/cashback';
+import { ICashback } from 'cashback-check-types';
 import { getAuthToken } from '../../selectors/getAuthToken.ts';
 
 export const cashbackApiSlice = createApi({

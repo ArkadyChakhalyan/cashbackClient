@@ -1,4 +1,4 @@
-import { TCashbackId } from 'cashback-check-types/cashback';
+import { TCashbackId } from 'cashback-check-types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICashbacksState } from './types.ts';
 import { ECashbackPeriod } from '../../types.ts';

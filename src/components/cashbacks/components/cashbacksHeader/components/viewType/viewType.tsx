@@ -2,7 +2,7 @@ import { IconButton, Skeleton, Tooltip } from '@mui/material';
 import ViewStreamRoundedIcon from '@mui/icons-material/ViewStreamRounded';
 import ViewHeadlineRoundedIcon from '@mui/icons-material/ViewHeadlineRounded';
 import { useUpdateUserMutation } from '../../../../../../store/userApi/userApiSlice.ts';
-import { ECashbacksView } from 'cashback-check-types/user';
+import { ECashbacksView } from 'cashback-check-types';
 import { getCashbacksView } from '../../../../../../store/userApi/selectors/getCashbacksView.ts';
 import { useSelector } from 'react-redux';
 import { theme } from '../../../../../../style/theme.ts';

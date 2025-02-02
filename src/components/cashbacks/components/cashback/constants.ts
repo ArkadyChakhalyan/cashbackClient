@@ -1,4 +1,4 @@
-import { ECashbackColor, ECashbackIcon } from 'cashback-check-types/cashback';
+import { ECashbackColor, ECashbackIcon } from 'cashback-check-types';
 import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded';
 import LocalTaxiRoundedIcon from '@mui/icons-material/LocalTaxiRounded';
 import LocalGroceryStoreRoundedIcon from '@mui/icons-material/LocalGroceryStoreRounded';
@@ -23,6 +23,8 @@ import ContentCutRoundedIcon from '@mui/icons-material/ContentCutRounded';
 import ChildFriendlyRoundedIcon from '@mui/icons-material/ChildFriendlyRounded';
 import DataSaverOnRoundedIcon from '@mui/icons-material/DataSaverOnRounded';
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded';
+import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
+import DiamondRoundedIcon from '@mui/icons-material/DiamondRounded';
 import { theme } from '../../../../style/theme.ts';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
@@ -51,6 +53,8 @@ export const CASHBACK_ICON_MAP: {[key: string]: OverridableComponent<SvgIconType
     [ECashbackIcon.GAS]: LocalGasStationRoundedIcon,
     [ECashbackIcon.BEAUTY]: ContentCutRoundedIcon,
     [ECashbackIcon.KIDS]: ChildFriendlyRoundedIcon,
+    [ECashbackIcon.ANIMALS]: PetsRoundedIcon,
+    [ECashbackIcon.ACCESSORIES]: DiamondRoundedIcon,
     [ECashbackIcon.OTHER]: DataSaverOnRoundedIcon,
 };
 

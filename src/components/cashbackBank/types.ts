@@ -1,4 +1,4 @@
-import { EBank } from 'cashback-check-types/cashback';
+import { EBank } from 'cashback-check-types';
 
 export type TCashbackBankProps = {
     bank: EBank,

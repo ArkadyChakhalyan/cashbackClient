@@ -46,11 +46,11 @@ export const User = () => {
             icon: SettingsRoundedIcon,
             onClick: onOpenProfile,
         },
-        {
-            label: USER_DONATE,
-            icon: SavingsRoundedIcon,
-            onClick: onOpenDonations,
-        },
+        // {
+        //     label: USER_DONATE,
+        //     icon: SavingsRoundedIcon,
+        //     onClick: onOpenDonations,
+        // },
         {
             label: USER_LOGOUT,
             icon: LogoutRoundedIcon,

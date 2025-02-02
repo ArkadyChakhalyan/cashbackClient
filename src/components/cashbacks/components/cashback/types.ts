@@ -1,4 +1,4 @@
-import { ICashback } from 'cashback-check-types/cashback';
+import { ICashback } from 'cashback-check-types';
 
 export type TCashbackProps = Partial<ICashback> & {
     isDragging: boolean;

@@ -1,7 +1,7 @@
 import { userApiSlice } from '../userApiSlice.ts';
 import { createSelector } from '@reduxjs/toolkit';
 import { IState } from '../../types.ts';
-import { IUser } from 'cashback-check-types/user';
+import { IUser } from 'cashback-check-types';
 
 export const selectUserResult = userApiSlice.endpoints.getUser.select(null);
 

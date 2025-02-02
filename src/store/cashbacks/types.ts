@@ -1,5 +1,5 @@
 import { ECashbackPeriod } from '../../types.ts';
-import { TCashbackId } from 'cashback-check-types/cashback';
+import { TCashbackId } from 'cashback-check-types';
 
 export interface ICashbacksState {
     editingCashbackId: TCashbackId;

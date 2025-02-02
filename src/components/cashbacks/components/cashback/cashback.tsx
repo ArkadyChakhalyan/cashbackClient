@@ -7,7 +7,7 @@ import { CashbackActions } from './cashbackActions/cashbackActions.tsx';
 import { CashbackBank } from '../../../cashbackBank/cashbackBank.tsx';
 import { useSelector } from 'react-redux';
 import { getCashbacksView } from '../../../../store/userApi/selectors/getCashbacksView.ts';
-import { ECashbacksView } from 'cashback-check-types/user';
+import { ECashbacksView } from 'cashback-check-types';
 
 export const Cashback: FC<TCashbackProps> = ({
     bank,

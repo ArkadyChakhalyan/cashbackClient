@@ -1,4 +1,4 @@
-import { EBank } from 'cashback-check-types/cashback';
+import { EBank } from 'cashback-check-types';
 
 export interface IBank {
     iconUrl: string;

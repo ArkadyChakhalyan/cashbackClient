@@ -22,7 +22,7 @@ import { theme } from '../../../../style/theme.ts';
 import { CashbackFormBank } from './components/cashbackFormBank/cashbackFormBank.tsx';
 import { getEditingCashback } from '../../../../store/cashbacks/selectors/getEditingCashback.ts';
 import { useSelector } from 'react-redux';
-import { EBank, ICashback } from 'cashback-check-types/cashback';
+import { EBank, ICashback } from 'cashback-check-types';
 import { showErrorSnackbar } from '../../../snackbarStack/helpers/showErrorSnackbar.ts';
 import { getCashbackPeriod } from '../../../../selectors/getCashbackPeriod.ts';
 import { ECashbackPeriod } from '../../../../types.ts';

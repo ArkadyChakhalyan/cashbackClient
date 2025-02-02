@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { IState } from '../../types.ts';
-import { ICashback, TCashbackId } from 'cashback-check-types/cashback';
+import { ICashback, TCashbackId } from 'cashback-check-types';
 import { getCurrentMonthCashbacks } from './getCurrentMonthCashbacks.ts';
 
 export const getCurrentMonthCashback: (state: IState, cashbackId: TCashbackId) => ICashback = createSelector(

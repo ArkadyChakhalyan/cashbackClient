@@ -23,10 +23,6 @@
     "noUncheckedSideEffectImports": false,
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": false,
-
-    "paths": {
-      "cashback-check-types/*": ["./node_modules/cashback-check-types/dist/*"]
-    }
   },
   "include": [
     "src",

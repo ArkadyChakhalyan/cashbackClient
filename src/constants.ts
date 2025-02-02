@@ -1,5 +1,5 @@
 import { IBank } from './types.ts';
-import { EBank } from 'cashback-check-types/cashback';
+import { EBank } from 'cashback-check-types';
 
 export const APP_NAME = 'CashbackCheck';
 
@@ -7,62 +7,72 @@ export const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export const BANKS: IBank[] = [
     {
-        iconUrl: './t.png',
+        iconUrl: './banks/t.png',
         name: 'Т-Банк',
         value: EBank.T,
     },
     {
-        iconUrl: './sber.png',
+        iconUrl: './banks/sber.png',
         name: 'СберБанк',
         value: EBank.SBER,
     },
     {
-        iconUrl: './vtb.png',
+        iconUrl: './banks/vtb.png',
         name: 'ВТБ',
         value: EBank.VTB,
     },
     {
-        iconUrl: './alpha.png',
+        iconUrl: './banks/alpha.png',
         name: 'Альфа-Банк',
         value: EBank.ALPHA,
     },
     {
-        iconUrl: './gazprom.png',
+        iconUrl: './banks/yandex.png',
+        name: 'Яндекс Пэй',
+        value: EBank.YANDEX_PAY,
+    },
+    {
+        iconUrl: './banks/gazprom.png',
         name: 'Газпромбанк',
         value: EBank.GAZPROM,
     },
     {
-        iconUrl: './ozon.png',
-        name: 'Ozon Банк',
-        value: EBank.OZON,
-    },
-    {
-        iconUrl: './sovcom.png',
-        name: 'Совкомбанк',
-        value: EBank.SOVCOM,
-    },
-    {
-        iconUrl: './mts.png',
-        name: 'МТС Банк',
-        value: EBank.MTS,
-    },
-    {
-        iconUrl: './ural.png',
-        name: 'Уралсиб Банк',
-        value: EBank.URAL,
-    },
-    {
-        iconUrl: './raiffeisen.png',
-        name: 'Райфайзен Банк',
-        value: EBank.RAIFFEISEN,
-    },
-    {
-        iconUrl: './otp.png',
+        iconUrl: './banks/otp.png',
         name: 'ОТП Банк',
         value: EBank.OTP,
     },
     {
-        iconUrl: './svoi.png',
+        iconUrl: './banks/psb.png',
+        name: 'ПСБ',
+        value: EBank.PSB,
+    },
+    {
+        iconUrl: './banks/ozon.png',
+        name: 'Озон Банк',
+        value: EBank.OZON,
+    },
+    {
+        iconUrl: './banks/sovcom.png',
+        name: 'Совкомбанк',
+        value: EBank.SOVCOM,
+    },
+    {
+        iconUrl: './banks/mts.png',
+        name: 'МТС Банк',
+        value: EBank.MTS,
+    },
+    {
+        iconUrl: './banks/uralsib.png',
+        name: 'Уралсиб Банк',
+        value: EBank.URAL,
+    },
+    {
+        iconUrl: './banks/raiffeisen.png',
+        name: 'Райфайзен Банк',
+        value: EBank.RAIFFEISEN,
+    },
+    {
+        iconUrl: './banks/svoi.png',
         name: 'Свой Банк',
         value: EBank.SVOI,
     },

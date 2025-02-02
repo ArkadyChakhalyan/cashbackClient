@@ -1,7 +1,7 @@
 import { cashbackApiSlice } from '../cashbackApiSlice.ts';
 import { createSelector } from '@reduxjs/toolkit';
 import { IState } from '../../types.ts';
-import { ICashback } from 'cashback-check-types/cashback';
+import { ICashback } from 'cashback-check-types';
 
 export const selectCashbacksResult = cashbackApiSlice.endpoints.getCashbacks.select(null);
 

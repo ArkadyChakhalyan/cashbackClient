@@ -28,7 +28,7 @@ import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import EventRepeatRoundedIcon from '@mui/icons-material/EventRepeatRounded';
 import { TMenuItemProps } from '../../../../menu/menuItem/types.ts';
 import { getCashbacksView } from '../../../../../store/userApi/selectors/getCashbacksView.ts';
-import { ECashbacksView } from 'cashback-check-types/user';
+import { ECashbacksView } from 'cashback-check-types';
 import { getNextMonthDate } from '../../../../../selectors/getNextMonthDate.ts';
 import { ECashbackPeriod } from '../../../../../types.ts';
 import { getPeriod } from '../../../../../store/cashbacks/selectors/getPeriod.ts';

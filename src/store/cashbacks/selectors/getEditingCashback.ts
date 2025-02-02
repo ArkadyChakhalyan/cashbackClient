@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { IState } from '../../types.ts';
-import { ICashback, TCashbackId } from 'cashback-check-types/cashback';
+import { ICashback, TCashbackId } from 'cashback-check-types';
 import { getCashbacks } from '../../cashbackApi/selectors/getCashbacks.ts';
 import { getEditingCashbackId } from './getEditingCashbackId.ts';
 

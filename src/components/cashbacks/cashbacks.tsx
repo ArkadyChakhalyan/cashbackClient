@@ -16,7 +16,7 @@ import { ECashbackPeriod } from '../../types.ts';
 import { showErrorSnackbar } from '../snackbarStack/helpers/showErrorSnackbar.ts';
 import { TCashbacksProps } from './types.ts';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { ECashbacksView } from 'cashback-check-types/user';
+import { ECashbacksView } from 'cashback-check-types';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,

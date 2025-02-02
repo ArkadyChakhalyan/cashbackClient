@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { IState } from '../../types.ts';
-import { EBank } from 'cashback-check-types/cashback';
+import { EBank } from 'cashback-check-types';
 import { getCashbacks } from './getCashbacks.ts';
 
 export const getUserBanks: (state: IState) => EBank[] = createSelector(
