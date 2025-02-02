@@ -6,6 +6,7 @@ import { theme } from '../../../../../../../../style/theme.ts';
 import { setIsSearchModeAC, setSearchQueryAC } from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSearchQuery } from '../../../../../../../../store/cashbacks/selectors/getSearchQuery.ts';
+import { SEARCH_PLACEHOLDER } from './constants.ts';
 
 export const Search = () => {
     const dispatch = useDispatch();
@@ -49,13 +50,14 @@ export const Search = () => {
         <IconButton onClick={onOpen}>
             <SearchRoundedIcon />
         </IconButton>
-        <Grow appear in={isShow} timeout={400}>
+        <Grow appear in={isShow} timeout={300}>
             <TextField
                 inputRef={inputRef}
                 onBlur={onBlur}
                 onKeyDown={onEscape}
                 onChange={onChange}
                 value={searchQuery}
+                placeholder={SEARCH_PLACEHOLDER}
                 sx={inputStyle}
                 slotProps={{
                     input: {
