@@ -50,7 +50,7 @@ const containerStyle = {
     height: `calc(100% - ${theme.spacing(8)})`,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    pt: 4,
+    pt: 2,
     pb: 20,
     gap: 5,
     [theme.breakpoints.down('sm')]: {
