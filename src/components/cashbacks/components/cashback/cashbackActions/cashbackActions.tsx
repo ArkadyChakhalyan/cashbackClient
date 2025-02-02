@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { alpha, IconButton } from '@mui/material';
+import { alpha, Grow, IconButton } from '@mui/material';
 import { TCashbackActionsProps } from './types.ts';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import {
@@ -35,6 +35,7 @@ import { getPeriod } from '../../../../../store/cashbacks/selectors/getPeriod.ts
 import { getCashback } from '../../../../../store/cashbackApi/selectors/getCashback.ts';
 import { getOrderNumber } from '../../../../../selectors/getOrderNumber.ts';
 import { getBankOrderNumber } from '../../../../../selectors/getBankOrderNumber.ts';
+import { getIsSearchMode } from '../../../../../store/cashbacks/selectors/getIsSearchMode.ts';
 
 export const CashbackActions: FC<TCashbackActionsProps> = ({
     id,
@@ -58,6 +59,7 @@ export const CashbackActions: FC<TCashbackActionsProps> = ({
     const nextMonthCashbacks = useSelector(getNextMonthCashbacks);
     const view = useSelector(getCashbacksView);
     const period = useSelector(getPeriod);
+    const isSearchMode = useSelector(getIsSearchMode);
 
     const onEdit = () => {
         dispatch(setEditingCashbackIdAC(id));
@@ -130,15 +132,17 @@ export const CashbackActions: FC<TCashbackActionsProps> = ({
     }, [isDeleteError, isCreateError]);
 
     return <>
-        <IconButton
-            sx={{
-                ...actionsStyle,
-                bgcolor: view === ECashbacksView.BANK ? alpha(theme.palette.common.white, 0.05) : null
-            }}
-            onClick={(e: React.MouseEvent) => setAnchor(e.currentTarget)}
-        >
-            <MoreHorizRoundedIcon />
-        </IconButton>
+        <Grow appear in={!isSearchMode} timeout={300}>
+            <IconButton
+                sx={{
+                    ...actionsStyle,
+                    bgcolor: view === ECashbacksView.BANK ? alpha(theme.palette.common.white, 0.05) : null
+                }}
+                onClick={(e: React.MouseEvent) => setAnchor(e.currentTarget)}
+            >
+                <MoreHorizRoundedIcon />
+            </IconButton>
+        </Grow>
         <Menu
             anchorEl={anchor}
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}

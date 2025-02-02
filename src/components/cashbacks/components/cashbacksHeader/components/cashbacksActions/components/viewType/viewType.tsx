@@ -1,18 +1,18 @@
 import { IconButton, Skeleton, Tooltip } from '@mui/material';
 import ViewStreamRoundedIcon from '@mui/icons-material/ViewStreamRounded';
 import ViewHeadlineRoundedIcon from '@mui/icons-material/ViewHeadlineRounded';
-import { useUpdateUserMutation } from '../../../../../../store/userApi/userApiSlice.ts';
+import { useUpdateUserMutation } from '../../../../../../../../store/userApi/userApiSlice.ts';
 import { ECashbacksView } from 'cashback-check-types';
-import { getCashbacksView } from '../../../../../../store/userApi/selectors/getCashbacksView.ts';
+import { getCashbacksView } from '../../../../../../../../store/userApi/selectors/getCashbacksView.ts';
 import { useSelector } from 'react-redux';
-import { theme } from '../../../../../../style/theme.ts';
-import { getIsLoading } from '../../../../../../store/cashbackApi/selectors/getIsLoading.ts';
+import { theme } from '../../../../../../../../style/theme.ts';
+import { getIsLoading } from '../../../../../../../../store/cashbackApi/selectors/getIsLoading.ts';
 import { VIEW_TYPE_BANK_VIEW_TOOLTIP, VIEW_TYPE_DEFAULT_VIEW_TOOLTIP } from './constants.ts';
-import { getPeriod } from '../../../../../../store/cashbacks/selectors/getPeriod.ts';
-import { getCurrentMonthCashbacks } from '../../../../../../store/cashbackApi/selectors/getCurrentMonthCashbacks.ts';
-import { getNextMonthCashbacks } from '../../../../../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
+import { getPeriod } from '../../../../../../../../store/cashbacks/selectors/getPeriod.ts';
+import { getCurrentMonthCashbacks } from '../../../../../../../../store/cashbackApi/selectors/getCurrentMonthCashbacks.ts';
+import { getNextMonthCashbacks } from '../../../../../../../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
 import { useEffect, useState } from 'react';
-import { ECashbackPeriod } from '../../../../../../types.ts';
+import { ECashbackPeriod } from '../../../../../../../../types.ts';
 
 export const ViewType = () => {
     const [updateUser, {

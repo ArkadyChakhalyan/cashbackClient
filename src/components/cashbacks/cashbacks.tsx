@@ -17,6 +17,8 @@ import { showErrorSnackbar } from '../snackbarStack/helpers/showErrorSnackbar.ts
 import { TCashbacksProps } from './types.ts';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { ECashbacksView } from 'cashback-check-types';
+import { getSearchQuery } from '../../store/cashbacks/selectors/getSearchQuery.ts';
+import { getIsSearchMode } from '../../store/cashbacks/selectors/getIsSearchMode.ts';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
@@ -32,6 +34,8 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const nextMonthCashbacks = useSelector(getNextMonthCashbacks);
     const isLoading = useSelector(getIsLoading);
     const view = useSelector(getCashbacksView);
+    const searchQuery = useSelector(getSearchQuery);
+    const isSearchMode = useSelector(getIsSearchMode);
 
     const [cashbacks, setCashbacks] = useState(null);
 
@@ -43,11 +47,15 @@ export const Cashbacks: FC<TCashbacksProps> = ({
 
     useEffect(() => {
         if (isLoading) return;
-        setCashbacks(period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks);
-    }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period]);
+        let cashbacks = period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
+        if (searchQuery) {
+            cashbacks = cashbacks.filter(cashback => cashback.name.toLowerCase().includes(searchQuery));
+        }
+        setCashbacks(cashbacks);
+    }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery]);
 
     return <Stack spacing={1.5} flexGrow={1}>
-        {!isError && <CashbacksHeader/>}
+        {!isError && <CashbacksHeader />}
         {isLoading || !cashbacks ?
             Array(CASHBACKS_FAKE_COUNT).fill('').map((item, idx) => (
                 <Skeleton
@@ -72,7 +80,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
                     }
                 </>
                 }
-                {view === ECashbacksView.BANK ?
+                {view === ECashbacksView.BANK && !isSearchMode ?
                     <CashbacksBankView cashbacks={cashbacks} />
                     : <CashbacksDefaultView cashbacks={cashbacks} />
                 }

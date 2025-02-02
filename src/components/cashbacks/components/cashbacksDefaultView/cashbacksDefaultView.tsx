@@ -6,6 +6,8 @@ import { Cashback } from '../cashback/cashback.tsx';
 import { useUpdateCashbackMutation } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
 import { theme } from '../../../../style/theme.ts';
 import { showErrorSnackbar } from '../../../snackbarStack/helpers/showErrorSnackbar.ts';
+import { useSelector } from 'react-redux';
+import { getIsSearchMode } from '../../../../store/cashbacks/selectors/getIsSearchMode.ts';
 
 export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
     cashbacks: _cashbacks,
@@ -16,6 +18,8 @@ export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
         isSuccess,
         reset,
     }] = useUpdateCashbackMutation();
+
+    const isSearchMode = useSelector(getIsSearchMode);
 
     const [cashbacks, setCashbacks] = useState([]);
 
@@ -63,7 +67,7 @@ export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
                     flexGrow={1}
                 >
                     {cashbacks.map((cashback, index) => (
-                        <Draggable key={cashback.id} draggableId={cashback.id} index={index}>
+                        <Draggable key={cashback.id} draggableId={cashback.id} index={index} isDragDisabled={isSearchMode}>
                             {(provided, snapshot) => (
                                 <Box
                                     ref={provided.innerRef}

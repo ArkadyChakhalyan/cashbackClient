@@ -1,0 +1,91 @@
+import { alpha, Grow, IconButton, TextField } from '@mui/material';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import React, { useRef, useState } from 'react';
+import { theme } from '../../../../../../../../style/theme.ts';
+import { setIsSearchModeAC, setSearchQueryAC } from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSearchQuery } from '../../../../../../../../store/cashbacks/selectors/getSearchQuery.ts';
+
+export const Search = () => {
+    const dispatch = useDispatch();
+
+    const searchQuery = useSelector(getSearchQuery);
+
+    const [isShow, setShow] = useState(null);
+    const inputRef = useRef(null);
+    const closeRef = useRef(null);
+
+    const onOpen = () => {
+        setShow(true);
+        dispatch(setIsSearchModeAC(true));
+        setTimeout(() => {
+            inputRef?.current.focus();
+        }, 0);
+    };
+
+    const onClose = () => {
+        setShow(false);
+        dispatch(setIsSearchModeAC(false));
+        dispatch(setSearchQueryAC(''));
+    };
+
+    const onBlur = (e: React.FocusEvent) => {
+        if (e.relatedTarget && e.relatedTarget === closeRef.current || searchQuery) return;
+        onClose();
+    };
+
+    const onEscape = (e: React.KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            onClose();
+        }
+    };
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setSearchQueryAC(e.target.value));
+    };
+
+    return <>
+        <IconButton onClick={onOpen}>
+            <SearchRoundedIcon />
+        </IconButton>
+        <Grow appear in={isShow} timeout={400}>
+            <TextField
+                inputRef={inputRef}
+                onBlur={onBlur}
+                onKeyDown={onEscape}
+                onChange={onChange}
+                value={searchQuery}
+                sx={inputStyle}
+                slotProps={{
+                    input: {
+                        startAdornment: <SearchRoundedIcon/>,
+                        endAdornment: <IconButton onClick={onClose} sx={closeStyle} ref={closeRef}>
+                            <CloseRoundedIcon sx={{ width: theme.spacing(2.5), height: theme.spacing(2.5) }} />
+                        </IconButton>
+                    },
+                }}
+            />
+        </Grow>
+    </>;
+}
+
+const inputStyle = {
+    position: 'absolute',
+    top: theme.spacing(-0.5),
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    '.MuiInputBase-root': {
+        pr: 1,
+    },
+    '.MuiInputBase-input': {
+        px: `${theme.spacing()} !important`,
+    }
+};
+
+const closeStyle = {
+    width: theme.spacing(4),
+    height: theme.spacing(4),
+    bgcolor: alpha(theme.palette.common.white, 0.05),
+};

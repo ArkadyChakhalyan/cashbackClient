@@ -9,7 +9,7 @@ export const DashboardPage = () => {
 
     return <Stack sx={dashboardStyle} spacing={2}>
         <Cashbacks setError={setError} />
-        {!isError && <CashbackAdd/>}
+        {!isError && <CashbackAdd />}
     </Stack>;
 }
 
