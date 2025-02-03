@@ -51,9 +51,12 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
 export default defineConfig({
     plugins: [react(), VitePWA(manifestForPlugin)],
     server: {
-        port: 3000,
-        open: true,
-        host: true,
+        proxy: {
+            '': {
+                target: 'http://194.87.56.14:81',
+                changeOrigin: true,
+            },
+        },
     },
     optimizeDeps: {
         exclude: ['js-big-decimal, @hello-pangea/dnd']
