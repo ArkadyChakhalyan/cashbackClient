@@ -37,8 +37,6 @@ export const SignInButton: FC<TSignInButtonProps> = ({
         }, 500);
 
         const messageListener = (event: MessageEvent) => {
-            if (event.origin !== BASE_API_URL) return;
-
             const token = event.data?.token;
             if (token) {
                 login(token);
