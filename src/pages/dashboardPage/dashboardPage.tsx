@@ -18,4 +18,7 @@ const dashboardStyle = {
     justifyContent: 'space-between',
     minHeight: `calc(100svh - ${theme.spacing(14)})`, // - header height and paddings
     p: 3,
+    [theme.breakpoints.down('sm')]: {
+        px: 1.5,
+    }
 };

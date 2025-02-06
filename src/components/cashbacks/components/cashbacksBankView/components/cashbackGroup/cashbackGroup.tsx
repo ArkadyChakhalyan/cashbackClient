@@ -82,6 +82,10 @@ const containerStyle = {
     borderRadius: theme.spacing(3),
     bgcolor: theme.palette.background.default,
     overflow: 'hidden',
+    [theme.breakpoints.down('sm')]: {
+        px: 1.5,
+        pb: 0.75,
+    }
 };
 
 const boxStyle = {
@@ -99,5 +103,8 @@ const headerStyle = {
     flexDirection: 'row',
     alignItems: 'center',
     mb: theme.spacing(1.5),
+    [theme.breakpoints.down('sm')]: {
+        ml: theme.spacing(0.5),
+    }
 };
 

@@ -69,7 +69,7 @@ const paperStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    p: theme.spacing(7, 3, 3),
+    p: theme.spacing(8, 2, 3),
     borderRadius: theme.spacing(5),
     bgcolor: theme.palette.background.default,
     overflow: 'hidden',
