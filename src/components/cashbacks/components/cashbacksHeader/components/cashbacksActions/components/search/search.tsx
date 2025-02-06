@@ -8,12 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSearchQuery } from '../../../../../../../../store/cashbacks/selectors/getSearchQuery.ts';
 import { SEARCH_PLACEHOLDER } from './constants.ts';
 import { getIsLoading } from '../../../../../../../../store/cashbackApi/selectors/getIsLoading.ts';
+import { getCashbacks } from '../../../../../../../../store/cashbackApi/selectors/getCashbacks.ts';
 
 export const Search = () => {
     const dispatch = useDispatch();
 
     const isLoading = useSelector(getIsLoading);
     const searchQuery = useSelector(getSearchQuery);
+    const isCashbacks = useSelector(getCashbacks).length;
 
     const [isShow, setShow] = useState(null);
     const inputRef = useRef(null);
@@ -51,7 +53,7 @@ export const Search = () => {
     return <>
         {isLoading ?
             <Skeleton variant={'circular'} width={theme.spacing(5)} height={theme.spacing(5)} />
-            : isShow ?
+            : isCashbacks ?
                 <>
                     <IconButton onClick={onOpen}>
                         <SearchRoundedIcon />
