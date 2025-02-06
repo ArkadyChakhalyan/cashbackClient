@@ -13,7 +13,7 @@ export const getBankOrderNumber = (
         for (let i = 0; i < sortedCashbacks.length; i++) {
             const cashback = cashbacks[i];
             const isSameBank = cashback.bank === bank;
-            if (!isSameBank || !beforeIndex) {
+            if (!isSameBank) {
                 continue;
             }
             if (isSameBank) {

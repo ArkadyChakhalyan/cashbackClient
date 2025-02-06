@@ -20,6 +20,7 @@ import { LoginPage } from '../pages/loginPage/loginPage.tsx';
 import { ProtectedRoute } from '../router/protectedRoute.tsx';
 import { DashboardPage } from '../pages/dashboardPage/dashboardPage.tsx';
 import { theme } from '../style/theme.ts';
+import { getIsIOS } from '../selectors/getIsIOS.ts';
 
 export const App = () => {
     const { logout, isAuthenticated } = useAuth();
@@ -29,7 +30,7 @@ export const App = () => {
 
     const [triggerGetUser, { data: user, isError, isSuccess }] = useLazyGetUserQuery();
 
-    const [isShowPWAPrompt, setShowPWAPrompt] = useState(null);
+    const [isShowPWAPrompt, setShowPWAPrompt] = useState(false);
 
     const isLoginRoute = location.pathname.includes(ERoutes.LOGIN);
 
@@ -51,11 +52,12 @@ export const App = () => {
     }, [isSuccess, user]);
 
     useEffect(() => {
-        const iOSCanInstall = 'standalone' in window.navigator;
+        const isIOS = getIsIOS();
+        const canInstall = 'standalone' in window.navigator;
         //@ts-ignore
-        const iOSIsInstalled = window.navigator.standalone === true;
+        const isInstalled = window.navigator.standalone === true;
         const isShowed = localStorage.getItem(APP_PWA_INSTALL_SHOWED_LS);
-        if (!isAuthenticated || isShowed || !iOSCanInstall || iOSIsInstalled) {
+        if (!isAuthenticated || isShowed || !canInstall || isInstalled || !isIOS) {
             return;
         }
         setTimeout(() => {
