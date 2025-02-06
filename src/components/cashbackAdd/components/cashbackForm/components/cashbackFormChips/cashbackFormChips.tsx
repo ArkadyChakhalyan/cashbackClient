@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { alpha, Chip, Stack } from '@mui/material';
+import { alpha, Chip, Stack, Typography } from '@mui/material';
 import { TCashbackFormNameProps } from './types.ts';
 import { theme } from '../../../../../../style/theme.ts';
+import { CASHBACK_FORM_CHIPS_NOT_FOUND } from './constants.ts';
 
 export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
     chips,
@@ -13,6 +14,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
         chips = chips.filter(chip => chip.toLowerCase().includes(value.toLowerCase()));
     }
     return <Stack spacing={0.75} direction={'row'} sx={containerStyle}>
+        {!chips.length && <Typography variant={'body2'} sx={textStyle}>{CASHBACK_FORM_CHIPS_NOT_FOUND}</Typography>}
         {chips.map((chip) =>
             <Chip
                 key={chip}
@@ -39,4 +41,9 @@ const containerStyle = {
     '::-webkit-scrollbar': {
         display: 'none'
     }
+};
+
+const textStyle = {
+    alignSelf: 'center',
+    ml: `${theme.spacing(1.5)} !important`,
 };
