@@ -16,6 +16,6 @@ export const DashboardPage = () => {
 const dashboardStyle = {
     position: 'relative',
     justifyContent: 'space-between',
-    minHeight: `calc(100vh - ${theme.spacing(14)})`, // - header height and paddings
+    minHeight: `calc(100svh - ${theme.spacing(14)})`, // - header height and paddings
     p: 3,
 };
