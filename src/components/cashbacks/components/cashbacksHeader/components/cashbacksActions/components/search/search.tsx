@@ -1,4 +1,4 @@
-import { alpha, Grow, IconButton, TextField } from '@mui/material';
+import { alpha, Grow, IconButton, Skeleton, TextField } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import React, { useRef, useState } from 'react';
@@ -7,10 +7,12 @@ import { setIsSearchModeAC, setSearchQueryAC } from '../../../../../../../../sto
 import { useDispatch, useSelector } from 'react-redux';
 import { getSearchQuery } from '../../../../../../../../store/cashbacks/selectors/getSearchQuery.ts';
 import { SEARCH_PLACEHOLDER } from './constants.ts';
+import { getIsLoading } from '../../../../../../../../store/cashbackApi/selectors/getIsLoading.ts';
 
 export const Search = () => {
     const dispatch = useDispatch();
 
+    const isLoading = useSelector(getIsLoading);
     const searchQuery = useSelector(getSearchQuery);
 
     const [isShow, setShow] = useState(null);
@@ -47,28 +49,35 @@ export const Search = () => {
     };
 
     return <>
-        <IconButton onClick={onOpen}>
-            <SearchRoundedIcon />
-        </IconButton>
-        <Grow appear in={isShow} timeout={300}>
-            <TextField
-                inputRef={inputRef}
-                onBlur={onBlur}
-                onKeyDown={onEscape}
-                onChange={onChange}
-                value={searchQuery}
-                placeholder={SEARCH_PLACEHOLDER}
-                sx={inputStyle}
-                slotProps={{
-                    input: {
-                        startAdornment: <SearchRoundedIcon/>,
-                        endAdornment: <IconButton onClick={onClose} sx={closeStyle} ref={closeRef}>
-                            <CloseRoundedIcon sx={{ width: theme.spacing(2.5), height: theme.spacing(2.5) }} />
-                        </IconButton>
-                    },
-                }}
-            />
-        </Grow>
+        {isLoading ?
+            <Skeleton variant={'circular'} width={theme.spacing(5)} height={theme.spacing(5)} />
+            : isShow ?
+                <>
+                    <IconButton onClick={onOpen}>
+                        <SearchRoundedIcon />
+                    </IconButton>
+                    <Grow appear in={isShow} timeout={300}>
+                        <TextField
+                            inputRef={inputRef}
+                            onBlur={onBlur}
+                            onKeyDown={onEscape}
+                            onChange={onChange}
+                            value={searchQuery}
+                            placeholder={SEARCH_PLACEHOLDER}
+                            sx={inputStyle}
+                            slotProps={{
+                                input: {
+                                    startAdornment: <SearchRoundedIcon/>,
+                                    endAdornment: <IconButton onClick={onClose} sx={closeStyle} ref={closeRef}>
+                                        <CloseRoundedIcon sx={{ width: theme.spacing(2.5), height: theme.spacing(2.5) }} />
+                                    </IconButton>
+                                },
+                            }}
+                        />
+                    </Grow>
+                </>
+                : null
+        }
     </>;
 }
 
