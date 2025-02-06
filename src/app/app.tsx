@@ -39,7 +39,7 @@ export const App = () => {
     }, [location]);
 
     useEffect(() => {
-        if (isError) {
+        if (isError && !isLoginRoute) {
             logout();
             navigate('/' + ERoutes.LOGIN);
         }
@@ -87,7 +87,7 @@ export const App = () => {
                     </ProtectedRoute>
                 }
             />
-            <Route path="*" element={<Navigate to={`/${isAuthenticated ? ERoutes.DASHBOARD : ''}`} />} />
+            <Route path="*" element={<Navigate to={`/${isAuthenticated ? ERoutes.DASHBOARD : `/${ERoutes.LOGIN}`}`} />} />
         </Routes>
     </>;
 };
