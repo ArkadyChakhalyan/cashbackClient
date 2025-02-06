@@ -26,7 +26,7 @@ export const Search = () => {
         dispatch(setIsSearchModeAC(true));
         setTimeout(() => {
             inputRef?.current.focus();
-        }, 0);
+        }, 200);
     };
 
     const onClose = () => {

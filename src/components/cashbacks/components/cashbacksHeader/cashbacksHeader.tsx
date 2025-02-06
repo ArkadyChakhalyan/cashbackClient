@@ -16,4 +16,7 @@ const containerStyle = {
     alignItems: 'center',
     justifyContent: 'space-between',
     height: theme.spacing(5),
+    [theme.breakpoints.down('sm')]: {
+        pl: 0.5,
+    },
 };
