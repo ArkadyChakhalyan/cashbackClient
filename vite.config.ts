@@ -40,7 +40,7 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
         background_color: '#120b1b',
         display: 'standalone',
         scope: '/',
-        start_url: '/login',
+        start_url: '',
         orientation: 'portrait',
         categories: [
             'finance',

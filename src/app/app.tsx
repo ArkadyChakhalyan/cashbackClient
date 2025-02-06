@@ -5,9 +5,9 @@ import { APP_NAME } from '../constants.ts';
 import {
     APP_PWA_ADD_TEXT,
     APP_PWA_DESCRIPTION,
-    APP_PWA_SHARE_TEXT,
+    APP_PWA_INSTALL_SHOWED_LS,
     APP_PWA_INSTALL_TIMEOUT,
-    APP_PWA_INSTALL_SHOWED_LS
+    APP_PWA_SHARE_TEXT
 } from './constants.ts';
 import { useAuth } from '../auth/authContext.tsx';
 import { useLazyGetUserQuery } from '../store/userApi/userApiSlice.ts';
@@ -21,6 +21,8 @@ import { ProtectedRoute } from '../router/protectedRoute.tsx';
 import { DashboardPage } from '../pages/dashboardPage/dashboardPage.tsx';
 import { theme } from '../style/theme.ts';
 import { getIsIOS } from '../selectors/getIsIOS.ts';
+import { getIsPWA } from '../selectors/getIsPWA.ts';
+import { getAuthToken } from '../selectors/getAuthToken.ts';
 
 export const App = () => {
     const { logout, isAuthenticated } = useAuth();
@@ -33,6 +35,13 @@ export const App = () => {
     const [isShowPWAPrompt, setShowPWAPrompt] = useState(false);
 
     const isLoginRoute = location.pathname.includes(ERoutes.LOGIN);
+
+    useEffect(() => {
+        const isInstalled = getIsPWA();
+        if (!isInstalled) return;
+        const isToken = !!getAuthToken();
+        navigate('/' + (isToken ? ERoutes.DASHBOARD : ERoutes.LOGIN));
+    }, []);
 
     useEffect(() => {
         if (!isAuthenticated || isLoginRoute || user) return;
@@ -54,8 +63,7 @@ export const App = () => {
     useEffect(() => {
         const isIOS = getIsIOS();
         const canInstall = 'standalone' in window.navigator;
-        //@ts-ignore
-        const isInstalled = window.navigator.standalone === true;
+        const isInstalled = getIsPWA();
         const isShowed = localStorage.getItem(APP_PWA_INSTALL_SHOWED_LS);
         if (!isAuthenticated || isShowed || !canInstall || isInstalled || !isIOS) {
             return;
