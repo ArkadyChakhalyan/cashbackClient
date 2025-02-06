@@ -27,14 +27,17 @@ export const userApiSlice = createApi({
                 body
             }),
             async onQueryStarted(id, { dispatch, queryFulfilled }) {
-                const { data } = await queryFulfilled;
-                dispatch(userApiSlice.util.updateQueryData(
-                    'getUser',
-                    null,
-                    (user) => {
-                       return data;
-                    }
-                ));
+                const patchResult = dispatch(
+                    userApiSlice.util.updateQueryData('getUser', null, (draftUser) => {
+                        // Update the user data optimistically
+                        Object.assign(draftUser, id);
+                    })
+                );
+                try {
+                    await queryFulfilled;
+                } catch (err) {
+                    patchResult.undo();
+                }
             },
         }),
         deleteUser: builder.mutation({
