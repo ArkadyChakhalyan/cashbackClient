@@ -128,7 +128,7 @@ const styles = {
 };
 
 const hiddenScrollStyle = {
-    '&::-webkit-scrollbar': {
-        width: 0
-    },
+    '::-webkit-scrollbar': {
+        display: 'none',
+    }
 };
