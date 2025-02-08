@@ -71,6 +71,7 @@ const paperStyle = {
     gap: 3,
     pt: 5,
     px: 3,
+    pb: 3,
     borderRadius: theme.spacing(5),
     bgcolor: theme.palette.background.default,
     overflow: 'hidden',

@@ -100,8 +100,8 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 ...data,
             });
         } else {
-            const cashbacks = getCashbackPeriod(timestamp) === ECashbackPeriod.CURRENT_MONTH ?
-                nextMonthCashbacks : currentMonthCashbacks;
+            const cashbacks = !timestamp || getCashbackPeriod(timestamp) === ECashbackPeriod.CURRENT_MONTH ?
+                currentMonthCashbacks : nextMonthCashbacks;
             data.orderNumber = getOrderNumber(cashbacks);
             data.bankOrderNumber = getBankOrderNumber(cashbacks, bank);
             createCashback(data);
