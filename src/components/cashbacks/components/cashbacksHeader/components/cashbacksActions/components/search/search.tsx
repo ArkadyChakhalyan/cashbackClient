@@ -47,7 +47,7 @@ export const Search = () => {
     };
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setSearchQueryAC(e.target.value.toLowerCase().trim()));
+        dispatch(setSearchQueryAC(e.target.value));
     };
 
     return <>

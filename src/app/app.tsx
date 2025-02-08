@@ -30,6 +30,8 @@ export const App = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const isPWA = getIsPWA();
+
     const [triggerGetUser, { data: user, isError, isSuccess }] = useLazyGetUserQuery();
 
     const [isShowPWAPrompt, setShowPWAPrompt] = useState(false);
@@ -37,8 +39,7 @@ export const App = () => {
     const isLoginRoute = location.pathname.includes(ERoutes.LOGIN);
 
     useEffect(() => {
-        const isInstalled = getIsPWA();
-        if (!isInstalled) return;
+        if (!isPWA) return;
         const isToken = !!getAuthToken();
         navigate('/' + (isToken ? ERoutes.DASHBOARD : ERoutes.LOGIN));
     }, []);
@@ -63,9 +64,8 @@ export const App = () => {
     useEffect(() => {
         const isIOS = getIsIOS();
         const canInstall = 'standalone' in window.navigator;
-        const isInstalled = getIsPWA();
         const isShowed = localStorage.getItem(APP_PWA_INSTALL_SHOWED_LS);
-        if (!isAuthenticated || isShowed || !canInstall || isInstalled || !isIOS) {
+        if (!isAuthenticated || isShowed || !canInstall || isPWA || !isIOS) {
             return;
         }
         setTimeout(() => {
@@ -83,7 +83,15 @@ export const App = () => {
             copyAddToHomeScreenStep={APP_PWA_ADD_TEXT}
             isShown={isShowPWAPrompt}
         />
-        <GlobalStyles styles={styles} />
+        <GlobalStyles
+            styles={{
+                ...styles,
+                body: {
+                    ...styles.body,
+                    ...(isPWA ? hiddenScrollStyle : {}),
+                }
+            }}
+        />
         <SnackbarStack />
         <Header />
         <Routes>
@@ -114,5 +122,11 @@ const styles = {
     '#root': {
         maxWidth: theme.spacing(80),
         width: '100%',
-    }
+    },
+};
+
+const hiddenScrollStyle = {
+    '&::-webkit-scrollbar': {
+        width: 0
+    },
 };

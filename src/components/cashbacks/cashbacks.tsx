@@ -34,7 +34,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const nextMonthCashbacks = useSelector(getNextMonthCashbacks);
     const isLoading = useSelector(getIsLoading);
     const view = useSelector(getCashbacksView);
-    const searchQuery = useSelector(getSearchQuery);
+    const searchQuery = useSelector(getSearchQuery).toLowerCase().trim();
     const isSearchMode = useSelector(getIsSearchMode);
 
     const [cashbacks, setCashbacks] = useState(null);
