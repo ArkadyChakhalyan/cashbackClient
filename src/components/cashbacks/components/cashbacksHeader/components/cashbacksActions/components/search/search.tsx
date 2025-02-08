@@ -20,15 +20,11 @@ export const Search = () => {
     const isCashbacks = useSelector(getCashbacks).length;
     const isSearchMode = useSelector(getIsSearchMode);
 
-    const inputRef = useRef(null);
     const closeRef = useRef(null);
 
     const onOpen = (e: React.MouseEvent) => {
         e.preventDefault();
         dispatch(setIsSearchModeAC(true));
-        requestAnimationFrame(() => {
-            inputRef.current?.focus();
-        });
     };
 
     const onClose = () => {
@@ -63,7 +59,7 @@ export const Search = () => {
                     </Grow>
                     <Grow appear in={isSearchMode} timeout={300}>
                         <TextField
-                            inputRef={inputRef}
+                            inputRef={input => input && input.focus()}
                             onBlur={onBlur}
                             onKeyDown={onEscape}
                             onChange={onChange}
