@@ -9,10 +9,13 @@ import { getIsIphoneXorNewer } from '../../selectors/getIsIphoneXorNewer.ts';
 export const DashboardPage = () => {
     const [isError, setError] = useState(null);
 
+    const isPwaAndNewIphone = getIsIphoneXorNewer() && getIsPWA();
+
     return <Stack
         sx={{
             ...dashboardStyle ,
-            pb: getIsIphoneXorNewer() && getIsPWA() ? 10 : 8,
+            minHeight: `calc(100svh - ${theme.spacing(isPwaAndNewIphone ? 16 : 14)})`, // - header height and paddings
+            pb: isPwaAndNewIphone ? 10 : 8,
         }}
         spacing={2}
     >
@@ -24,7 +27,6 @@ export const DashboardPage = () => {
 const dashboardStyle = {
     position: 'relative',
     justifyContent: 'space-between',
-    minHeight: `calc(100svh - ${theme.spacing(14)})`, // - header height and paddings
     p: 3,
     [theme.breakpoints.down('sm')]: {
         px: 1.5,
