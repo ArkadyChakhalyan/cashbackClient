@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Fade, Grow, Stack, Typography } from '@mui/material';
 import { MONTH_MAP } from '../../../../../../constants.ts';
 import { CASHBACKS_PERIOD_CATEGORIES, CASHBACKS_PERIOD_PERIODS } from './constants.ts';
 import { ECashbackPeriod } from '../../../../../../types.ts';
@@ -8,12 +8,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPeriod } from '../../../../../../store/cashbacks/selectors/getPeriod.ts';
 import { setPeriodAC } from '../../../../../../store/cashbacks/cashbackReducer.ts';
 import { getIsShowNextMonth } from '../../../../../../selectors/getIsShowNextMonth.ts';
+import { getIsSearchMode } from '../../../../../../store/cashbacks/selectors/getIsSearchMode.ts';
+import { CASHBACK_HEADER_HIDE_TIMEOUT } from '../../constants.ts';
 
 export const CashbacksPeriod = () => {
     const dispatch = useDispatch();
 
     const period = useSelector(getPeriod);
     const isShowNextMonth = getIsShowNextMonth();
+    const isSearchMode = useSelector(getIsSearchMode);
 
     const onChange = (period: ECashbackPeriod) => {
         dispatch(setPeriodAC(period));
@@ -24,28 +27,30 @@ export const CashbacksPeriod = () => {
     nextMonthDate.setMonth(currentMonth + 1);
     const nextMonth = nextMonthDate.getMonth();
 
-    return <Stack direction={'row'} gap={0.5} alignItems={'center'}>
-        <Typography variant={'subtitle2'} sx={textStyle}>
-            {`${CASHBACKS_PERIOD_CATEGORIES}${isShowNextMonth ? '' : ` ${MONTH_MAP[currentMonth]}`}`}
-        </Typography>
-        {isShowNextMonth &&
-            CASHBACKS_PERIOD_PERIODS.map((option, index) => (
-                <Stack direction={'row'} gap={0.5} alignItems={'center'} key={option}>
-                    {index ? <Typography variant={'subtitle2'} sx={textStyle}>/</Typography> : null}
-                    <Button
-                        sx={{
-                            ...buttonStyle,
-                            opacity: option === period ?  1 : 0.5,
-                        }}
-                        variant={'text'}
-                        onClick={() => onChange(option)}
-                    >
-                        {`${MONTH_MAP[option === ECashbackPeriod.CURRENT_MONTH ? currentMonth : nextMonth]}`}
-                    </Button>
-                </Stack>
-            ))
-        }
-    </Stack>;
+    return <Fade appear={false} in={!isSearchMode} timeout={CASHBACK_HEADER_HIDE_TIMEOUT}>
+        <Stack direction={'row'} gap={0.5} alignItems={'center'}>
+            <Typography variant={'subtitle2'} sx={textStyle}>
+                {`${CASHBACKS_PERIOD_CATEGORIES}${isShowNextMonth ? '' : ` ${MONTH_MAP[currentMonth]}`}`}
+            </Typography>
+            {isShowNextMonth &&
+                CASHBACKS_PERIOD_PERIODS.map((option, index) => (
+                    <Stack direction={'row'} gap={0.5} alignItems={'center'} key={option}>
+                        {index ? <Typography variant={'subtitle2'} sx={textStyle}>/</Typography> : null}
+                        <Button
+                            sx={{
+                                ...buttonStyle,
+                                opacity: option === period ?  1 : 0.5,
+                            }}
+                            variant={'text'}
+                            onClick={() => onChange(option)}
+                        >
+                            {`${MONTH_MAP[option === ECashbackPeriod.CURRENT_MONTH ? currentMonth : nextMonth]}`}
+                        </Button>
+                    </Stack>
+                ))
+            }
+        </Stack>
+    </Fade>;
 }
 
 const textStyle = {

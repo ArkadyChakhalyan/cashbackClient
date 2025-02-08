@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, IconButton, Skeleton } from '@mui/material';
-import { USER_DONATE, USER_LOGOUT, USER_PROFILE } from './constants.ts';
+import { USER_LOGOUT, USER_PROFILE } from './constants.ts';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import SavingsRoundedIcon from '@mui/icons-material/SavingsRounded';
 import { getUser } from '../../../../store/userApi/selectors/getUser.ts';
 import { useAuth } from '../../../../auth/authContext.tsx';
 import { userApiSlice } from '../../../../store/userApi/userApiSlice.ts';
@@ -14,6 +13,7 @@ import { theme } from '../../../../style/theme.ts';
 import { Profile } from './components/profile/profile.tsx';
 import { cashbackApiSlice } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
 import { Donations } from './components/donations/donations.tsx';
+import { setIsSearchModeAC, setSearchQueryAC } from '../../../../store/cashbacks/cashbackReducer.ts';
 
 export const User = () => {
     const dispatch = useDispatch();
@@ -40,6 +40,12 @@ export const User = () => {
         setDonationsOpen(true);
     };
 
+    const onOpen = (e: React.MouseEvent) => {
+        setAnchor(e.currentTarget);
+        dispatch(setIsSearchModeAC(false));
+        dispatch(setSearchQueryAC(''));
+    };
+
     const items: TMenuItemProps[] = [
         {
             label: USER_PROFILE,
@@ -64,7 +70,7 @@ export const User = () => {
             <>
                 <IconButton
                     sx={userStyle}
-                    onClick={(e: React.MouseEvent) => setAnchor(e.currentTarget)}
+                    onClick={onOpen}
                 >
                     <Avatar alt={user.name} src={user.picture} sx={avatarStyle} />
                 </IconButton>

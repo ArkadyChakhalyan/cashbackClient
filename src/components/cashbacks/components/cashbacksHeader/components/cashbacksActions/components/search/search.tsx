@@ -9,6 +9,8 @@ import { getSearchQuery } from '../../../../../../../../store/cashbacks/selector
 import { SEARCH_PLACEHOLDER } from './constants.ts';
 import { getIsLoading } from '../../../../../../../../store/cashbackApi/selectors/getIsLoading.ts';
 import { getCashbacks } from '../../../../../../../../store/cashbackApi/selectors/getCashbacks.ts';
+import { getIsSearchMode } from '../../../../../../../../store/cashbacks/selectors/getIsSearchMode.ts';
+import { CASHBACK_HEADER_HIDE_TIMEOUT } from '../../../../constants.ts';
 
 export const Search = () => {
     const dispatch = useDispatch();
@@ -16,13 +18,13 @@ export const Search = () => {
     const isLoading = useSelector(getIsLoading);
     const searchQuery = useSelector(getSearchQuery);
     const isCashbacks = useSelector(getCashbacks).length;
+    const isSearchMode = useSelector(getIsSearchMode);
 
-    const [isShow, setShow] = useState(null);
     const inputRef = useRef(null);
     const closeRef = useRef(null);
 
-    const onOpen = () => {
-        setShow(true);
+    const onOpen = (e: React.MouseEvent) => {
+        e.preventDefault();
         dispatch(setIsSearchModeAC(true));
         requestAnimationFrame(() => {
             inputRef.current?.focus();
@@ -30,7 +32,6 @@ export const Search = () => {
     };
 
     const onClose = () => {
-        setShow(false);
         dispatch(setIsSearchModeAC(false));
         dispatch(setSearchQueryAC(''));
     };
@@ -55,10 +56,12 @@ export const Search = () => {
             <Skeleton variant={'circular'} width={theme.spacing(5)} height={theme.spacing(5)} />
             : isCashbacks ?
                 <>
-                    <IconButton onClick={onOpen}>
-                        <SearchRoundedIcon />
-                    </IconButton>
-                    <Grow appear in={isShow} timeout={300}>
+                    <Grow appear={false} in={!isSearchMode} timeout={CASHBACK_HEADER_HIDE_TIMEOUT}>
+                        <IconButton onClick={onOpen}>
+                            <SearchRoundedIcon />
+                        </IconButton>
+                    </Grow>
+                    <Grow appear in={isSearchMode} timeout={300}>
                         <TextField
                             inputRef={inputRef}
                             onBlur={onBlur}

@@ -9,6 +9,7 @@ import { setEditingCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts
 import { getIsLoading } from '../../store/cashbackApi/selectors/getIsLoading.ts';
 import { getIsIphoneXorNewer } from '../../selectors/getIsIphoneXorNewer.ts';
 import { getIsPWA } from '../../selectors/getIsPWA.ts';
+import { getIsSearchMode } from '../../store/cashbacks/selectors/getIsSearchMode.ts';
 
 export const CashbackAdd = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export const CashbackAdd = () => {
     const [isOpen, setOpen] = useState(false);
     const isLoading = useSelector(getIsLoading);
     const editingCashbackId = useSelector(getEditingCashbackId);
+    const isSearchMode = useSelector(getIsSearchMode);
 
     const onClose = () => {
         if (editingCashbackId) {
@@ -32,22 +34,30 @@ export const CashbackAdd = () => {
 
     return <Stack alignItems={'center'}>
         <CashbackForm isOpen={isOpen} onClose={onClose} />
-        {isLoading ?
-            <Skeleton
-                variant={'rectangular'}
-                animation={'wave'}
-                sx={{ ...buttonStyle, height: theme.spacing(6) }}
-            />
-            :
-            <Button
-                sx={{
-                    ...buttonStyle,
-                    bottom: theme.spacing(getIsIphoneXorNewer() && getIsPWA() ? 5 : 3),
-                }}
-                onClick={() => setOpen(!isOpen)}
-            >
-                {CASHBACK_ADD}
-            </Button>
+        {!isSearchMode &&
+            <>
+                {isLoading ?
+                    <Skeleton
+                        variant={'rectangular'}
+                        animation={'wave'}
+                        sx={{
+                            ...buttonStyle,
+                            height: theme.spacing(6),
+                            bottom: theme.spacing(getIsIphoneXorNewer() && getIsPWA() ? 5 : 3),
+                        }}
+                    />
+                    :
+                    <Button
+                        sx={{
+                            ...buttonStyle,
+                            bottom: theme.spacing(getIsIphoneXorNewer() && getIsPWA() ? 5 : 3),
+                        }}
+                        onClick={() => setOpen(!isOpen)}
+                    >
+                        {CASHBACK_ADD}
+                    </Button>
+                }
+            </>
         }
     </Stack>;
 }
