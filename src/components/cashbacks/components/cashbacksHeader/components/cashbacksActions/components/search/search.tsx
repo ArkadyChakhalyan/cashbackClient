@@ -26,7 +26,7 @@ export const Search = () => {
         dispatch(setIsSearchModeAC(true));
         setTimeout(() => {
             inputRef?.current.focus();
-        }, 1000);
+        }, 0);
     };
 
     const onClose = () => {
@@ -47,7 +47,7 @@ export const Search = () => {
     };
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setSearchQueryAC(e.target.value));
+        dispatch(setSearchQueryAC(e.target.value.toLowerCase().trim()));
     };
 
     return <>
