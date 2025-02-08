@@ -23,7 +23,6 @@ import { theme } from '../style/theme.ts';
 import { getIsIOS } from '../selectors/getIsIOS.ts';
 import { getIsPWA } from '../selectors/getIsPWA.ts';
 import { getAuthToken } from '../selectors/getAuthToken.ts';
-import { getIsIphoneXorNewer } from '../selectors/getIsIphoneXorNewer.ts';
 
 export const App = () => {
     const { logout, isAuthenticated } = useAuth();

@@ -1,11 +1,10 @@
-import { Paper, SwipeableDrawer, Modal as MuiModal, IconButton } from '@mui/material';
+import { IconButton, Modal as MuiModal, Paper, SwipeableDrawer } from '@mui/material';
 import React, { FC } from 'react';
 import { TModalProps } from './types.ts';
 import { getIsMobile } from '../../selectors/getIsMobile.ts';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { theme } from '../../style/theme.ts';
-import { getIsIphoneXorNewer } from '../../selectors/getIsIphoneXorNewer.ts';
-import { getIsPWA } from '../../selectors/getIsPWA.ts';
+import { getIsNewIphonePWA } from '../../selectors/getIsNewIphonePWA.ts';
 
 export const Modal: FC<TModalProps> = ({
     body,
@@ -44,7 +43,7 @@ export const Modal: FC<TModalProps> = ({
             onClose={onClose}
             ModalProps={{ keepMounted: true }}
             PaperProps={{
-                sx: { ...paperStyle, pb: getIsIphoneXorNewer() && getIsPWA() ? 6 : 4},
+                sx: { ...paperStyle, pb: getIsNewIphonePWA() ? 6 : 4},
             }}
             onOpen={() => {}}
             onKeyDown={onKeyDown}

@@ -7,9 +7,8 @@ import { CashbackForm } from './components/cashbackForm/cashbackForm.tsx';
 import { getEditingCashbackId } from '../../store/cashbacks/selectors/getEditingCashbackId.ts';
 import { setEditingCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 import { getIsLoading } from '../../store/cashbackApi/selectors/getIsLoading.ts';
-import { getIsIphoneXorNewer } from '../../selectors/getIsIphoneXorNewer.ts';
-import { getIsPWA } from '../../selectors/getIsPWA.ts';
 import { getIsSearchMode } from '../../store/cashbacks/selectors/getIsSearchMode.ts';
+import { getIsNewIphonePWA } from '../../selectors/getIsNewIphonePWA.ts';
 
 export const CashbackAdd = () => {
     const dispatch = useDispatch();
@@ -43,14 +42,14 @@ export const CashbackAdd = () => {
                         sx={{
                             ...buttonStyle,
                             height: theme.spacing(6),
-                            bottom: theme.spacing(getIsIphoneXorNewer() && getIsPWA() ? 5 : 3),
+                            bottom: theme.spacing(getIsNewIphonePWA() ? 5 : 3),
                         }}
                     />
                     :
                     <Button
                         sx={{
                             ...buttonStyle,
-                            bottom: theme.spacing(getIsIphoneXorNewer() && getIsPWA() ? 5 : 3),
+                            bottom: theme.spacing(getIsNewIphonePWA() ? 5 : 3),
                         }}
                         onClick={() => setOpen(!isOpen)}
                     >

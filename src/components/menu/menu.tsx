@@ -5,8 +5,7 @@ import { getIsMobile } from '../../selectors/getIsMobile.ts';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { theme } from '../../style/theme.ts';
 import { MenuItem } from './menuItem/menuItem.tsx';
-import { getIsIphoneXorNewer } from '../../selectors/getIsIphoneXorNewer.ts';
-import { getIsPWA } from '../../selectors/getIsPWA.ts';
+import { getIsNewIphonePWA } from '../../selectors/getIsNewIphonePWA.ts';
 
 export const Menu: FC<TMenuProps> = ({
     anchorEl,
@@ -48,7 +47,7 @@ export const Menu: FC<TMenuProps> = ({
             onClose={() => onClose(null, null)}
             ModalProps={{ keepMounted: true }}
             PaperProps={{
-                sx: { ...paperStyle, pb: getIsIphoneXorNewer() && getIsPWA() ? 6 : 4},
+                sx: { ...paperStyle, pb: getIsNewIphonePWA ? 6 : 4},
             }}
             SwipeAreaProps={{ sx: { display: 'none' }}}
             onOpen={() => {}}
