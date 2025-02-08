@@ -23,6 +23,7 @@ import { theme } from '../style/theme.ts';
 import { getIsIOS } from '../selectors/getIsIOS.ts';
 import { getIsPWA } from '../selectors/getIsPWA.ts';
 import { getAuthToken } from '../selectors/getAuthToken.ts';
+import { getIsIphoneXorNewer } from '../selectors/getIsIphoneXorNewer.ts';
 
 export const App = () => {
     const { logout, isAuthenticated } = useAuth();
@@ -89,6 +90,7 @@ export const App = () => {
                 body: {
                     ...styles.body,
                     ...(isPWA ? hiddenScrollStyle : {}),
+                    ...(isPWA && getIsIphoneXorNewer() ? extraPaddingStyle : {}),
                 }
             }}
         />
@@ -120,6 +122,7 @@ const styles = {
         background: theme.palette.darkBackground.main,
     },
     '#root': {
+        position: 'relative',
         maxWidth: theme.spacing(80),
         width: '100%',
     },
@@ -129,4 +132,8 @@ const hiddenScrollStyle = {
     '&::-webkit-scrollbar': {
         width: 0
     },
+};
+
+const extraPaddingStyle = {
+    pb: 'env(safe-area-inset-bottom)',
 };

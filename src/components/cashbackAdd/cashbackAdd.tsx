@@ -48,6 +48,9 @@ export const CashbackAdd = () => {
 }
 
 const buttonStyle = {
+    position: 'fixed',
+    bottom: theme.spacing(3),
     width: theme.spacing(28),
     maxWidth: '100%',
+    boxShadow: theme.shadows[9],
 };
