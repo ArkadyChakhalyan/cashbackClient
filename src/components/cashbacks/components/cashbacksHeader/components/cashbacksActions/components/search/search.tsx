@@ -1,4 +1,4 @@
-import { alpha, Grow, IconButton, Skeleton, TextField } from '@mui/material';
+import { alpha, Fade, Grow, IconButton, Skeleton, TextField } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import React, { useRef, useState } from 'react';
@@ -57,7 +57,7 @@ export const Search = () => {
                             <SearchRoundedIcon />
                         </IconButton>
                     </Grow>
-                    <Grow appear in={isSearchMode} timeout={300}>
+                    <Grow appear in={isSearchMode} timeout={250}>
                         <TextField
                             inputRef={input => input && input.focus()}
                             onBlur={onBlur}
