@@ -16,6 +16,8 @@ export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
         ...BANKS.filter(bank => userBanks.includes(bank.value)),
         ...BANKS.filter(bank => !userBanks.includes(bank.value)),
     ]);
+    alert(`userbanks: ${userBanks.join(' ')}`)
+    alert(`banks: ${banks.map(bank => bank.name).join(' ')}`)
 
     return <Stack gap={0.25} sx={containerStyle}>
         {banks.map(item => (
