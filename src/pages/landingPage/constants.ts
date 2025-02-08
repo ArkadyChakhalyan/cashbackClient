@@ -15,4 +15,4 @@ export const LANDING_PAGE_BLOCKS = [
     },
 ];
 
-export const LANDING_PAGE_BUTTON_TIMEOUT = 1000;
+export const LANDING_PAGE_BUTTON_TIMEOUT = 2500;

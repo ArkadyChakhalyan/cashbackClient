@@ -23,6 +23,7 @@ import { theme } from '../style/theme.ts';
 import { getIsIOS } from '../selectors/getIsIOS.ts';
 import { getIsPWA } from '../selectors/getIsPWA.ts';
 import { getAuthToken } from '../selectors/getAuthToken.ts';
+import { Loader } from '../components/loader/loader.tsx';
 
 export const App = () => {
     const { logout, isAuthenticated } = useAuth();
@@ -94,6 +95,7 @@ export const App = () => {
         />
         <SnackbarStack />
         <Header />
+        <Loader />
         <Routes>
             <Route path={'/'} element={<LandingPage />} />
             <Route path={'/' + ERoutes.LOGIN} element={<LoginPage />} />
