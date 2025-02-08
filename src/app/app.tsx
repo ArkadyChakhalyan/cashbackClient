@@ -90,7 +90,6 @@ export const App = () => {
                 body: {
                     ...styles.body,
                     ...(isPWA ? hiddenScrollStyle : {}),
-                    ...(isPWA && getIsIphoneXorNewer() ? extraPaddingStyle : {}),
                 }
             }}
         />
@@ -132,8 +131,4 @@ const hiddenScrollStyle = {
     '&::-webkit-scrollbar': {
         width: 0
     },
-};
-
-const extraPaddingStyle = {
-    pb: 'env(safe-area-inset-bottom)',
 };

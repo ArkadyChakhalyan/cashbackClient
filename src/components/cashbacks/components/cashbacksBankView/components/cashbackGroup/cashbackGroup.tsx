@@ -50,7 +50,7 @@ export const CashbackGroup = ({
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    sx={{ pb: theme.spacing() }}
+                                    sx={{ pb: 1 }}
                                 >
                                     <Cashback
                                         key={cashback.id}
