@@ -1,26 +1,26 @@
 import { Box, Stack } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { theme } from '../../style/theme.ts';
 
 export const Loader = () => {
     const [isShow, setShow] = useState(true);
     const [isHide, setHide] = useState(null);
 
+    const timerRef = useRef(null);
     useEffect(() => {
+        if (timerRef.current) clearInterval(timerRef.current);
         const onLoad = () => {
-            setTimeout(() => {
-                setHide(true);
+            if (document.readyState === 'complete') {
+                clearInterval(timerRef.current);
                 setTimeout(() => {
-                    setShow(false);
-                }, 400);
-            }, 1000);
+                    setHide(true);
+                    setTimeout(() => {
+                        setShow(false);
+                    }, 400);
+                }, 1000);
+            }
         };
-        document.addEventListener('DOMContentLoaded', onLoad);
-        window.addEventListener('load', onLoad);
-        return () => {
-            window.removeEventListener('load', onLoad);
-            document.removeEventListener('DOMContentLoaded', onLoad);
-        }
+        timerRef.current = setInterval(onLoad, 100);
     }, []);
 
     if (!isShow) return null;
