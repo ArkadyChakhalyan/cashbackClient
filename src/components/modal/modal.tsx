@@ -4,6 +4,8 @@ import { TModalProps } from './types.ts';
 import { getIsMobile } from '../../selectors/getIsMobile.ts';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { theme } from '../../style/theme.ts';
+import { getIsIphoneXorNewer } from '../../selectors/getIsIphoneXorNewer.ts';
+import { getIsPWA } from '../../selectors/getIsPWA.ts';
 
 export const Modal: FC<TModalProps> = ({
     body,
@@ -41,7 +43,9 @@ export const Modal: FC<TModalProps> = ({
             open={isMobile && isOpen}
             onClose={onClose}
             ModalProps={{ keepMounted: true }}
-            PaperProps={{ sx: paperStyle }}
+            PaperProps={{
+                sx: { ...paperStyle, pb: getIsIphoneXorNewer() && getIsPWA() ? 6 : 4},
+            }}
             onOpen={() => {}}
             onKeyDown={onKeyDown}
         >
@@ -66,7 +70,8 @@ const paperStyle = {
     flexDirection: 'column',
     alignItems: 'center',
     gap: 3,
-    p: theme.spacing(5, 3, 3),
+    pt: 5,
+    px: 3,
     borderRadius: theme.spacing(5),
     bgcolor: theme.palette.background.default,
     overflow: 'hidden',
