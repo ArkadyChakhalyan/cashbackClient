@@ -24,9 +24,9 @@ export const Search = () => {
     const onOpen = () => {
         setShow(true);
         dispatch(setIsSearchModeAC(true));
-        setTimeout(() => {
-            inputRef?.current.focus();
-        }, 0);
+        requestAnimationFrame(() => {
+            inputRef.current?.focus();
+        });
     };
 
     const onClose = () => {
