@@ -15,8 +15,12 @@ export const Loader = () => {
                 }, 400);
             }, 1000);
         };
+        document.addEventListener('DOMContentLoaded', onLoad);
         window.addEventListener('load', onLoad);
-        return () => window.removeEventListener('load', onLoad);
+        return () => {
+            window.removeEventListener('load', onLoad);
+            document.removeEventListener('DOMContentLoaded', onLoad);
+        }
     }, []);
 
     if (!isShow) return null;
