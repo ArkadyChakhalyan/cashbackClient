@@ -6,31 +6,22 @@ export const getBankOrderNumber = (
 ): number => {
     const sortedCashbacks = [...cashbacks]
         .sort((a, b) => a.bankOrderNumber - b.bankOrderNumber);
+
     let bankOrderNumber;
-    if (cashbacks.find(cashback => cashback.bank === bank)) {
-        let beforeIndex;
-        let afterIndex;
-        for (let i = 0; i < sortedCashbacks.length; i++) {
-            const cashback = cashbacks[i];
-            const isSameBank = cashback.bank === bank;
-            if (!isSameBank) {
-                continue;
-            }
-            if (isSameBank) {
-                beforeIndex = i;
-            }
-            if (beforeIndex && !isSameBank && !afterIndex) {
-                afterIndex = i;
-            }
+    const bankCashbacks = sortedCashbacks.filter(cashback => cashback.bank === bank);
+
+    if (bankCashbacks.length > 0) {
+        const lastBankCashback = bankCashbacks[bankCashbacks.length - 1];
+        const nextCashback = sortedCashbacks.find(cashback => cashback.bank !== bank && cashback.bankOrderNumber > lastBankCashback.bankOrderNumber);
+
+        if (nextCashback) {
+            bankOrderNumber = Math.floor((lastBankCashback.bankOrderNumber + nextCashback.bankOrderNumber) / 2);
+        } else {
+            bankOrderNumber = lastBankCashback.bankOrderNumber + 1;
         }
-        if (beforeIndex >= afterIndex) {
-            afterIndex = beforeIndex + 1;
-        }
-        const beforeBankOrderNumber = sortedCashbacks[beforeIndex]?.bankOrderNumber || 0;
-        const afterBankOrderNumber = sortedCashbacks[afterIndex]?.bankOrderNumber || beforeBankOrderNumber + 1;
-        bankOrderNumber = (beforeBankOrderNumber + afterBankOrderNumber) / 2;
     } else {
-        bankOrderNumber = sortedCashbacks.length ? sortedCashbacks.at(-1).bankOrderNumber + 1 : 0;
+        bankOrderNumber = sortedCashbacks.length ? sortedCashbacks[sortedCashbacks.length - 1].bankOrderNumber + 1 : 0;
     }
+
     return bankOrderNumber;
 };

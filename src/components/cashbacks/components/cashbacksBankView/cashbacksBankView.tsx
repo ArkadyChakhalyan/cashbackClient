@@ -22,6 +22,7 @@ export const CashbacksBankView: FC<TCashbackDefaultViewProps> = ({
         isSuccess,
         reset,
     }] = useUpdateCashbackMutation();
+    console.log(cashbacks);
 
     const [groupedCashbacks, setGroupedCashbacks] = useState([]);
     const [isDisabled, setDisabled] = useState(null);
