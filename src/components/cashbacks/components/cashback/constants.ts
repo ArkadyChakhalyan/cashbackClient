@@ -25,6 +25,9 @@ import DataSaverOnRoundedIcon from '@mui/icons-material/DataSaverOnRounded';
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded';
 import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
 import DiamondRoundedIcon from '@mui/icons-material/DiamondRounded';
+import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfiedRounded';
+import LocalAirportRoundedIcon from '@mui/icons-material/LocalAirportRounded';
+import StorefrontRoundedIcon from '@mui/icons-material/StorefrontRounded';
 import { theme } from '../../../../style/theme.ts';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
@@ -55,6 +58,9 @@ export const CASHBACK_ICON_MAP: {[key: string]: OverridableComponent<SvgIconType
     [ECashbackIcon.KIDS]: ChildFriendlyRoundedIcon,
     [ECashbackIcon.ANIMALS]: PetsRoundedIcon,
     [ECashbackIcon.ACCESSORIES]: DiamondRoundedIcon,
+    [ECashbackIcon.MARKET]: StorefrontRoundedIcon,
+    [ECashbackIcon.TRAVEL]: LocalAirportRoundedIcon,
+    [ECashbackIcon.SMILE]: SentimentSatisfiedRoundedIcon,
     [ECashbackIcon.OTHER]: DataSaverOnRoundedIcon,
 };
 
