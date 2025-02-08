@@ -13,7 +13,7 @@ export const DashboardPage = () => {
     return <Stack
         sx={{
             ...dashboardStyle ,
-            minHeight: `calc(100svh - ${theme.spacing(isNewIphonePWA ? 16 : 14)})`, // - header height and paddings
+            minHeight: `calc(100svh - ${theme.spacing(isNewIphonePWA ? 21 : 19)})`, // - header height and paddings
             pb: isNewIphonePWA ? 10 : 8,
         }}
         spacing={2}
