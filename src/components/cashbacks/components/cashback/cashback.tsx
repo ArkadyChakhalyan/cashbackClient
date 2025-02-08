@@ -47,7 +47,7 @@ export const Cashback: FC<TCashbackProps> = ({
         <Typography
             variant={'body1'}
             noWrap
-            sx={{ maxWidth: `calc(100% - ${theme.spacing(17)})`, userSelect: 'none' }}
+            sx={{ maxWidth: `calc(100% - ${theme.spacing(isBankView ? 11 : 17)})`, userSelect: 'none' }}
         >
             {`${percentage}% ${name}`}
         </Typography>
