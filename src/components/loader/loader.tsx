@@ -48,7 +48,7 @@ const containerStyle = {
 
 const hideStyle = {
     opacity: 0.2,
-    scale: 1.15,
+    scale: 1.1,
 };
 
 const imgStyle = {
