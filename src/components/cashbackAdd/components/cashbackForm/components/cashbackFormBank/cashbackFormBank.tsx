@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { IconButton, Stack } from '@mui/material';
 import { TCashbackFormBankProps } from './types.ts';
 import { theme } from '../../../../../../style/theme.ts';
@@ -9,15 +9,21 @@ import { useSelector } from 'react-redux';
 
 export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
     bank,
+    isOpen,
     setBank,
 }) => {
     const userBanks = useSelector(getUserBanks);
-    const [banks] = useState([
+    const [banks, setBanks] = useState([
         ...BANKS.filter(bank => userBanks.includes(bank.value)),
         ...BANKS.filter(bank => !userBanks.includes(bank.value)),
     ]);
-    alert(`userbanks: ${userBanks.join(' ')}`)
-    alert(`banks: ${banks.map(bank => bank.name).join(' ')}`)
+
+    useEffect(() => {
+        setBanks([
+            ...BANKS.filter(bank => userBanks.includes(bank.value)),
+            ...BANKS.filter(bank => !userBanks.includes(bank.value)),
+        ]);
+    }, [isOpen]);
 
     return <Stack gap={0.25} sx={containerStyle}>
         {banks.map(item => (
