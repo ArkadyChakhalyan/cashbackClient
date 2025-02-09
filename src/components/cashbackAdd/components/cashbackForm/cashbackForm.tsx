@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Stack, Typography } from '@mui/material';
+import React, { FC, useEffect, useRef, useState } from 'react';
+import { alpha, Box, Stack, Typography } from '@mui/material';
 import { TCashbackFormProps } from './types.ts';
 import DataSaverOnRoundedIcon from '@mui/icons-material/DataSaverOnRounded';
 import {
-    CASHBACK_FORM_ADD,
+    CASHBACK_FORM_ADD, CASHBACK_FORM_ADD_MORE,
     CASHBACK_FORM_ADD_TITLE,
     CASHBACK_FORM_EDIT,
     CASHBACK_FORM_EDIT_TITLE,
@@ -61,6 +61,15 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     const [bank, setBank] = useState(null);
     const [percentage, setPercentage] = useState(0);
     const [isError, setError] = useState(null);
+    let [progress, _setProgress] = useState(0);
+    const [isAddMore, setAddMore] = useState(null);
+
+    const setProgress = (value: number) => {
+        progress = value;
+        _setProgress(value);
+    };
+
+    const timerRef = useRef(null);
 
     const isShowNextMonth = getIsShowNextMonth();
 
@@ -69,6 +78,8 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
 
     const onAdd = () => {
         if (isDisabled || isNotChanged) return;
+
+        resetLongPress();
 
         const data: Partial<ICashback> = {
             name: name.trim(),
@@ -108,6 +119,33 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         }
     };
 
+    const resetLongPress = () => {
+        clearInterval(timerRef.current);
+        setProgress(0);
+    };
+
+    const onLongPress = () => {
+        if (cashback) return;
+
+        setTimeout(() => {
+            setProgress(0);
+            if (timerRef.current) clearInterval(timerRef.current);
+            timerRef.current = setInterval(() => {
+                if (progress === 100) {
+                    setAddMore(true);
+                    onAdd();
+                } else {
+                    setProgress(progress + 5);
+                }
+            }, 30);
+        }, 200);
+    };
+
+    const onClick = () => {
+        if (progress === 100) return;
+        onAdd();
+    };
+
     const onSetData = (
         name: string,
         percentage: number,
@@ -124,7 +162,14 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
 
     useEffect(() => {
         if (!isCreateSuccess && !isUpdateSuccess) return;
-        onClose();
+
+        if (isAddMore) {
+            setAddMore(false);
+            onSetData('', percentage, bank, timestamp);
+        } else {
+            onClose();
+        }
+
         createReset();
         updateReset();
     }, [isCreateSuccess, isUpdateSuccess]);
@@ -175,14 +220,28 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 <CashbackFormName name={name} setName={setName} />
                 <CashbackAddModalPercentage percentage={percentage} setPercentage={setPercentage} />
             </Stack>
-            <LoadingButton
-                sx={addStyle}
-                loading={isCreateLoading || isUpdateLoading}
-                onClick={onAdd}
-                disabled={isDisabled || isNotChanged}
-            >
-                {cashback ? CASHBACK_FORM_EDIT : CASHBACK_FORM_ADD}
-            </LoadingButton>
+            <Stack gap={0.5} alignItems={'center'}>
+                <LoadingButton
+                    sx={addStyle}
+                    onMouseDown={onLongPress}
+                    onTouchStart={onLongPress}
+                    onTouchEnd={resetLongPress}
+                    onMouseUp={resetLongPress}
+                    loading={!progress && (isCreateLoading || isUpdateLoading)}
+                    onClick={onClick}
+                    disabled={isDisabled || isNotChanged}
+                >
+                    {!cashback && <Stack sx={{ ...progressStyle, width: `${progress}%` }} />}
+                    {cashback ? CASHBACK_FORM_EDIT : CASHBACK_FORM_ADD}
+                </LoadingButton>
+                <Stack height={theme.spacing(2.5)}>
+                    {!cashback && !isDisabled && !isNotChanged && !isCreateLoading && !isUpdateLoading &&
+                        <Typography variant={'caption'} sx={textStyle}>
+                            {CASHBACK_FORM_ADD_MORE}
+                        </Typography>
+                    }
+                </Stack>
+            </Stack>
         </>}
     />;
 }
@@ -198,4 +257,20 @@ const addStyle = {
     maxWidth: '100%',
     mt: 1,
     fontWeight: 400,
+    overflow: 'hidden',
+};
+
+const progressStyle = {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    top: 0,
+    width: 0,
+    pointerEvents: 'none',
+    bgcolor: alpha(theme.palette.common.white, 0.05),
+    zIndex: 10,
+};
+
+const textStyle = {
+    opacity: 0.5,
 };
