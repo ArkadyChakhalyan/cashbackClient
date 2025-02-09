@@ -34,7 +34,7 @@ export const Loader = () => {
         <Box
             component={'img'}
             sx={imgStyle}
-            src={'./android-chrome-512x512.png'}
+            src={'./android-chrome-512-512.png'}
             alt={'logo'}
         />
     </Stack>;

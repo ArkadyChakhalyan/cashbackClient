@@ -12,7 +12,7 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
         description: 'Track your cashbacks across all your banks',
         icons: [
             {
-                src: '/android-chrome-192x192.png',
+                src: '/android-chrome-192-192.png',
                 sizes: '192x192',
                 type: 'image/png',
                 purpose: 'any',
