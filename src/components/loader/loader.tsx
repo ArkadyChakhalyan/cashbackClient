@@ -17,7 +17,7 @@ export const Loader = () => {
                     setTimeout(() => {
                         setShow(false);
                     }, 400);
-                }, 800);
+                }, 1000);
             }
         };
         timerRef.current = setInterval(onLoad, 100);
