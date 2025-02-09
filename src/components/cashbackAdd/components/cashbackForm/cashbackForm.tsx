@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { alpha, Stack, Typography } from '@mui/material';
 import { TCashbackFormProps } from './types.ts';
 import DataSaverOnRoundedIcon from '@mui/icons-material/DataSaverOnRounded';
 import {
-    CASHBACK_FORM_ADD, CASHBACK_FORM_ADD_MORE,
+    CASHBACK_FORM_ADD,
+    CASHBACK_FORM_ADD_MORE,
     CASHBACK_FORM_ADD_TITLE,
+    CASHBACK_FORM_ADDED,
     CASHBACK_FORM_EDIT,
     CASHBACK_FORM_EDIT_TITLE,
     getCashbackErrorText,
@@ -33,6 +35,7 @@ import { getIsShowNextMonth } from '../../../../selectors/getIsShowNextMonth.ts'
 import { MONTH_MAP } from '../../../../constants.ts';
 import { getBankOrderNumber } from '../../../../selectors/getBankOrderNumber.ts';
 import { getOrderNumber } from '../../../../selectors/getOrderNumber.ts';
+import { showSuccessSnackbar } from '../../../snackbarStack/helpers/showSuccessSnackbar.ts';
 
 export const CashbackForm: FC<TCashbackFormProps> = ({
     isOpen,
@@ -62,14 +65,23 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     const [percentage, setPercentage] = useState(0);
     const [isError, setError] = useState(null);
     let [progress, _setProgress] = useState(0);
-    const [isAddMore, setAddMore] = useState(null);
+    let [isAddMore, _setAddMore] = useState(null);
+    const [isPressed, setPressed] = useState(null);
 
     const setProgress = (value: number) => {
         progress = value;
         _setProgress(value);
     };
 
+    const setAddMore = (value: boolean) => {
+        isAddMore = value;
+        _setAddMore(value);
+    };
+
+    const addRef = useRef(null);
     const timerRef = useRef(null);
+    const intervalRef = useRef(null);
+
 
     const isShowNextMonth = getIsShowNextMonth();
 
@@ -79,7 +91,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     const onAdd = () => {
         if (isDisabled || isNotChanged) return;
 
-        resetLongPress();
+        resetLongPress(false);
 
         const data: Partial<ICashback> = {
             name: name.trim(),
@@ -117,20 +129,57 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
             data.bankOrderNumber = getBankOrderNumber(cashbacks, bank);
             createCashback(data);
         }
+
+        if (isAddMore) {
+            onSetData('', percentage, bank, timestamp);
+        }
     };
 
-    const resetLongPress = () => {
-        clearInterval(timerRef.current);
+    const resetLongPress = (
+        resetPress: boolean = true,
+    ) => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+
+        if (resetPress) setPressed(false);
         setProgress(0);
+
+        document.removeEventListener('mousemove', onTrackPointer);
+        document.removeEventListener('touchmove', onTrackPointer);
+    };
+    console.log(isPressed)
+
+    const onTrackPointer = (e: MouseEvent | TouchEvent) => {
+        let x, y;
+        if (e instanceof MouseEvent) {
+            x = e.clientX;
+            y = e.clientY;
+        } else if (e instanceof TouchEvent) {
+            const touch = e.touches[0];
+            x = touch.clientX;
+            y = touch.clientY;
+        }
+
+        const elementUnderPointer = document.elementFromPoint(x, y);
+        if (elementUnderPointer !== addRef.current) {
+            resetLongPress();
+        }
     };
 
     const onLongPress = () => {
         if (cashback) return;
 
-        setTimeout(() => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+
+        timerRef.current = setTimeout(() => {
+            setPressed(true);
             setProgress(0);
-            if (timerRef.current) clearInterval(timerRef.current);
-            timerRef.current = setInterval(() => {
+
+            if (intervalRef.current) clearInterval(intervalRef.current);
+
+            document.addEventListener('mousemove', onTrackPointer);
+            document.addEventListener('touchmove', onTrackPointer);
+            intervalRef.current = setInterval(() => {
                 if (progress === 100) {
                     setAddMore(true);
                     onAdd();
@@ -138,11 +187,13 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                     setProgress(progress + 5);
                 }
             }, 30);
-        }, 200);
+        }, 250);
     };
 
-    const onClick = () => {
-        if (progress === 100) return;
+    const onMouseUp = () => {
+        const _isPressed = isPressed;
+        resetLongPress();
+        if (progress === 100 || _isPressed) return;
         onAdd();
     };
 
@@ -164,8 +215,8 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         if (!isCreateSuccess && !isUpdateSuccess) return;
 
         if (isAddMore) {
+            showSuccessSnackbar(CASHBACK_FORM_ADDED);
             setAddMore(false);
-            onSetData('', percentage, bank, timestamp);
         } else {
             onClose();
         }
@@ -182,6 +233,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
 
     useEffect(() => {
         if (isOpen) return;
+        resetLongPress();
         onSetData('', 0, null);
     }, [isOpen]);
 
@@ -220,15 +272,15 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 <CashbackFormName name={name} setName={setName} />
                 <CashbackAddModalPercentage percentage={percentage} setPercentage={setPercentage} />
             </Stack>
-            <Stack gap={0.5} alignItems={'center'}>
+            <Stack gap={0.5} alignItems={'center'} sx={addWrapperStyle}>
                 <LoadingButton
+                    ref={addRef}
                     sx={addStyle}
                     onMouseDown={onLongPress}
                     onTouchStart={onLongPress}
-                    onTouchEnd={resetLongPress}
-                    onMouseUp={resetLongPress}
+                    onTouchEnd={onMouseUp}
+                    onMouseUp={onMouseUp}
                     loading={!progress && (isCreateLoading || isUpdateLoading)}
-                    onClick={onClick}
                     disabled={isDisabled || isNotChanged}
                 >
                     {!cashback && <Stack sx={{ ...progressStyle, width: `${progress}%` }} />}
@@ -255,9 +307,17 @@ const iconStyle = {
 const addStyle = {
     width: theme.spacing(28),
     maxWidth: '100%',
-    mt: 1,
     fontWeight: 400,
     overflow: 'hidden',
+    pointerEvents: 'all',
+    '.MuiLoadingButton-label': {
+        pointerEvents: 'none',
+    }
+};
+
+const addWrapperStyle = {
+    mt: 1,
+    pointerEvents: 'none',
 };
 
 const progressStyle = {
@@ -266,8 +326,7 @@ const progressStyle = {
     bottom: 0,
     top: 0,
     width: 0,
-    pointerEvents: 'none',
-    bgcolor: alpha(theme.palette.common.white, 0.05),
+    bgcolor: alpha(theme.palette.common.white, 0.08),
     zIndex: 10,
 };
 
