@@ -17,7 +17,7 @@ export const Loader = () => {
                     setTimeout(() => {
                         setShow(false);
                     }, 400);
-                }, 1000);
+                }, 800);
             }
         };
         timerRef.current = setInterval(onLoad, 100);
@@ -34,7 +34,7 @@ export const Loader = () => {
         <Box
             component={'img'}
             sx={imgStyle}
-            src={'./masked-icon.svg'}
+            src={'./android-chrome-512x512.png'}
             alt={'logo'}
         />
     </Stack>;
@@ -52,10 +52,10 @@ const containerStyle = {
 
 const hideStyle = {
     opacity: 0.2,
-    scale: 1.1,
+    scale: 1.08,
 };
 
 const imgStyle = {
-    width: theme.spacing(24),
-    height: theme.spacing(24),
+    width: theme.spacing(32),
+    height: theme.spacing(32),
 };
