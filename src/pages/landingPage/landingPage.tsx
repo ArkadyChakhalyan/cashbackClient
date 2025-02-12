@@ -77,6 +77,7 @@ const buttonStyle = {
     width: theme.spacing(28),
     boxShadow: theme.shadows[5],
     [theme.breakpoints.down('sm')]: {
-        bottom: theme.spacing(4),
+        bottom: theme.spacing(3.75),
+        height: theme.spacing(6.5),
     }
 };

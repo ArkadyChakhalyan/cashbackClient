@@ -68,7 +68,6 @@ export const SignInButton: FC<TSignInButtonProps> = ({
 const buttonStyle = {
     whiteSpace: 'nowrap',
     fontWeight: 300,
-
     '.MuiLoadingButton-loadingIndicatorStart': {
         left: theme.spacing(-1.5),
     },
@@ -80,6 +79,9 @@ const buttonStyle = {
             opacity: 1,
             color: yellow[500],
         }
+    },
+    [theme.breakpoints.down('sm')]: {
+        height: theme.spacing(6.5),
     }
 };
 

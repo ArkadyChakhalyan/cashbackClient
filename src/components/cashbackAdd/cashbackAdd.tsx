@@ -49,7 +49,7 @@ export const CashbackAdd = () => {
                     <Button
                         sx={{
                             ...buttonStyle,
-                            bottom: theme.spacing(getIsNewIphonePWA() ? 5 : 3),
+                            bottom: theme.spacing(getIsNewIphonePWA() ? 4.75 : 2.75),
                         }}
                         onClick={() => setOpen(!isOpen)}
                     >
@@ -66,4 +66,7 @@ const buttonStyle = {
     width: theme.spacing(28),
     maxWidth: '100%',
     boxShadow: theme.shadows[9],
+    [theme.breakpoints.down('sm')]: {
+        height: theme.spacing(6.5),
+    }
 };

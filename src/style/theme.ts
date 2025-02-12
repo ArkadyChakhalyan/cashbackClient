@@ -125,7 +125,7 @@ export const theme = createTheme({
                     fontWeight: 400,
                     color: '#ffffff',
                     textTransform: 'unset',
-                    borderRadius: '24px',
+                    borderRadius: 32,
                     transition: 'background 0.25s ease-in-out, color 0.25s ease-in-out',
                     '&:hover, &:focus-visible, &:active': {
                         backgroundColor: '#ab5e59',
