@@ -147,7 +147,6 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         document.removeEventListener('mousemove', onTrackPointer);
         document.removeEventListener('touchmove', onTrackPointer);
     };
-    console.log(isPressed)
 
     const onTrackPointer = (e: MouseEvent | TouchEvent) => {
         let x, y;
