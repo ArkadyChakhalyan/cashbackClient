@@ -6,6 +6,7 @@ import { ECashbackPeriod } from '../../types.ts';
 const initialState: ICashbacksState = {
     editingCashbackId: null,
     isSearchMode: false,
+    openedActionsCashbackId: null,
     period: ECashbackPeriod.CURRENT_MONTH,
     searchQuery: '',
 };
@@ -18,6 +19,12 @@ export const cashbacksSlice = createSlice({
             return {
                 ...state,
                 editingCashbackId: action.payload,
+            };
+        },
+        setOpenedActionsCashbackIdAC: (state, action: PayloadAction<TCashbackId>) => {
+            return {
+                ...state,
+                openedActionsCashbackId: action.payload,
             };
         },
         setPeriodAC: (state, action: PayloadAction<ECashbackPeriod>) => {
@@ -44,6 +51,7 @@ export const cashbacksSlice = createSlice({
 export const {
     setEditingCashbackIdAC,
     setIsSearchModeAC,
+    setOpenedActionsCashbackIdAC,
     setPeriodAC,
     setSearchQueryAC,
 } = cashbacksSlice.actions;

@@ -3,7 +3,7 @@ import { Button, Skeleton, Stack, Typography } from '@mui/material';
 import { CASHBACKS_EMPTY, CASHBACKS_ERROR, CASHBACKS_FAKE_COUNT, CASHBACKS_RELOAD } from './constants.ts';
 import { useGetCashbacksQuery } from '../../store/cashbackApi/cashbackApiSlice.ts';
 import { theme } from '../../style/theme.ts';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CashbacksHeader } from './components/cashbacksHeader/cashbacksHeader.tsx';
 import { getIsLoading } from '../../store/cashbackApi/selectors/getIsLoading.ts';
 import { getCashbacksView } from '../../store/userApi/selectors/getCashbacksView.ts';
@@ -19,10 +19,18 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { ECashbacksView } from 'cashback-check-types';
 import { getSearchQuery } from '../../store/cashbacks/selectors/getSearchQuery.ts';
 import { getIsSearchMode } from '../../store/cashbacks/selectors/getIsSearchMode.ts';
+import { getOpenedActionsCashbackId } from '../../store/cashbacks/selectors/getOpenedActionsCashbackId.ts';
+import { getIsMobile } from '../../selectors/getIsMobile.ts';
+import {
+    CashbackActionsMenu
+} from './components/cashback/cashbackActions/components/cashbackActionsMenu/cashbackActionsMenu.tsx';
+import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
 }) => {
+    const dispatch = useDispatch();
+
     const {
         data = [],
         isError,
@@ -36,6 +44,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const view = useSelector(getCashbacksView);
     const searchQuery = useSelector(getSearchQuery).toLowerCase().trim();
     const isSearchMode = useSelector(getIsSearchMode);
+    const openedActionsCashbackId = useSelector(getOpenedActionsCashbackId);
 
     const [cashbacks, setCashbacks] = useState(null);
 
@@ -66,24 +75,30 @@ export const Cashbacks: FC<TCashbacksProps> = ({
                 />
             ))
             : <>
-                {!cashbacks.length && <>
-                    {isError ?
-                        <Button
-                            variant={'outlined'}
-                            startIcon={<ReplayIcon />}
-                            sx={buttonStyle}
-                            onClick={() => location.reload()}
-                        >
-                            {CASHBACKS_RELOAD}
-                        </Button>
-                        : <Typography variant={'h5'} sx={emptyStyle}>{CASHBACKS_EMPTY}</Typography>
-                    }
-                </>
+                {!cashbacks.length &&
+                    <>
+                        {isError ?
+                            <Button
+                                variant={'outlined'}
+                                startIcon={<ReplayIcon />}
+                                sx={buttonStyle}
+                                onClick={() => location.reload()}
+                            >
+                                {CASHBACKS_RELOAD}
+                            </Button>
+                            : <Typography variant={'h5'} sx={emptyStyle}>{CASHBACKS_EMPTY}</Typography>
+                        }
+                    </>
                 }
                 {view === ECashbacksView.BANK && !isSearchMode ?
                     <CashbacksBankView cashbacks={cashbacks} />
                     : <CashbacksDefaultView cashbacks={cashbacks} />
                 }
+                <CashbackActionsMenu
+                    anchor={openedActionsCashbackId && document.createElement('div')}
+                    id={openedActionsCashbackId}
+                    onClose={() => dispatch(setOpenedActionsCashbackIdAC(null))}
+                />
             </>
         }
     </Stack>;

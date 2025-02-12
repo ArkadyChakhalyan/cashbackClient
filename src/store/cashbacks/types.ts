@@ -4,6 +4,7 @@ import { TCashbackId } from 'cashback-check-types';
 export interface ICashbacksState {
     editingCashbackId: TCashbackId;
     isSearchMode: boolean;
+    openedActionsCashbackId: TCashbackId;
     period: ECashbackPeriod;
     searchQuery: string;
 }
