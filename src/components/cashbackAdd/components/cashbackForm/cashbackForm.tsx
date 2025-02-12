@@ -311,6 +311,9 @@ const addStyle = {
     pointerEvents: 'all',
     '.MuiLoadingButton-label': {
         pointerEvents: 'none',
+    },
+    [theme.breakpoints.down('sm')]: {
+        height: theme.spacing(6.5),
     }
 };
 
