@@ -78,6 +78,7 @@ export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
                                     <Cashback
                                         key={cashback.id}
                                         bank={cashback.bank}
+                                        card={cashback.card}
                                         color={cashback.color}
                                         icon={cashback.icon}
                                         id={cashback.id}
