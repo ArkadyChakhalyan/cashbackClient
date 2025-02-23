@@ -25,17 +25,15 @@ import {
     CashbackActionsMenu
 } from './components/cashback/cashbackActions/components/cashbackActionsMenu/cashbackActionsMenu.tsx';
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
+import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
 }) => {
     const dispatch = useDispatch();
 
-    const {
-        data = [],
-        isError,
-        isSuccess,
-    } = useGetCashbacksQuery(null);
+    const { isError: isCashbacksError } = useGetCashbacksQuery(null);
+    const { isError: isCardsError,  } = useGetCardsQuery(null);
 
     const period = useSelector(getPeriod);
     const currentMonthCashbacks = useSelector(getCurrentMonthCashbacks);
@@ -49,10 +47,10 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const [cashbacks, setCashbacks] = useState(null);
 
     useEffect(() => {
-        if (!isError) return;
+        if (!isCashbacksError) return;
         showErrorSnackbar(CASHBACKS_ERROR);
         setError(true);
-    }, [isError]);
+    }, [isCashbacksError]);
 
     useEffect(() => {
         if (isLoading) return;
@@ -64,7 +62,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery]);
 
     return <Stack spacing={1.5} flexGrow={1}>
-        {!isError && <CashbacksHeader />}
+        {!isCashbacksError && <CashbacksHeader />}
         {isLoading || !cashbacks ?
             Array(CASHBACKS_FAKE_COUNT).fill('').map((item, idx) => (
                 <Skeleton
@@ -77,7 +75,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
             : <>
                 {!cashbacks.length &&
                     <>
-                        {isError ?
+                        {isCashbacksError ?
                             <Button
                                 variant={'outlined'}
                                 startIcon={<ReplayIcon />}
