@@ -72,6 +72,26 @@ export const BANKS: IBank[] = [
         value: EBank.RAIFFEISEN,
     },
     {
+        iconUrl: './banks/akbars.png',
+        name: 'Ак Барс',
+        value: EBank.AKBARS,
+    },
+    {
+        iconUrl: './banks/mkb.png',
+        name: 'МКБ',
+        value: EBank.MKB,
+    },
+    {
+        iconUrl: './banks/pochta.png',
+        name: 'Почта Банк',
+        value: EBank.POCHTA,
+    },
+    {
+        iconUrl: './banks/rosselhoz.png',
+        name: 'Россельхозбанк',
+        value: EBank.ROSSELHOZ,
+    },
+    {
         iconUrl: './banks/svoi.png',
         name: 'Свой Банк',
         value: EBank.SVOI,
