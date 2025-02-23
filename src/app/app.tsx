@@ -24,8 +24,10 @@ import { getIsIOS } from '../selectors/getIsIOS.ts';
 import { getIsPWA } from '../selectors/getIsPWA.ts';
 import { getAuthToken } from '../selectors/getAuthToken.ts';
 import { Loader } from '../components/loader/loader.tsx';
+import { EBank } from 'cashback-check-types';
 
 export const App = () => {
+    console.log(EBank.ROSSELHOZ)
     const { logout, isAuthenticated } = useAuth();
 
     const location = useLocation();
