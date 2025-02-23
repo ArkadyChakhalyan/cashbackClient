@@ -24,7 +24,7 @@ import { theme } from '../../../../style/theme.ts';
 import { CashbackFormBank } from './components/cashbackFormBank/cashbackFormBank.tsx';
 import { getEditingCashback } from '../../../../store/cashbacks/selectors/getEditingCashback.ts';
 import { useSelector } from 'react-redux';
-import { EBank, ICashback } from 'cashback-check-types';
+import { EBank, ICard, ICashback } from 'cashback-check-types';
 import { showErrorSnackbar } from '../../../snackbarStack/helpers/showErrorSnackbar.ts';
 import { getCashbackPeriod } from '../../../../selectors/getCashbackPeriod.ts';
 import { ECashbackPeriod } from '../../../../types.ts';
@@ -62,6 +62,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     const [name, setName] = useState('');
     const [timestamp, setTimestamp] = useState(null);
     const [bank, setBank] = useState(null);
+    const [card, setCard] = useState(null);
     const [percentage, setPercentage] = useState(0);
     const [isError, setError] = useState(null);
     let [progress, _setProgress] = useState(0);
@@ -86,7 +87,11 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     const isShowNextMonth = getIsShowNextMonth();
 
     const isDisabled = !name || !name.trim() || !percentage || !bank || isError;
-    const isNotChanged = cashback && cashback.name === name && cashback.bank === bank && cashback.percentage === percentage;
+    const isNotChanged = cashback &&
+        cashback.name === name &&
+        cashback.bank === bank &&
+        cashback.percentage === percentage &&
+        cashback.card === card;
 
     const onAdd = () => {
         if (isDisabled || isNotChanged) return;
@@ -96,6 +101,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         const data: Partial<ICashback> = {
             name: name.trim(),
             bank,
+            card,
             percentage,
             timestamp: timestamp || Date.now(),
         };
@@ -131,7 +137,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         }
 
         if (isAddMore) {
-            onSetData('', percentage, bank, timestamp);
+            onSetData('', percentage, bank, card, timestamp);
         }
     };
 
@@ -200,11 +206,13 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         name: string,
         percentage: number,
         bank: EBank,
+        card: ICard,
         timestamp?: number,
     ) => {
         setName(name);
         setPercentage(percentage);
         setBank(bank);
+        setCard(card);
         if (timestamp) {
             setTimestamp(timestamp);
         }
@@ -226,14 +234,14 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
 
     useEffect(() => {
         if (!cashback) return;
-        const { name, percentage, bank, timestamp} = cashback;
-        onSetData(name, percentage, bank, timestamp);
+        const { name, percentage, bank, card, timestamp} = cashback;
+        onSetData(name, percentage, bank, card, timestamp);
     }, [cashback]);
 
     useEffect(() => {
         if (isOpen) return;
         resetLongPress();
-        onSetData('', 0, null);
+        onSetData('', 0, null, null);
     }, [isOpen]);
 
     useEffect(() => {
@@ -267,7 +275,13 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                         setPeriod={setTimestamp}
                     />
                 }
-                <CashbackFormBank bank={bank} isOpen={isOpen} setBank={setBank} />
+                <CashbackFormBank
+                    bank={bank}
+                    card={card}
+                    isOpen={isOpen}
+                    setBank={setBank}
+                    setCard={setCard}
+                />
                 <CashbackFormName name={name} setName={setName} />
                 <CashbackAddModalPercentage percentage={percentage} setPercentage={setPercentage} />
             </Stack>

@@ -51,6 +51,9 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     maxWidth: 640,
+                    '&:focus-visible': {
+                        outline: 'none',
+                    },
                 }
             }
         },
@@ -108,7 +111,10 @@ export const theme = createTheme({
                     },
                     '&:active': {
                         scale: 0.95,
-                    }
+                    },
+                    '&.Mui-focusVisible': {
+                        background: '#262130',
+                    },
                 }
             }
         },
@@ -287,7 +293,7 @@ export const theme = createTheme({
                     }
                 },
             }
-        }
+        },
     },
     typography: {
         fontFamily: 'Roboto',

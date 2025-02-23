@@ -6,11 +6,14 @@ import { BANKS } from '../../../../../../constants.ts';
 import { CashbackBank } from '../../../../../cashbackBank/cashbackBank.tsx';
 import { getUserBanks } from '../../../../../../store/cashbackApi/selectors/getUserBanks.ts';
 import { useSelector } from 'react-redux';
+import { CashbackFormCard } from './components/cashbackFormCard/cashbackFormCard.tsx';
 
 export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
     bank,
+    card,
     isOpen,
     setBank,
+    setCard,
 }) => {
     const userBanks = useSelector(getUserBanks);
     const [banks, setBanks] = useState([
@@ -25,32 +28,38 @@ export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
         ]);
     }, [isOpen]);
 
-    return <Stack gap={0.25} sx={containerStyle}>
-        {banks.map(item => (
-            <IconButton
-                key={item.value}
-                sx={{
-                    ...buttonStyle,
-                    border: `1px solid ${bank === item.value ? theme.palette.primary.main : 'transparent'}`,
-                }}
-                onClick={() => {
-                    if (bank === item.value) {
-                        setBank(null);
-                    } else {
-                        setBank(item.value);
-                    }
-                }}
-            >
-                <CashbackBank bank={item.value} />
-            </IconButton>
-        ))}
+    return <Stack gap={1} sx={containerStyle}>
+        <Stack gap={0.25} sx={banksStyle}>
+            {banks.map(item => (
+                <IconButton
+                    key={item.value}
+                    sx={{
+                        ...buttonStyle,
+                        border: `1px solid ${bank === item.value ? theme.palette.primary.main : 'transparent'}`,
+                    }}
+                    onClick={() => {
+                        if (bank === item.value) {
+                            setBank(null);
+                        } else {
+                            setBank(item.value);
+                        }
+                    }}
+                >
+                    <CashbackBank bank={item.value} />
+                </IconButton>
+            ))}
+        </Stack>
+        <CashbackFormCard card={card} setCard={setCard} bank={bank} />
     </Stack>;
 }
 
 const containerStyle = {
     width: theme.spacing(48),
-    height: theme.spacing(6),
     maxWidth: '100%',
+};
+
+const banksStyle = {
+    height: theme.spacing(6),
     flexDirection: 'row',
     overflow: 'scroll',
     '::-webkit-scrollbar': {
