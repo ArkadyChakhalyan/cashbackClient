@@ -1,5 +1,4 @@
-import { EBank } from 'cashback-check-types';
-import { ICard } from './components/cashbackFormCard/types.ts';
+import { EBank, ICard } from 'cashback-check-types';
 
 export type TCashbackFormBankProps = {
     bank: EBank;
@@ -8,9 +7,3 @@ export type TCashbackFormBankProps = {
     setBank: (bank: EBank) => void;
     setCard: (card: ICard) => void;
 };
-
-export interface IBank {
-    iconURL: string;
-    name: string;
-    value: EBank;
-}
