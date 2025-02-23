@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { TCashbackFormCardProps } from './types.ts';
 import { CashbackFormChips } from '../../../cashbackFormChips/cashbackFormChips.tsx';
 import { CASHBACK_FORM_CARD_ADD, CASHBACK_FORM_CARD_NOT_FOUND, CASHBACK_FORM_DUPLICATE_ERROR } from './constants.ts';
@@ -17,6 +17,7 @@ export const CashbackFormCard: FC<TCashbackFormCardProps> = ({
     setCard,
 }) => {
     const cards = useSelector(getCards).filter(card => card.bank === bank);
+    const [prevBank, setPrevBank] = useState(null);
 
     const [deleteCard, {
         isLoading: isDeleteLoading,
@@ -59,6 +60,11 @@ export const CashbackFormCard: FC<TCashbackFormCardProps> = ({
     }, [isAddError, isDeleteError, isUpdateError]);
 
     useEffect(() => {
+        setPrevBank(bank);
+    }, [bank]);
+
+    useEffect(() => {
+        if (!prevBank || prevBank !== bank) return;
         setCard(null);
     }, [bank]);
 
