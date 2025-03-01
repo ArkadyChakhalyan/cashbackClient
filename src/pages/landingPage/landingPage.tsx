@@ -55,8 +55,6 @@ const containerStyle = {
     gap: 5,
     [theme.breakpoints.down('sm')]: {
         gap: 3,
-    },
-    [theme.breakpoints.down('sm')]: {
         pt: 3,
         pb: 14,
     }
@@ -72,7 +70,7 @@ const imageStyle = {
 }
 
 const buttonStyle = {
-    position: 'fixed',
+    position: 'absolute',
     bottom: theme.spacing(7),
     width: theme.spacing(28),
     boxShadow: theme.shadows[5],
