@@ -18,7 +18,7 @@ export const CashbackAddModalPercentage: FC<TCashbackFormPercentageProps> = ({
             value={percentage || ''}
             type={'number'}
             onChange={e => {
-                let value = parseInt(e.target.value);
+                let value = parseFloat(e.target.value.replace(',', '.'));
                 if (value < CASHBACK_FORM_PERCENTAGE_MIN_VALUE) {
                     value = CASHBACK_FORM_PERCENTAGE_MIN_VALUE;
                 } else if (value > CASHBACK_FORM_PERCENTAGE_MAX_VALUE) {

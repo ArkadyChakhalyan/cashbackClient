@@ -45,6 +45,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const openedActionsCashbackId = useSelector(getOpenedActionsCashbackId);
 
     const [cashbacks, setCashbacks] = useState(null);
+    if (cashbacks )console.log(cashbacks)
 
     useEffect(() => {
         if (!isCashbacksError) return;

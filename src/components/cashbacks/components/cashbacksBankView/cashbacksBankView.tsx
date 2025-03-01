@@ -130,7 +130,7 @@ export const CashbacksBankView: FC<TCashbackDefaultViewProps> = ({
             const beforeGroup = updatedGroups[destIndex - 1];
             const afterGroup = updatedGroups[destIndex + 1];
             const beforeOrderNumber = beforeGroup?.cashbacks?.at(-1).bankOrderNumber ?? -1;
-            const afterOrderNumber = afterGroup?.cashbacks?.at(-1).bankOrderNumber ?? beforeOrderNumber + 1;
+            const afterOrderNumber = afterGroup?.cashbacks?.at(0).bankOrderNumber ?? beforeOrderNumber + 1;
             const length = updatedGroup.cashbacks.length;
             const step = (afterOrderNumber - beforeOrderNumber) / (length + 1);
             const orderNumbers = length === 1 ? [(afterOrderNumber + beforeOrderNumber) / 2]

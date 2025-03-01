@@ -111,15 +111,9 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
 
         if (!cashback && getIsCashbackExist(cashbacks, data)) {
             setError(true);
-            let error;
             const monthIndex = new Date(data.timestamp).getMonth();
             const month = MONTH_MAP[monthIndex];
-            if (getCashbackPeriod(timestamp) === ECashbackPeriod.CURRENT_MONTH) {
-                error = getCashbackErrorText(month);
-            } else if (getCashbackPeriod(timestamp) === ECashbackPeriod.NEXT_MONTH) {
-                error = getCashbackErrorText(month);
-            }
-            showErrorSnackbar(error);
+            showErrorSnackbar(getCashbackErrorText(month));
             return;
         }
 
