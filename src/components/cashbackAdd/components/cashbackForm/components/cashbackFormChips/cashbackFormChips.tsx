@@ -99,6 +99,27 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
         onResetEdit();
     };
 
+    const onChipClick = (
+        e: React.MouseEvent,
+        chip: string,
+    ) => {
+        const target = e.target as HTMLElement;
+        if (
+            onChange || onDelete &&
+            (
+                chip === editingChip ||
+                target?.className.includes('MuiButton')
+            )
+        ) {
+            return;
+        }
+        if (value === chip) {
+            onSelect('');
+        } else {
+            onSelect(chip);
+        }
+    }
+
     useEffect(() => {
         setAdding(false);
     }, [chips]);
@@ -157,20 +178,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
                     </Stack>
                     : chip
                 }
-                onClick={e => {
-                    const target = e.target as HTMLElement;
-                    if (
-                        chip === editingChip ||
-                        target?.className.includes('MuiButton')
-                    ) {
-                        return;
-                    }
-                    if (value === chip) {
-                        onSelect('');
-                    } else {
-                        onSelect(chip);
-                    }
-                }}
+                onClick={e => onChipClick(e, chip)}
             />
         )}
         {isAdd &&
