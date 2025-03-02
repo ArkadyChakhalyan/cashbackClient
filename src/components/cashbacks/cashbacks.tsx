@@ -23,7 +23,7 @@ import { getOpenedActionsCashbackId } from '../../store/cashbacks/selectors/getO
 import { getIsMobile } from '../../selectors/getIsMobile.ts';
 import {
     CashbackActionsMenu
-} from './components/cashback/cashbackActions/components/cashbackActionsMenu/cashbackActionsMenu.tsx';
+} from './components/cashback/components/cashbackActions/components/cashbackActionsMenu/cashbackActionsMenu.tsx';
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
 
@@ -45,7 +45,6 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const openedActionsCashbackId = useSelector(getOpenedActionsCashbackId);
 
     const [cashbacks, setCashbacks] = useState(null);
-    if (cashbacks )console.log(cashbacks)
 
     useEffect(() => {
         if (!isCashbacksError) return;
