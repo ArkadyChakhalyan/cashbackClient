@@ -56,7 +56,10 @@ export const Cashbacks: FC<TCashbacksProps> = ({
         if (isLoading) return;
         let cashbacks = period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
         if (searchQuery) {
-            cashbacks = cashbacks.filter(cashback => cashback.name.toLowerCase().includes(searchQuery));
+            cashbacks = cashbacks.filter(cashback => {
+                return cashback.name.toLowerCase().includes(searchQuery) ||
+                    cashback.card?.name.toLowerCase().includes(searchQuery);
+            });
         }
         setCashbacks(cashbacks);
     }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery]);

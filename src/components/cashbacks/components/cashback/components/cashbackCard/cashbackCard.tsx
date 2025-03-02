@@ -2,11 +2,21 @@ import React, { FC } from 'react';
 import { alpha, Stack, Typography } from '@mui/material';
 import { TCashbackCardProps } from './types.ts';
 import { theme } from '../../../../../../style/theme.ts';
+import { useSelector } from 'react-redux';
+import { getIsSearchMode } from '../../../../../../store/cashbacks/selectors/getIsSearchMode.ts';
 
 export const CashbackCard: FC<TCashbackCardProps> = ({
     name,
 }) => {
-    return <Stack sx={cardStyle}>
+    const isSearchMode = useSelector(getIsSearchMode);
+
+    return <Stack
+        sx={{
+            ...cardStyle,
+            transform: `translateX(${isSearchMode ? theme.spacing(5) : 0})`,
+            transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+    >
         <Typography
             variant={'body2'}
             fontSize={12}
