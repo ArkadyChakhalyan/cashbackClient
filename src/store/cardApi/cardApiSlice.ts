@@ -64,7 +64,7 @@ export const cardApiSlice = createApi({
                             const idx = cashbacks.findIndex(cashback => {
                                 return cashback.bank === card.bank &&
                                     cashback.card &&
-                                    cashback.card.name === card.name;
+                                    cashback.card.name === card.prevName;
                             });
                             if (idx > -1) {
                                 cashbacks.splice(idx, 1, { ...cashbacks[idx], card: data });

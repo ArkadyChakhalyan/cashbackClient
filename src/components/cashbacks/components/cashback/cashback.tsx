@@ -1,14 +1,15 @@
 import React, { FC } from 'react';
-import { alpha, Paper, Stack, Typography } from '@mui/material';
+import { Paper, Stack, Typography } from '@mui/material';
 import { TCashbackProps } from './types.ts';
 import { theme } from '../../../../style/theme.ts';
 import { CASHBACK_COLOR_MAP, CASHBACK_ICON_MAP } from './constants.ts';
-import { CashbackActions } from './cashbackActions/cashbackActions.tsx';
+import { CashbackActions } from './components/cashbackActions/cashbackActions.tsx';
 import { CashbackBank } from '../../../cashbackBank/cashbackBank.tsx';
 import { useSelector } from 'react-redux';
 import { getCashbacksView } from '../../../../store/userApi/selectors/getCashbacksView.ts';
 import { ECashbacksView } from 'cashback-check-types';
 import { getIsSearchMode } from '../../../../store/cashbacks/selectors/getIsSearchMode.ts';
+import { CashbackCard } from './components/cashbackCard/cashbackCard.tsx';
 
 export const Cashback: FC<TCashbackProps> = ({
     bank,
@@ -48,23 +49,18 @@ export const Cashback: FC<TCashbackProps> = ({
         <Typography
             variant={'body1'}
             noWrap
-            sx={{ maxWidth: `calc(100% - ${theme.spacing((isBankView ? 10.25 : 15.5) + (card ? 7.75 : 0))})`, userSelect: 'none' }}
+            sx={{
+                maxWidth: `calc(100% - ${theme.spacing((isBankView ? 10.25 : 15.5) + (card ? 14.75 : 0))})`,
+                userSelect: 'none',
+                [theme.breakpoints.down('sm')]: {
+                    maxWidth: `calc(100% - ${theme.spacing((isBankView ? 10.25 : 15.5) + (card ? 8.75 : 0))})`,
+                }
+            }}
         >
             {`${percentage}% ${name}`}
         </Typography>
         <Stack sx={actionsStyle} gap={1}>
-            {card &&
-                <Stack sx={cardStyle}>
-                    <Typography
-                        variant={'body2'}
-                        fontSize={12}
-                        fontWeight={500}
-                        noWrap
-                    >
-                        {card.name}
-                    </Typography>
-                </Stack>
-            }
+            {card && <CashbackCard name={card.name} />}
             {(!isBankView || isSearchMode) &&
                 <CashbackBank
                     bank={bank}
@@ -110,15 +106,4 @@ const actionsStyle = {
     top: '50%',
     transform: 'translateY(-50%)',
     flexDirection: 'row',
-};
-
-const cardStyle = {
-    justifyContent: 'center',
-    alignSelf: 'center',
-    width: 'fit-content',
-    height: theme.spacing(3.5),
-    maxWidth: theme.spacing(5),
-    px: theme.spacing(),
-    bgcolor: alpha(theme.palette.common.white, 0.15),
-    borderRadius: theme.spacing(),
 };

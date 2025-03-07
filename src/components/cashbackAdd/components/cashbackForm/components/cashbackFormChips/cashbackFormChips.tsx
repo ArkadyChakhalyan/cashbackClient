@@ -35,6 +35,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
             e.stopPropagation();
             setAdding(false);
         } else if (e.key === 'Enter') {
+            e.stopPropagation();
             onAddChip(false);
         }
     };
@@ -45,6 +46,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
             setEditName('');
             setEditingChip(null);
         } else if (e.key === 'Enter') {
+            e.stopPropagation();
             onEditChip(false);
         }
     };
@@ -105,11 +107,9 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
     ) => {
         const target = e.target as HTMLElement;
         if (
-            onChange || onDelete &&
-            (
-                chip === editingChip ||
-                target?.className.includes('MuiButton')
-            )
+            (onChange || onDelete) &&
+            chip === editingChip &&
+            target?.className.includes('action')
         ) {
             return;
         }
@@ -151,6 +151,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
                         <Stack direction={'row'} gap={0.25}>
                             <IconButton
                                 sx={actionStyle}
+                                className={'action'}
                                 onClick={() => {
                                     setEditName(chip);
                                     setEditingChip(chip);
@@ -160,6 +161,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
                             </IconButton>
                             <IconButton
                                 sx={actionStyle}
+                                className={'action'}
                                 onClick={() => onDelete(chip)}
                             >
                                 <DeleteRoundedIcon sx={{ ...iconStyle, color: theme.palette.primary.main }} />
