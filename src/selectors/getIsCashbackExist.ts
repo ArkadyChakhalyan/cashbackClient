@@ -7,6 +7,7 @@ export const getIsCashbackExist = (
     return !!cashbacks.find(item => {
         return cashback.name === item.name &&
             cashback.percentage === item.percentage &&
-            cashback.bank === item.bank
+            cashback.bank === item.bank &&
+            cashback.card?.name === item.card?.name;
     });
 };
