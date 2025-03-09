@@ -1,4 +1,5 @@
 export const CASHBACK_FORM_NAME_PLACEHOLDER = 'Категория';
+export const CASHBACK_FORM_NAME_LIMITLESS_TOOLTIP = 'Сделать категорию постоянной';
 
 export const CASHBACK_FORM_NAME_CHIPS = [
     'Все покупки',

@@ -36,6 +36,7 @@ import { MONTH_MAP } from '../../../../constants.ts';
 import { getBankOrderNumber } from '../../../../selectors/getBankOrderNumber.ts';
 import { getOrderNumber } from '../../../../selectors/getOrderNumber.ts';
 import { showSuccessSnackbar } from '../../../snackbarStack/helpers/showSuccessSnackbar.ts';
+import { getNextMonthDate } from '../../../../selectors/getNextMonthDate.ts';
 
 export const CashbackForm: FC<TCashbackFormProps> = ({
     isOpen,
@@ -64,6 +65,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     const [bank, setBank] = useState(null);
     const [card, setCard] = useState(null);
     const [percentage, setPercentage] = useState(0);
+    const [limitless, setLimitless] = useState(null);
     const [isError, setError] = useState(null);
     let [progress, _setProgress] = useState(0);
     let [isAddMore, _setAddMore] = useState(null);
@@ -91,7 +93,8 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         cashback.name === name &&
         cashback.bank === bank &&
         cashback.percentage === percentage &&
-        cashback.card === card;
+        cashback?.card?.name === card?.name &&
+        cashback.limitless == limitless;
 
     const onAdd = () => {
         if (isDisabled || isNotChanged) return;
@@ -103,6 +106,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
             bank,
             card,
             percentage,
+            limitless,
             timestamp: timestamp || Date.now(),
         };
 
@@ -122,12 +126,45 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 id: cashback.id,
                 ...data,
             });
+            if (!limitless || period !== ECashbackPeriod.CURRENT_MONTH) return
+            if (!getIsCashbackExist(nextMonthCashbacks, cashback)) {
+                createCashback({
+                    ...data,
+                    bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
+                    orderNumber: getOrderNumber(nextMonthCashbacks),
+                    timestamp: getNextMonthDate().getTime(),
+                });
+            } else {
+                const cashbackToUpdate = nextMonthCashbacks.find(item => {
+                    return item.bank === cashback.bank &&
+                        item.name === cashback.name &&
+                        item.card?.name === cashback.card?.name &&
+                        item.percentage === cashback.percentage;
+                });
+                if (cashback) {
+                    updateCashback({
+                        ...data,
+                        id: cashbackToUpdate.id,
+                        bankOrderNumber: cashbackToUpdate.bankOrderNumber,
+                        orderNumber: cashbackToUpdate.orderNumber,
+                        timestamp: cashbackToUpdate.timestamp,
+                    });
+                }
+            }
         } else {
             const cashbacks = !timestamp || getCashbackPeriod(timestamp) === ECashbackPeriod.CURRENT_MONTH ?
                 currentMonthCashbacks : nextMonthCashbacks;
             data.orderNumber = getOrderNumber(cashbacks);
             data.bankOrderNumber = getBankOrderNumber(cashbacks, bank);
             createCashback(data);
+            if (limitless && period === ECashbackPeriod.CURRENT_MONTH) {
+                createCashback({
+                    ...data,
+                    bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
+                    orderNumber: getOrderNumber(nextMonthCashbacks),
+                    timestamp: getNextMonthDate().getTime(),
+                });
+            }
         }
 
         if (isAddMore) {
@@ -201,12 +238,14 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         percentage: number,
         bank: EBank,
         card: ICard,
+        limitless: boolean,
         timestamp?: number,
     ) => {
         setName(name);
         setPercentage(percentage);
         setBank(bank);
         setCard(card);
+        setLimitless(limitless);
         if (timestamp) {
             setTimestamp(timestamp);
         }
@@ -228,14 +267,14 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
 
     useEffect(() => {
         if (!cashback) return;
-        const { name, percentage, bank, card, timestamp} = cashback;
-        onSetData(name, percentage, bank, card, timestamp);
+        const { name, percentage, bank, card, timestamp, limitless} = cashback;
+        onSetData(name, percentage, bank, card, limitless, timestamp);
     }, [cashback]);
 
     useEffect(() => {
         if (isOpen) return;
         resetLongPress();
-        onSetData('', 0, null, null);
+        onSetData('', 0, null, null, null);
     }, [isOpen]);
 
     useEffect(() => {
@@ -276,7 +315,12 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                     setBank={setBank}
                     setCard={setCard}
                 />
-                <CashbackFormName name={name} setName={setName} />
+                <CashbackFormName
+                    name={name}
+                    limitless={limitless}
+                    setName={setName}
+                    setLimitless={setLimitless}
+                />
                 <CashbackAddModalPercentage percentage={percentage} setPercentage={setPercentage} />
             </Stack>
             <Stack gap={0.5} alignItems={'center'} sx={addWrapperStyle}>

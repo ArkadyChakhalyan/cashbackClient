@@ -198,7 +198,7 @@ export const BANKS: IBank[] = [
     },
 ];
 
-export const SHOW_NEXT_MONTH_DAY = 25;
+export const SHOW_NEXT_MONTH_DAY = 24;
 
 export const ERROR_BASE = 'Произошла ошибка. Попробуйте снова.';
 
