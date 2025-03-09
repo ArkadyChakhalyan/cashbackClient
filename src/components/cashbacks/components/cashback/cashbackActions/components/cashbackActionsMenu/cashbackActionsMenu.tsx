@@ -31,6 +31,7 @@ import {
 } from '../../../../../../../store/cashbackApi/cashbackApiSlice.ts';
 import { Menu } from '../../../../../../menu/menu.tsx';
 import { theme } from '../../../../../../../style/theme.ts';
+import { getSameCashback } from '../../../../../../../selectors/getSameCashback.ts';
 
 export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     anchor,
@@ -82,6 +83,11 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     const onDelete = () => {
         try {
             deleteCashback({ id });
+            if (period === ECashbackPeriod.CURRENT_MONTH) {
+                const nextMonthCashback = getSameCashback(nextMonthCashbacks, cashback);
+                if (!nextMonthCashback) return;
+                deleteCashback({ id: nextMonthCashback.id });
+            }
         } catch {
             showErrorSnackbar();
         }

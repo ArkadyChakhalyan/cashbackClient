@@ -1,12 +1,9 @@
 import { ICashback } from 'cashback-check-types';
+import { getSameCashback } from './getSameCashback.ts';
 
 export const getIsCashbackExist = (
     cashbacks: ICashback[],
     cashback: Partial<ICashback>,
 ): boolean => {
-    return !!cashbacks.find(item => {
-        return cashback.name === item.name &&
-            cashback.percentage === item.percentage &&
-            cashback.bank === item.bank
-    });
+    return !!getSameCashback(cashbacks, cashback);
 };
