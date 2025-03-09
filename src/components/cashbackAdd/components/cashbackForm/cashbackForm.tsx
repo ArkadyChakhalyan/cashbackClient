@@ -295,7 +295,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
             }
         }}
         body={<>
-            <Stack alignItems={'center'} spacing={1.5}>
+            <Stack alignItems={'center'} sx={headerStyle}>
                 <DataSaverOnRoundedIcon sx={iconStyle} />
                 <Typography variant={'h6'} fontWeight={300}>
                     {cashback ? CASHBACK_FORM_EDIT_TITLE : CASHBACK_FORM_ADD_TITLE}
@@ -349,10 +349,21 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     />;
 }
 
+const headerStyle = {
+    gap: 1.5,
+    [theme.breakpoints.down('sm')]: {
+        gap: 0.5,
+    }
+};
+
 const iconStyle = {
     width: theme.spacing(12),
     height: theme.spacing(12),
     color: theme.palette.green.main,
+    [theme.breakpoints.down('sm')]: {
+        width: theme.spacing(10),
+        height: theme.spacing(10),
+    }
 };
 
 const addStyle = {

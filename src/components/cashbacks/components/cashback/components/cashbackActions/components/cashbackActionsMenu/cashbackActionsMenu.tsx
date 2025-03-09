@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { TCashbackActionsMenuProps } from './types.ts';
 import {
     CASHBACK_ACTIONS_DELETE,
@@ -31,7 +31,7 @@ import {
 } from '../../../../../../../../store/cashbackApi/cashbackApiSlice.ts';
 import { Menu } from '../../../../../../../menu/menu.tsx';
 import { theme } from '../../../../../../../../style/theme.ts';
-import { getSameCashback } from '../../../../../../../selectors/getSameCashback.ts';
+import { getSameCashback } from '../../../../../../../../selectors/getSameCashback.ts';
 
 export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     anchor,
