@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { TCashbackActionsMenuProps } from './types.ts';
 import {
     CASHBACK_ACTIONS_DELETE,
@@ -8,29 +8,30 @@ import {
     CASHBACK_ACTIONS_MOVE_SUCCESS
 } from './constants.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { IState } from '../../../../../../../store/types.ts';
-import { getCashback } from '../../../../../../../store/cashbackApi/selectors/getCashback.ts';
-import { getNextMonthCashbacks } from '../../../../../../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
-import { getPeriod } from '../../../../../../../store/cashbacks/selectors/getPeriod.ts';
-import { setEditingCashbackIdAC } from '../../../../../../../store/cashbacks/cashbackReducer.ts';
-import { getBankOrderNumber } from '../../../../../../../selectors/getBankOrderNumber.ts';
-import { getOrderNumber } from '../../../../../../../selectors/getOrderNumber.ts';
-import { getNextMonthDate } from '../../../../../../../selectors/getNextMonthDate.ts';
-import { showErrorSnackbar } from '../../../../../../snackbarStack/helpers/showErrorSnackbar.ts';
-import { TMenuItemProps } from '../../../../../../menu/menuItem/types.ts';
+import { IState } from '../../../../../../../../store/types.ts';
+import { getCashback } from '../../../../../../../../store/cashbackApi/selectors/getCashback.ts';
+import { getNextMonthCashbacks } from '../../../../../../../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
+import { getPeriod } from '../../../../../../../../store/cashbacks/selectors/getPeriod.ts';
+import { setEditingCashbackIdAC } from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
+import { getBankOrderNumber } from '../../../../../../../../selectors/getBankOrderNumber.ts';
+import { getOrderNumber } from '../../../../../../../../selectors/getOrderNumber.ts';
+import { getNextMonthDate } from '../../../../../../../../selectors/getNextMonthDate.ts';
+import { showErrorSnackbar } from '../../../../../../../snackbarStack/helpers/showErrorSnackbar.ts';
+import { TMenuItemProps } from '../../../../../../../menu/menuItem/types.ts';
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { getIsShowNextMonth } from '../../../../../../../selectors/getIsShowNextMonth.ts';
-import { ECashbackPeriod } from '../../../../../../../types.ts';
-import { getIsCashbackExist } from '../../../../../../../selectors/getIsCashbackExist.ts';
+import { getIsShowNextMonth } from '../../../../../../../../selectors/getIsShowNextMonth.ts';
+import { ECashbackPeriod } from '../../../../../../../../types.ts';
+import { getIsCashbackExist } from '../../../../../../../../selectors/getIsCashbackExist.ts';
 import EventRepeatRoundedIcon from '@mui/icons-material/EventRepeatRounded';
-import { showSuccessSnackbar } from '../../../../../../snackbarStack/helpers/showSuccessSnackbar.ts';
+import { showSuccessSnackbar } from '../../../../../../../snackbarStack/helpers/showSuccessSnackbar.ts';
 import {
     useCreateCashbackMutation,
     useDeleteCashbackMutation
-} from '../../../../../../../store/cashbackApi/cashbackApiSlice.ts';
-import { Menu } from '../../../../../../menu/menu.tsx';
-import { theme } from '../../../../../../../style/theme.ts';
+} from '../../../../../../../../store/cashbackApi/cashbackApiSlice.ts';
+import { Menu } from '../../../../../../../menu/menu.tsx';
+import { theme } from '../../../../../../../../style/theme.ts';
+import { getSameCashback } from '../../../../../../../../selectors/getSameCashback.ts';
 
 export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     anchor,
@@ -82,6 +83,11 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     const onDelete = () => {
         try {
             deleteCashback({ id });
+            if (period === ECashbackPeriod.CURRENT_MONTH) {
+                const nextMonthCashback = getSameCashback(nextMonthCashbacks, cashback);
+                if (!nextMonthCashback) return;
+                deleteCashback({ id: nextMonthCashback.id });
+            }
         } catch {
             showErrorSnackbar();
         }

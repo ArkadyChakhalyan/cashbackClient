@@ -15,7 +15,7 @@ export const theme = createTheme({
                     borderRadius: 32,
                     background: '#262130',
                     fontWeight: 400,
-                    boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.2)'
+                    boxShadow: '2px 2px 6px 2px rgba(0, 0, 0, 0.2)'
                 }
             },
         },
@@ -109,7 +109,7 @@ export const theme = createTheme({
                     '.MuiTouchRipple-root': {
                         display: 'none',
                     },
-                    '&:active': {
+                    '&:active, &:focus-visible': {
                         scale: 0.95,
                     },
                     '&.Mui-focusVisible': {
@@ -204,7 +204,7 @@ export const theme = createTheme({
                     '&:hover,&:focus-visible': {
                         background: '#3a3248',
                     },
-                    '&:active': {
+                    '&:active, &:focus-visible': {
                         scale: 0.95,
                     }
                 }

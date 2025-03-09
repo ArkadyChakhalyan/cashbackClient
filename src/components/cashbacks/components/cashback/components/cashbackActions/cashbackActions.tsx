@@ -2,13 +2,13 @@ import React, { FC, useState } from 'react';
 import { alpha, Grow, IconButton } from '@mui/material';
 import { TCashbackActionsProps } from './types.ts';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import { theme } from '../../../../../style/theme.ts';
-import { setOpenedActionsCashbackIdAC } from '../../../../../store/cashbacks/cashbackReducer.ts';
+import { theme } from '../../../../../../style/theme.ts';
+import { setOpenedActionsCashbackIdAC } from '../../../../../../store/cashbacks/cashbackReducer.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCashbacksView } from '../../../../../store/userApi/selectors/getCashbacksView.ts';
+import { getCashbacksView } from '../../../../../../store/userApi/selectors/getCashbacksView.ts';
 import { ECashbacksView } from 'cashback-check-types';
-import { getIsSearchMode } from '../../../../../store/cashbacks/selectors/getIsSearchMode.ts';
-import { getIsMobile } from '../../../../../selectors/getIsMobile.ts';
+import { getIsSearchMode } from '../../../../../../store/cashbacks/selectors/getIsSearchMode.ts';
+import { getIsMobile } from '../../../../../../selectors/getIsMobile.ts';
 import { CashbackActionsMenu } from './components/cashbackActionsMenu/cashbackActionsMenu.tsx';
 
 export const CashbackActions: FC<TCashbackActionsProps> = ({
