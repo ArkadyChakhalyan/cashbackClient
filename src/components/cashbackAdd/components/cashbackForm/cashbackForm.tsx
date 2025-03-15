@@ -181,7 +181,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         }
 
         if (isAddMore) {
-            onSetData('', percentage, bank, card, timestamp);
+            onSetData('', percentage, bank, card, limitless, timestamp);
         }
     };
 
