@@ -17,6 +17,7 @@ import { CashbackAddModalPercentage } from './components/cashbackFormPercentage/
 import { CashbackFormPeriod } from './components/cashbackFormPeriod/cashbackFormPeriod.tsx';
 import {
     useCreateCashbackMutation,
+    useDeleteCashbackMutation,
     useUpdateCashbackMutation
 } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
 import { Modal } from '../../../modal/modal.tsx';
@@ -56,6 +57,12 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         reset: updateReset,
     }] = useUpdateCashbackMutation();
 
+    const [deleteCashback, {
+        isLoading: isDeleteLoading,
+        isError: isDeleteError,
+        isSuccess: isDeleteSuccess,
+    }] = useDeleteCashbackMutation();
+
     const cashback = useSelector(getEditingCashback);
     const currentMonthCashbacks = useSelector(getCurrentMonthCashbacks);
     const nextMonthCashbacks = useSelector(getNextMonthCashbacks);
@@ -94,7 +101,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         cashback.bank === bank &&
         cashback.percentage === percentage &&
         cashback?.card?.name === card?.name &&
-        cashback.limitless == limitless;
+        !!cashback.limitless === !!limitless;
 
     const onAdd = () => {
         if (isDisabled || isNotChanged) return;
@@ -126,22 +133,28 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 id: cashback.id,
                 ...data,
             });
-            if (!limitless || period !== ECashbackPeriod.CURRENT_MONTH) return
-            if (!getIsCashbackExist(nextMonthCashbacks, cashback)) {
+            if (
+                !getIsCashbackExist(nextMonthCashbacks, cashback) &&
+                period === ECashbackPeriod.CURRENT_MONTH
+            ) {
                 createCashback({
                     ...data,
                     bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
                     orderNumber: getOrderNumber(nextMonthCashbacks),
                     timestamp: getNextMonthDate().getTime(),
                 });
-            } else {
-                const cashbackToUpdate = nextMonthCashbacks.find(item => {
+            } else if (cashback.limitless) {
+                const cashbacks = period === ECashbackPeriod.CURRENT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
+                const cashbackToUpdate = cashbacks.find(item => {
                     return item.bank === cashback.bank &&
                         item.name === cashback.name &&
                         item.card?.name === cashback.card?.name &&
-                        item.percentage === cashback.percentage;
+                        item.percentage === cashback.percentage &&
+                        !!item.limitless === !!cashback.limitless;
                 });
-                if (cashback) {
+                if (!data.limitless) {
+                    deleteCashback({ id: cashbackToUpdate.id });
+                } else {
                     updateCashback({
                         ...data,
                         id: cashbackToUpdate.id,

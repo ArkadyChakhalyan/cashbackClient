@@ -9,6 +9,6 @@ export const getSameCashback = (
             cashback.percentage === item.percentage &&
             cashback.bank === item.bank &&
             cashback.card?.name === item.card?.name &&
-            cashback.limitless === item.limitless
+            !!cashback.limitless === !!item.limitless
     });
 };

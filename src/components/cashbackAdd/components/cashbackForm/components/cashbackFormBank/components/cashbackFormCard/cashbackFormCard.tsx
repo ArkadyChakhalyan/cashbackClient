@@ -18,6 +18,7 @@ export const CashbackFormCard: FC<TCashbackFormCardProps> = ({
 }) => {
     const cards = useSelector(getCards).filter(card => card.bank === bank);
     const [prevBank, setPrevBank] = useState(null);
+    const [updatedCardName, setUpdatedCardName] = useState(null);
 
     const [deleteCard, {
         isLoading: isDeleteLoading,
@@ -43,21 +44,30 @@ export const CashbackFormCard: FC<TCashbackFormCardProps> = ({
         setCard(card);
     };
 
-    const onChange = (
+    const onChange = async (
         prevName: string,
         newName: string,
     ) => {
-        updateCard({ prevName, newName, bank });
+        await updateCard({ prevName, newName, bank });
+        if (prevName === card?.name) {
+            setUpdatedCardName(newName);
+        }
     };
 
-    const onDelete = (name: string) => {
-        deleteCard({ name, bank });
+    const onDelete = async (name: string) => {
+        return deleteCard({ name, bank });
     };
 
     useEffect(() => {
         if (!isAddError && !isDeleteError && !isUpdateError) return;
         showErrorSnackbar();
     }, [isAddError, isDeleteError, isUpdateError]);
+
+    useEffect(() => {
+        if (!updatedCardName) return;
+        setCard(cards.find(card => card.name === updatedCardName));
+        setUpdatedCardName(null);
+    }, [cards]);
 
     useEffect(() => {
         setPrevBank(bank);
