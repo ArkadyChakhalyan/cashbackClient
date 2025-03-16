@@ -8,7 +8,7 @@ export const Loader = () => {
 
     const timerRef = useRef(null);
     useEffect(() => {
-        document.body.style.overflowY = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
         if (timerRef.current) clearInterval(timerRef.current);
         const onLoad = () => {
             if (document.readyState === 'complete') {
@@ -17,7 +17,7 @@ export const Loader = () => {
                     setHide(true);
                     setTimeout(() => {
                         setShow(false);
-                        document.body.style.overflowY = 'auto';
+                        document.documentElement.style.overflow = 'auto';
                     }, 400);
                 }, 1000);
             }

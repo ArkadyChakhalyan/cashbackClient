@@ -85,7 +85,7 @@ export const cardApiSlice = createApi({
                     'getCards',
                     null,
                     (cards) => {
-                        const idx = cards.findIndex(card => card.name === data.name);
+                        const idx = cards.findIndex(card => card.name === data.name && card.bank === data.bank);
                         if (idx > -1) {
                             cards.splice(idx, 1);
                         }

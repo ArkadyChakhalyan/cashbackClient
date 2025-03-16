@@ -8,7 +8,6 @@ import { getCashbacks } from './getCashbacks.ts';
 export const getCurrentMonthCashbacks: (state: IState) => ICashback[] = createSelector(
     getCashbacks,
     (cashbacks) => {
-        console.log(cashbacks)
         return cashbacks.filter(item => getCashbackPeriod(item.timestamp) === ECashbackPeriod.CURRENT_MONTH);
     }
 )
