@@ -62,7 +62,12 @@ export const theme = createTheme({
                 root: {
                     '.MuiToggleButtonGroup-middleButton, .MuiToggleButtonGroup-lastButton': {
                         marginLeft: 0,
-                    }
+                    },
+                    '.MuiButtonBase-root:not(.Mui-selected)': {
+                        '&:hover,&:focus': {
+                            background: '#3a324875',
+                        },
+                    },
                 },
             },
         },

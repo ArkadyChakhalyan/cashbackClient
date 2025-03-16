@@ -81,7 +81,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
         onResetAdd();
     };
 
-    const onEditChip = (
+    const onEditChip = async (
         isCloseOnError: boolean = true,
     ) => {
         const name = editName.trim();
@@ -107,8 +107,8 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
     ) => {
         const target = e.target as HTMLElement;
         if (
+            editingChip ||
             (onChange || onDelete) &&
-            chip === editingChip &&
             target?.className.includes('action')
         ) {
             return;
@@ -162,7 +162,11 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
                             <IconButton
                                 sx={actionStyle}
                                 className={'action'}
-                                onClick={() => onDelete(chip)}
+                                onClick={async () => {
+                                    await onDelete(chip);
+                                    if (value !== chip) return;
+                                    onSelect('');
+                                }}
                             >
                                 <DeleteRoundedIcon sx={{ ...iconStyle, color: theme.palette.primary.main }} />
                             </IconButton>
