@@ -75,6 +75,32 @@ export const App = () => {
         }, APP_PWA_INSTALL_TIMEOUT);
     }, [isAuthenticated]);
 
+    useEffect(() => {
+        if (!isPWA) return;
+
+        document.addEventListener('touchstart', (event) => {
+            if (event.touches.length === 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('mousedown', (event) => {
+            if (event.button === 3) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('wheel', (event) => {
+            if (event.deltaX < 0) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+    }, []);
+
     return <>
         <PWAPrompt
             appIconPath={'./apple-touch-icon.png'}
