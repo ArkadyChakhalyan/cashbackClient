@@ -1,12 +1,12 @@
-import { ICashbackGroup } from '../../../types.ts';
 import { ICashback } from 'cashback-check-types';
+import { ICashbackBankGroup } from '../types.ts';
 
 export const getCashbacksGroupedByBank = (
     cashbacks: ICashback[],
-): ICashbackGroup[] => {
+): ICashbackBankGroup[] => {
     const sortedCashbacks = [...cashbacks]
         .sort((a, b) => a.bankOrderNumber - b.bankOrderNumber);
-    const groupedCashbacks: {[key: string]: ICashbackGroup} = {};
+    const groupedCashbacks: {[key: string]: ICashbackBankGroup} = {};
     sortedCashbacks.forEach((cashback) => {
         const bank = cashback.bank;
         const group = groupedCashbacks[bank];

@@ -1,5 +1,11 @@
-import { ICashback } from 'cashback-check-types';
+import { EBank, ICashback } from 'cashback-check-types';
 
-export type TCashbackDefaultViewProps = {
+export type TCashbackBankViewProps = {
     cashbacks: ICashback[];
 }
+
+export interface ICashbackBankGroup {
+    bank: EBank;
+    cashbacks: ICashback[];
+}
+

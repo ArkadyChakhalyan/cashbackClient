@@ -38,6 +38,7 @@ import { getBankOrderNumber } from '../../../../selectors/getBankOrderNumber.ts'
 import { getOrderNumber } from '../../../../selectors/getOrderNumber.ts';
 import { showSuccessSnackbar } from '../../../snackbarStack/helpers/showSuccessSnackbar.ts';
 import { getNextMonthDate } from '../../../../selectors/getNextMonthDate.ts';
+import { getCardOrderNumber } from '../../../../selectors/getCardOrderNumber.ts';
 
 export const CashbackForm: FC<TCashbackFormProps> = ({
     isOpen,
@@ -140,6 +141,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 createCashback({
                     ...data,
                     bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
+                    cardOrderNumber: getCardOrderNumber(nextMonthCashbacks, card, bank),
                     orderNumber: getOrderNumber(nextMonthCashbacks),
                     timestamp: getNextMonthDate().getTime(),
                 });
@@ -159,6 +161,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                         ...data,
                         id: cashbackToUpdate.id,
                         bankOrderNumber: cashbackToUpdate.bankOrderNumber,
+                        cardOrderNumber: cashbackToUpdate.cardOrderNumber,
                         orderNumber: cashbackToUpdate.orderNumber,
                         timestamp: cashbackToUpdate.timestamp,
                     });
@@ -169,11 +172,13 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 currentMonthCashbacks : nextMonthCashbacks;
             data.orderNumber = getOrderNumber(cashbacks);
             data.bankOrderNumber = getBankOrderNumber(cashbacks, bank);
+            data.cardOrderNumber = getCardOrderNumber(cashbacks, card, bank);
             createCashback(data);
             if (limitless && period === ECashbackPeriod.CURRENT_MONTH) {
                 createCashback({
                     ...data,
                     bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
+                    cardOrderNumber: getCardOrderNumber(nextMonthCashbacks, card, bank),
                     orderNumber: getOrderNumber(nextMonthCashbacks),
                     timestamp: getNextMonthDate().getTime(),
                 });

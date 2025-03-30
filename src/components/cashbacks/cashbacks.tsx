@@ -26,6 +26,7 @@ import {
 } from './components/cashback/components/cashbackActions/components/cashbackActionsMenu/cashbackActionsMenu.tsx';
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
+import { CashbacksCardView } from './components/cashbacksCardView/cashbacksCardView.tsx';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
@@ -91,10 +92,9 @@ export const Cashbacks: FC<TCashbacksProps> = ({
                         }
                     </>
                 }
-                {view === ECashbacksView.BANK && !isSearchMode ?
-                    <CashbacksBankView cashbacks={cashbacks} />
-                    : <CashbacksDefaultView cashbacks={cashbacks} />
-                }
+                {(isSearchMode || view === ECashbacksView.DEFAULT) && <CashbacksDefaultView cashbacks={cashbacks} />}
+                {!isSearchMode && view === ECashbacksView.BANK && <CashbacksBankView cashbacks={cashbacks} />}
+                {!isSearchMode && view === ECashbacksView.CARD && <CashbacksCardView cashbacks={cashbacks} />}
                 <CashbackActionsMenu
                     anchor={openedActionsCashbackId && document.createElement('div')}
                     id={openedActionsCashbackId}
