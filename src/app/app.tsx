@@ -78,28 +78,13 @@ export const App = () => {
     useEffect(() => {
         if (!isPWA) return;
 
-        document.addEventListener('touchstart', (event) => {
-            if (event.touches.length === 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
+        window.history.pushState(null, '', window.location.href);
+        window.onpopstate = () => window.history.go(1);
 
-        document.addEventListener('touchmove', (event) => {
-            event.preventDefault();
-        }, { passive: false });
-
-        document.addEventListener('mousedown', (event) => {
-            if (event.button === 3) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-
-        document.addEventListener('wheel', (event) => {
-            if (event.deltaX < 0) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-    }, []);
+        return () => {
+            window.onpopstate = null;
+        };
+    }, [isPWA]);
 
     return <>
         <PWAPrompt
