@@ -6,10 +6,10 @@ import { theme } from '../../../../../../style/theme.ts';
 import { setOpenedActionsCashbackIdAC } from '../../../../../../store/cashbacks/cashbackReducer.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCashbacksView } from '../../../../../../store/userApi/selectors/getCashbacksView.ts';
-import { ECashbacksView } from 'cashback-check-types';
 import { getIsSearchMode } from '../../../../../../store/cashbacks/selectors/getIsSearchMode.ts';
 import { getIsMobile } from '../../../../../../selectors/getIsMobile.ts';
 import { CashbackActionsMenu } from './components/cashbackActionsMenu/cashbackActionsMenu.tsx';
+import { CASHBACKS_GROUPED_VIEWS } from '../../../../constants.ts';
 
 export const CashbackActions: FC<TCashbackActionsProps> = ({
     id,
@@ -20,6 +20,8 @@ export const CashbackActions: FC<TCashbackActionsProps> = ({
     const view = useSelector(getCashbacksView);
     const isSearchMode = useSelector(getIsSearchMode);
 
+    const isGroupView = CASHBACKS_GROUPED_VIEWS.includes(view);
+
     const isMobile = getIsMobile();
 
     return <>
@@ -27,7 +29,7 @@ export const CashbackActions: FC<TCashbackActionsProps> = ({
             <IconButton
                 sx={{
                     ...actionsStyle,
-                    bgcolor: view === ECashbacksView.BANK ? alpha(theme.palette.common.white, 0.05) : null
+                    bgcolor: isGroupView ? alpha(theme.palette.common.white, 0.05) : null
                 }}
                 onClick={(e: React.MouseEvent) => {
                     if (isMobile) {

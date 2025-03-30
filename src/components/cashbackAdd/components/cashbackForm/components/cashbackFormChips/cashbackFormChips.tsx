@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { alpha, Chip, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { TCashbackFormNameProps } from './types.ts';
 import { theme } from '../../../../../../style/theme.ts';
@@ -25,6 +25,8 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
     const [addName, setAddName] = useState('');
     const [editingChip, setEditingChip] = useState(null);
     const [editName, setEditName] = useState('');
+
+    const ref = useRef(null);
 
     if (isFilter) {
         chips = chips.filter(chip => chip.toLowerCase().includes(value.toLowerCase()));
@@ -124,6 +126,10 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
         setAdding(false);
     }, [chips]);
 
+    useEffect(() => {
+        ref.current?.scrollIntoView({ behavior: 'smooth', inline: 'center', });
+    }, []);
+
     const isAdd = !!onAdd;
 
     return <Stack spacing={0.75} direction={'row'} sx={containerStyle}>
@@ -136,6 +142,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
             <Chip
                 key={chip}
                 disabled={isDisabled}
+                ref={value === chip ? ref : null}
                 sx={{
                     ...chipStyle,
                     ...(editingChip === chip ? editingStyle : {}),

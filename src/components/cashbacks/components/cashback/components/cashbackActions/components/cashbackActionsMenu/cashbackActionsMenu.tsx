@@ -32,6 +32,7 @@ import {
 import { Menu } from '../../../../../../../menu/menu.tsx';
 import { theme } from '../../../../../../../../style/theme.ts';
 import { getSameCashback } from '../../../../../../../../selectors/getSameCashback.ts';
+import { getCardOrderNumber } from '../../../../../../../../selectors/getCardOrderNumber.ts';
 
 export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     anchor,
@@ -65,11 +66,13 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
             name,
             percentage,
             bank,
+            card,
         } = cashback;
         try {
             createCashback({
                 bank,
                 bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
+                cardOrderNumber: getCardOrderNumber(nextMonthCashbacks, card, bank),
                 name,
                 percentage,
                 orderNumber: getOrderNumber(nextMonthCashbacks),
