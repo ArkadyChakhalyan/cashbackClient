@@ -14,6 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { ECashbackPeriod } from '../../../../../../../../types.ts';
 import { getIsSearchMode } from '../../../../../../../../store/cashbacks/selectors/getIsSearchMode.ts';
 import { CASHBACK_HEADER_HIDE_TIMEOUT } from '../../../../constants.ts';
+import { showSuccessSnackbar } from '../../../../../../../snackbarStack/helpers/showSuccessSnackbar.ts';
 
 export const ViewType = () => {
     const [updateUser, {
@@ -35,6 +36,7 @@ export const ViewType = () => {
     const onChange = () => {
         if (isUserLoading) return;
         updateUser({ cashbacksView: nextView });
+        showSuccessSnackbar(VIEW_TYPE_OPTIONS[nextView].tooltip);
         reset();
     };
 
