@@ -2,11 +2,12 @@ import React, { FC, useEffect, useState } from 'react';
 import { IconButton, Stack } from '@mui/material';
 import { TCashbackFormBankProps } from './types.ts';
 import { theme } from '../../../../../../style/theme.ts';
-import { BANKS } from '../../../../../../constants.ts';
 import { CashbackBank } from '../../../../../cashbackBank/cashbackBank.tsx';
 import { getUserBanks } from '../../../../../../store/cashbackApi/selectors/getUserBanks.ts';
 import { useSelector } from 'react-redux';
 import { CashbackFormCard } from './components/cashbackFormCard/cashbackFormCard.tsx';
+import { getCards } from '../../../../../../store/cardApi/selectors/getCards.ts';
+import { getSortedBanks } from './selectors/getSortedBanks.ts';
 
 export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
     bank,
@@ -16,16 +17,11 @@ export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
     setCard,
 }) => {
     const userBanks = useSelector(getUserBanks);
-    const [banks, setBanks] = useState([
-        ...BANKS.filter(bank => userBanks.includes(bank.value)),
-        ...BANKS.filter(bank => !userBanks.includes(bank.value)),
-    ]);
+    const cards = useSelector(getCards);
+    const [banks, setBanks] = useState(getSortedBanks(userBanks, cards));
 
     useEffect(() => {
-        setBanks([
-            ...BANKS.filter(bank => userBanks.includes(bank.value)),
-            ...BANKS.filter(bank => !userBanks.includes(bank.value)),
-        ]);
+        setBanks(getSortedBanks(userBanks, cards));
     }, [isOpen]);
 
     return <Stack gap={1} sx={containerStyle}>
