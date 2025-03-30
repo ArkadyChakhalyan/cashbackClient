@@ -1,14 +1,8 @@
 import { EBank, ICashback } from 'cashback-check-types';
 
-export type TCashbackGroupProps = {
+export type TCashbackBankGroupProps = {
     bank: EBank;
     cashbacks: ICashback[];
     isDragging: boolean;
     setGroupDragDisabled: (isDisabled: boolean) => void;
 }
-
-export interface ICashbackGroupBank {
-    name: string;
-}
-
-export interface ICashbackGroupBanks {[key: string]: ICashbackGroupBank}

@@ -7,9 +7,10 @@ import { CashbackActions } from './components/cashbackActions/cashbackActions.ts
 import { CashbackBank } from '../../../cashbackBank/cashbackBank.tsx';
 import { useSelector } from 'react-redux';
 import { getCashbacksView } from '../../../../store/userApi/selectors/getCashbacksView.ts';
-import { ECashbacksView } from 'cashback-check-types';
 import { getIsSearchMode } from '../../../../store/cashbacks/selectors/getIsSearchMode.ts';
 import { CashbackCard } from './components/cashbackCard/cashbackCard.tsx';
+import { CASHBACKS_GROUPED_VIEWS } from '../../constants.ts';
+import { ECashbacksView } from 'cashback-check-types';
 
 export const Cashback: FC<TCashbackProps> = ({
     bank,
@@ -26,12 +27,13 @@ export const Cashback: FC<TCashbackProps> = ({
     const view = useSelector(getCashbacksView);
     const isSearchMode = useSelector(getIsSearchMode);
 
-    const isBankView = view === ECashbacksView.BANK;
+    const isGroupView = CASHBACKS_GROUPED_VIEWS.includes(view);
+    const isCardView = view === ECashbacksView.CARD;
 
     return <Paper
         sx={{
             ...cashbackStyle,
-            bgcolor: isBankView && !isSearchMode ? theme.palette.background.paper : theme.palette.background.default,
+            bgcolor: isGroupView && !isSearchMode ? theme.palette.background.paper : theme.palette.background.default,
             boxShadow: isDragging ? theme.shadows[5]: '',
             transform: isDragging ? 'scale(1.01)' : '',
         }}
@@ -50,18 +52,20 @@ export const Cashback: FC<TCashbackProps> = ({
             variant={'body1'}
             noWrap
             sx={{
-                maxWidth: `calc(100% - ${theme.spacing((isBankView ? 10.25 : 15.5) + (card ? 14.75 : 0))})`,
+                maxWidth: `calc(100% - ${isCardView ? 0
+                    : theme.spacing((isGroupView ? 10.25 : 15.5) + (card ? 14.75 : 0))})`,
                 userSelect: 'none',
                 [theme.breakpoints.down('sm')]: {
-                    maxWidth: `calc(100% - ${theme.spacing((isBankView ? 10.25 : 15.5) + (card ? 8.75 : 0))})`,
+                    maxWidth: `calc(100% - ${isCardView ? 0
+                        : theme.spacing((isGroupView ? 10.25 : 15.5) + (card ? 8.75 : 0))})`,
                 }
             }}
         >
             {`${percentage}% ${name}`}
         </Typography>
         <Stack sx={actionsStyle} gap={1}>
-            {card && <CashbackCard name={card.name} />}
-            {(!isBankView || isSearchMode) &&
+            {card && (!isCardView || isSearchMode) && <CashbackCard name={card.name} />}
+            {(!isGroupView || isSearchMode) &&
                 <CashbackBank
                     bank={bank}
                     size={theme.spacing(4)}

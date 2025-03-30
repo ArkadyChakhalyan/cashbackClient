@@ -1,18 +1,18 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
-import { ICashbackBankGroup, TCashbackBankViewProps } from './types.ts';
+import { ICashbackCardGroup, TCashbackCardViewProps } from './types.ts';
 import { useUpdateCashbackMutation } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
-import { CashbackBankGroup } from './components/cashbackBankGroup/cashbackBankGroup.tsx';
-import { getCashbacksGroupedByBank } from './selectors/getCashbacksGroupedByBank.ts';
+import { CashbackCardGroup } from './components/cashbackCardGroup/cashbackCardGroup.tsx';
+import { getCashbacksGroupedByCard } from './selectors/getCashbacksGroupedByCard.ts';
 import { Box } from '@mui/material';
 import {
-    CASHBACKS_BANK_VIEW_DROP_ERROR,
-    CASHBACKS_BANK_VIEW_DROPPABLE_CASHBACK,
-    CASHBACKS_BANK_VIEW_DROPPABLE_GROUP
+    CASHBACKS_CARD_VIEW_DROP_ERROR,
+    CASHBACKS_CARD_VIEW_DROPPABLE_CASHBACK,
+    CASHBACKS_CARD_VIEW_DROPPABLE_GROUP
 } from './constants.ts';
 import { showErrorSnackbar } from '../../../snackbarStack/helpers/showErrorSnackbar.ts';
 
-export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
+export const CashbacksCardView: FC<TCashbackCardViewProps> = ({
     cashbacks,
 }) => {
     const [updateCashback, {
@@ -28,7 +28,7 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
 
     useEffect(() => {
         if (isUpdateRef.current) return;
-        setGroupedCashbacks(getCashbacksGroupedByBank(cashbacks));
+        setGroupedCashbacks(getCashbacksGroupedByCard(cashbacks));
     }, [cashbacks]);
 
     const onDragEnd = async (result: DropResult) => {
@@ -38,14 +38,14 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
         const rollback = [...groupedCashbacks];
         const destIndex = result.destination.index;
         const sourceIndex = result.source.index;
-        if (result.type === CASHBACKS_BANK_VIEW_DROPPABLE_CASHBACK) {
-            const destBank = result.destination.droppableId;
-            const sourceBank = result.source.droppableId;
-            const sourceGroup = groupedCashbacks.find(group => group.bank === sourceBank);
+        if (result.type === CASHBACKS_CARD_VIEW_DROPPABLE_CASHBACK) {
+            const destCard = result.destination.droppableId;
+            const sourceCard = result.source.droppableId;
+            const sourceGroup = groupedCashbacks.find(group => `${group.bank}${group.card?.name || ''}` === sourceCard);
             const sourceGroupCashbacks = sourceGroup.cashbacks;
             const cashback = sourceGroupCashbacks[sourceIndex];
-            const destGroup = groupedCashbacks.find(group => group.bank === destBank);
-            const isSameGroup = destBank === sourceBank;
+            const destGroup = groupedCashbacks.find(group => `${group.bank}${group.card?.name || ''}` === destCard);
+            const isSameGroup = destCard === sourceCard;
             if (!isSameGroup) {
                 let isExist = false;
                 for (let i = 0; i < destGroup.cashbacks.length; i++) {
@@ -60,13 +60,13 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
                     }
                 }
                 if (isExist) {
-                    showErrorSnackbar(CASHBACKS_BANK_VIEW_DROP_ERROR);
+                    showErrorSnackbar(CASHBACKS_CARD_VIEW_DROP_ERROR);
                     return;
                 }
             }
             const destGroupCashbacks = destGroup.cashbacks;
             const updatedCashback = { ...cashback };
-            let updatedGroupedCashbacks: ICashbackBankGroup[];
+            let updatedGroupedCashbacks: ICashbackCardGroup[];
             if (isSameGroup) {
                 const cashbacks = [...destGroupCashbacks];
                 cashbacks.splice(sourceIndex, 1);
@@ -76,14 +76,15 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
                     cashbacks,
                 };
                 updatedGroupedCashbacks = groupedCashbacks.map(group => {
-                    if (group.bank === destBank) {
+                    if (`${group.bank}${group.card?.name || ''}` === destCard) {
                         return updatedGroup;
                     } else {
                         return group;
                     }
                 });
             } else {
-                updatedCashback.bank = destBank;
+                updatedCashback.bank = destGroup.cashbacks[0].bank;
+                updatedCashback.card = { ...destGroup.cashbacks[0].card };
                 const sourceGroupCashbacks = [...sourceGroup.cashbacks];
                 sourceGroupCashbacks.splice(sourceIndex, 1);
                 const updatedSourceGroup = {
@@ -97,9 +98,10 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
                     cashbacks: destGroupCashbacks,
                 };
                 updatedGroupedCashbacks = groupedCashbacks.map(group => {
-                    if (group.bank === sourceBank) {
+                    const groupCard = `${group.bank}${group.card?.name || ''}`;
+                    if (groupCard === sourceCard) {
                         return updatedSourceGroup;
-                    } else if (group.bank === destBank) {
+                    } else if (groupCard === destCard) {
                         return updatedDestGroup;
                     } else {
                         return group;
@@ -113,9 +115,9 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
             const cashbackIndex = flatCashbacks.findIndex(cashback => cashback.id === updatedCashback.id);
             const beforeIndex = cashbackIndex - 1;
             const afterIndex = cashbackIndex + 1;
-            const beforeBankOrderNumber = flatCashbacks[beforeIndex]?.bankOrderNumber ?? -1;
-            const afterBankOrderNumber = flatCashbacks[afterIndex]?.bankOrderNumber ?? beforeBankOrderNumber + 1;
-            updatedCashback.bankOrderNumber = (beforeBankOrderNumber + afterBankOrderNumber) / 2;
+            const beforeCardOrderNumber = flatCashbacks[beforeIndex]?.cardOrderNumber ?? -1;
+            const afterCardOrderNumber = flatCashbacks[afterIndex]?.cardOrderNumber ?? beforeCardOrderNumber + 1;
+            updatedCashback.cardOrderNumber = (beforeCardOrderNumber + afterCardOrderNumber) / 2;
             setGroupedCashbacks(updatedGroupedCashbacks);
             try {
                 updateCashback(updatedCashback);
@@ -123,14 +125,14 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
                 setGroupedCashbacks(rollback);
             }
         } else {
-            const updatedGroup: ICashbackBankGroup = { ...groupedCashbacks[sourceIndex] };
+            const updatedGroup: ICashbackCardGroup = { ...groupedCashbacks[sourceIndex] };
             const updatedGroups = [...groupedCashbacks];
             updatedGroups.splice(sourceIndex, 1);
             updatedGroups.splice(destIndex, 0, updatedGroup);
             const beforeGroup = updatedGroups[destIndex - 1];
             const afterGroup = updatedGroups[destIndex + 1];
-            const beforeOrderNumber = beforeGroup?.cashbacks?.at(-1).bankOrderNumber ?? -1;
-            const afterOrderNumber = afterGroup?.cashbacks?.at(0).bankOrderNumber ?? beforeOrderNumber + 1;
+            const beforeOrderNumber = beforeGroup?.cashbacks?.at(-1).cardOrderNumber ?? -1;
+            const afterOrderNumber = afterGroup?.cashbacks?.at(0).cardOrderNumber ?? beforeOrderNumber + 1;
             const length = updatedGroup.cashbacks.length;
             const step = (afterOrderNumber - beforeOrderNumber) / (length + 1);
             const orderNumbers = length === 1 ? [(afterOrderNumber + beforeOrderNumber) / 2]
@@ -138,7 +140,7 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
             updatedGroup.cashbacks = updatedGroup.cashbacks.map((cashback, index) => {
                 return {
                     ...cashback,
-                    bankOrderNumber: orderNumbers[index],
+                    cardOrderNumber: orderNumbers[index],
                 };
             });
             setGroupedCashbacks(updatedGroups);
@@ -160,15 +162,20 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
     }, [isError]);
 
     return <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId={'banks'} type={CASHBACKS_BANK_VIEW_DROPPABLE_GROUP}>
+        <Droppable droppableId={'banks'} type={CASHBACKS_CARD_VIEW_DROPPABLE_GROUP}>
             {(provided, snapshot) => (
                 <Box
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                     flexGrow={1}
                 >
-                    {groupedCashbacks.map(({ bank, cashbacks }, index) => (
-                        <Draggable key={bank} draggableId={bank} index={index} isDragDisabled={isDisabled}>
+                    {groupedCashbacks.map(({ card, bank, cashbacks }, index) => (
+                        <Draggable
+                            key={`${bank}${card?.name || ''}`}
+                            draggableId={`${bank}${card?.name || ''}`}
+                            index={index}
+                            isDragDisabled={isDisabled}
+                        >
                             {(provided, snapshot) => (
                                 <Box
                                     ref={provided.innerRef}
@@ -176,7 +183,8 @@ export const CashbacksBankView: FC<TCashbackBankViewProps> = ({
                                     {...provided.dragHandleProps}
                                     sx={{ pb: 2 }}
                                 >
-                                    <CashbackBankGroup
+                                    <CashbackCardGroup
+                                        card={card}
                                         bank={bank}
                                         cashbacks={cashbacks}
                                         isDragging={snapshot.isDragging}

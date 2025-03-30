@@ -1,15 +1,14 @@
 import { Grow, IconButton, Skeleton, Tooltip } from '@mui/material';
-import ViewStreamRoundedIcon from '@mui/icons-material/ViewStreamRounded';
-import ViewHeadlineRoundedIcon from '@mui/icons-material/ViewHeadlineRounded';
 import { useUpdateUserMutation } from '../../../../../../../../store/userApi/userApiSlice.ts';
-import { ECashbacksView } from 'cashback-check-types';
 import { getCashbacksView } from '../../../../../../../../store/userApi/selectors/getCashbacksView.ts';
 import { useSelector } from 'react-redux';
 import { theme } from '../../../../../../../../style/theme.ts';
 import { getIsLoading } from '../../../../../../../../store/cashbackApi/selectors/getIsLoading.ts';
-import { VIEW_TYPE_BANK_VIEW_TOOLTIP, VIEW_TYPE_DEFAULT_VIEW_TOOLTIP } from './constants.ts';
+import { VIEW_TYPE_OPTIONS } from './constants.ts';
 import { getPeriod } from '../../../../../../../../store/cashbacks/selectors/getPeriod.ts';
-import { getCurrentMonthCashbacks } from '../../../../../../../../store/cashbackApi/selectors/getCurrentMonthCashbacks.ts';
+import {
+    getCurrentMonthCashbacks
+} from '../../../../../../../../store/cashbackApi/selectors/getCurrentMonthCashbacks.ts';
 import { getNextMonthCashbacks } from '../../../../../../../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
 import React, { useEffect, useState } from 'react';
 import { ECashbackPeriod } from '../../../../../../../../types.ts';
@@ -31,12 +30,11 @@ export const ViewType = () => {
     const isLoading = useSelector(getIsLoading);
     const isSearchMode = useSelector(getIsSearchMode);
 
-    const isDefaultView = view === ECashbacksView.DEFAULT;
+    const { nextView, icon, tooltip } = VIEW_TYPE_OPTIONS[view];
 
     const onChange = () => {
         if (isUserLoading) return;
-        const cashbacksView = isDefaultView ? ECashbacksView.BANK : ECashbacksView.DEFAULT;
-        updateUser({ cashbacksView });
+        updateUser({ cashbacksView: nextView });
         reset();
     };
 
@@ -49,17 +47,16 @@ export const ViewType = () => {
         );
     }, [period, currentMonthCashbacks, nextMonthCashbacks]);
 
+    const Icon = icon;
+
     return <>
         {isLoading ?
             <Skeleton variant={'circular'} width={theme.spacing(5)} height={theme.spacing(5)} />
             : isShow ?
-                <Tooltip title={isDefaultView ? VIEW_TYPE_DEFAULT_VIEW_TOOLTIP : VIEW_TYPE_BANK_VIEW_TOOLTIP}>
+                <Tooltip title={tooltip}>
                     <Grow appear={false} in={!isSearchMode} timeout={CASHBACK_HEADER_HIDE_TIMEOUT}>
                         <IconButton onClick={onChange}>
-                            {view === ECashbacksView.DEFAULT ?
-                                <ViewStreamRoundedIcon />
-                                : <ViewHeadlineRoundedIcon sx={{ width: theme.spacing(3.25), height: theme.spacing(3.25) }} />
-                            }
+                            <Icon sx={{ width: theme.spacing(3.25), height: theme.spacing(3.25) }} />
                         </IconButton>
                     </Grow>
                 </Tooltip>
