@@ -73,7 +73,6 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     const [bank, setBank] = useState(null);
     const [card, setCard] = useState(null);
     const [percentage, setPercentage] = useState(0);
-    const [limitless, setLimitless] = useState(null);
     const [isError, setError] = useState(null);
     let [progress, _setProgress] = useState(0);
     let [isAddMore, _setAddMore] = useState(null);
@@ -101,8 +100,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         cashback.name === name &&
         cashback.bank === bank &&
         cashback.percentage === percentage &&
-        cashback?.card?.name === card?.name &&
-        !!cashback.limitless === !!limitless;
+        cashback?.card?.name === card?.name;
 
     const onAdd = () => {
         if (isDisabled || isNotChanged) return;
@@ -114,7 +112,6 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
             bank,
             card,
             percentage,
-            limitless,
             timestamp: timestamp || Date.now(),
         };
 
@@ -145,27 +142,6 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                     orderNumber: getOrderNumber(nextMonthCashbacks),
                     timestamp: getNextMonthDate().getTime(),
                 });
-            } else if (cashback.limitless) {
-                const cashbacks = period === ECashbackPeriod.CURRENT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
-                const cashbackToUpdate = cashbacks.find(item => {
-                    return item.bank === cashback.bank &&
-                        item.name === cashback.name &&
-                        item.card?.name === cashback.card?.name &&
-                        item.percentage === cashback.percentage &&
-                        !!item.limitless === !!cashback.limitless;
-                });
-                if (!data.limitless) {
-                    deleteCashback({ id: cashbackToUpdate.id });
-                } else {
-                    updateCashback({
-                        ...data,
-                        id: cashbackToUpdate.id,
-                        bankOrderNumber: cashbackToUpdate.bankOrderNumber,
-                        cardOrderNumber: cashbackToUpdate.cardOrderNumber,
-                        orderNumber: cashbackToUpdate.orderNumber,
-                        timestamp: cashbackToUpdate.timestamp,
-                    });
-                }
             }
         } else {
             const cashbacks = !timestamp || getCashbackPeriod(timestamp) === ECashbackPeriod.CURRENT_MONTH ?
@@ -174,19 +150,10 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
             data.bankOrderNumber = getBankOrderNumber(cashbacks, bank);
             data.cardOrderNumber = getCardOrderNumber(cashbacks, card, bank);
             createCashback(data);
-            if (limitless && period === ECashbackPeriod.CURRENT_MONTH) {
-                createCashback({
-                    ...data,
-                    bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
-                    cardOrderNumber: getCardOrderNumber(nextMonthCashbacks, card, bank),
-                    orderNumber: getOrderNumber(nextMonthCashbacks),
-                    timestamp: getNextMonthDate().getTime(),
-                });
-            }
         }
 
         if (isAddMore) {
-            onSetData('', percentage, bank, card, limitless, timestamp);
+            onSetData('', percentage, bank, card, timestamp);
         }
     };
 
@@ -256,14 +223,12 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         percentage: number,
         bank: EBank,
         card: ICard,
-        limitless: boolean,
         timestamp?: number,
     ) => {
         setName(name);
         setPercentage(percentage);
         setBank(bank);
         setCard(card);
-        setLimitless(limitless);
         if (timestamp) {
             setTimestamp(timestamp);
         }
@@ -285,8 +250,8 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
 
     useEffect(() => {
         if (!cashback) return;
-        const { name, percentage, bank, card, timestamp, limitless} = cashback;
-        onSetData(name, percentage, bank, card, limitless, timestamp);
+        const { name, percentage, bank, card, timestamp} = cashback;
+        onSetData(name, percentage, bank, card, timestamp);
     }, [cashback]);
 
     useEffect(() => {
@@ -335,9 +300,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 />
                 <CashbackFormName
                     name={name}
-                    limitless={limitless}
                     setName={setName}
-                    setLimitless={setLimitless}
                 />
                 <CashbackAddModalPercentage percentage={percentage} setPercentage={setPercentage} />
             </Stack>
