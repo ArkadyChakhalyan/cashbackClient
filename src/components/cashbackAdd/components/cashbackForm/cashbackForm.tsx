@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { alpha, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { TCashbackFormProps } from './types.ts';
 import DataSaverOnRoundedIcon from '@mui/icons-material/DataSaverOnRounded';
 import {
@@ -74,24 +74,9 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
     const [card, setCard] = useState(null);
     const [percentage, setPercentage] = useState(0);
     const [isError, setError] = useState(null);
-    let [progress, _setProgress] = useState(0);
-    let [isAddMore, _setAddMore] = useState(null);
-    const [isPressed, setPressed] = useState(null);
-
-    const setProgress = (value: number) => {
-        progress = value;
-        _setProgress(value);
-    };
-
-    const setAddMore = (value: boolean) => {
-        isAddMore = value;
-        _setAddMore(value);
-    };
+    const [isAddMore, setAddMore] = useState(null);
 
     const addRef = useRef(null);
-    const timerRef = useRef(null);
-    const intervalRef = useRef(null);
-
 
     const isShowNextMonth = getIsShowNextMonth();
 
@@ -102,10 +87,8 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         cashback.percentage === percentage &&
         cashback?.card?.name === card?.name;
 
-    const onAdd = () => {
+    const onAdd = (isAddMore: boolean = false) => {
         if (isDisabled || isNotChanged) return;
-
-        resetLongPress(false);
 
         const data: Partial<ICashback> = {
             name: name.trim(),
@@ -157,65 +140,9 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         }
     };
 
-    const resetLongPress = (
-        resetPress: boolean = true,
-    ) => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        if (intervalRef.current) clearInterval(intervalRef.current);
-
-        if (resetPress) setPressed(false);
-        setProgress(0);
-
-        document.removeEventListener('mousemove', onTrackPointer);
-        document.removeEventListener('touchmove', onTrackPointer);
-    };
-
-    const onTrackPointer = (e: MouseEvent | TouchEvent) => {
-        let x, y;
-        if (e instanceof MouseEvent) {
-            x = e.clientX;
-            y = e.clientY;
-        } else if (e instanceof TouchEvent) {
-            const touch = e.touches[0];
-            x = touch.clientX;
-            y = touch.clientY;
-        }
-
-        const elementUnderPointer = document.elementFromPoint(x, y);
-        if (elementUnderPointer !== addRef.current) {
-            resetLongPress();
-        }
-    };
-
-    const onLongPress = () => {
-        if (cashback) return;
-
-        if (timerRef.current) clearTimeout(timerRef.current);
-
-        timerRef.current = setTimeout(() => {
-            setPressed(true);
-            setProgress(0);
-
-            if (intervalRef.current) clearInterval(intervalRef.current);
-
-            document.addEventListener('mousemove', onTrackPointer);
-            document.addEventListener('touchmove', onTrackPointer);
-            intervalRef.current = setInterval(() => {
-                if (progress === 100) {
-                    setAddMore(true);
-                    onAdd();
-                } else {
-                    setProgress(progress + 5);
-                }
-            }, 30);
-        }, 250);
-    };
-
-    const onMouseUp = () => {
-        const _isPressed = isPressed;
-        resetLongPress();
-        if (progress === 100 || _isPressed) return;
-        onAdd();
+    const onAddMore = () => {
+        setAddMore(true);
+        onAdd(true);
     };
 
     const onSetData = (
@@ -256,7 +183,6 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
 
     useEffect(() => {
         if (isOpen) return;
-        resetLongPress();
         onSetData('', 0, null, null, null);
     }, [isOpen]);
 
@@ -308,21 +234,22 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 <LoadingButton
                     ref={addRef}
                     sx={addStyle}
-                    onMouseDown={onLongPress}
-                    onTouchStart={onLongPress}
-                    onTouchEnd={onMouseUp}
-                    onMouseUp={onMouseUp}
-                    loading={!progress && (isCreateLoading || isUpdateLoading)}
+                    onClick={() => onAdd()}
+                    loading={isCreateLoading || isUpdateLoading}
                     disabled={isDisabled || isNotChanged}
                 >
-                    {!cashback && <Stack sx={{ ...progressStyle, width: `${progress}%` }} />}
                     {cashback ? CASHBACK_FORM_EDIT : CASHBACK_FORM_ADD}
                 </LoadingButton>
-                <Stack height={theme.spacing(2.5)}>
+
+                <Stack height={theme.spacing(3)} mt={0.75}>
                     {!cashback && !isDisabled && !isNotChanged && !isCreateLoading && !isUpdateLoading &&
-                        <Typography variant={'caption'} sx={textStyle}>
+                        <Button
+                            sx={addMoreStyle}
+                            variant={'text'}
+                            onClick={onAddMore}
+                        >
                             {CASHBACK_FORM_ADD_MORE}
-                        </Typography>
+                        </Button>
                     }
                 </Stack>
             </Stack>
@@ -352,10 +279,6 @@ const addStyle = {
     maxWidth: '100%',
     fontWeight: 400,
     overflow: 'hidden',
-    pointerEvents: 'all',
-    '.MuiLoadingButton-label': {
-        pointerEvents: 'none',
-    },
     [theme.breakpoints.down('sm')]: {
         height: theme.spacing(6.5),
     }
@@ -363,19 +286,15 @@ const addStyle = {
 
 const addWrapperStyle = {
     mt: 1,
-    pointerEvents: 'none',
 };
 
-const progressStyle = {
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    top: 0,
-    width: 0,
-    bgcolor: alpha(theme.palette.common.white, 0.08),
-    zIndex: 10,
-};
-
-const textStyle = {
-    opacity: 0.5,
+const addMoreStyle = {
+    height: theme.spacing(3.5),
+    fontWeight: 300,
+    background: 'none !important',
+    fontSize: theme.typography.body2.fontSize,
+    opacity: 0.6,
+    '&:hover, &:focus': {
+        opacity: 0.8,
+    }
 };
