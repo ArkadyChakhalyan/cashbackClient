@@ -31,7 +31,7 @@ export const CashbackAdd = () => {
         }
     }, [editingCashbackId]);
 
-    return <Stack alignItems={'center'}>
+    return <Stack alignItems={'center'} mt={1}>
         <CashbackForm isOpen={isOpen} onClose={onClose} />
         {!isSearchMode &&
             <>

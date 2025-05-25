@@ -20,12 +20,10 @@ import { ECashbacksView } from 'cashback-check-types';
 import { getSearchQuery } from '../../store/cashbacks/selectors/getSearchQuery.ts';
 import { getIsSearchMode } from '../../store/cashbacks/selectors/getIsSearchMode.ts';
 import { getOpenedActionsCashbackId } from '../../store/cashbacks/selectors/getOpenedActionsCashbackId.ts';
-import { getIsMobile } from '../../selectors/getIsMobile.ts';
 import {
     CashbackActionsMenu
 } from './components/cashback/components/cashbackActions/components/cashbackActionsMenu/cashbackActionsMenu.tsx';
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
-import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
 import { CashbacksCardView } from './components/cashbacksCardView/cashbacksCardView.tsx';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
@@ -34,7 +32,6 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const dispatch = useDispatch();
 
     const { isError: isCashbacksError } = useGetCashbacksQuery(null);
-    const { isError: isCardsError,  } = useGetCardsQuery(null);
 
     const period = useSelector(getPeriod);
     const currentMonthCashbacks = useSelector(getCurrentMonthCashbacks);
