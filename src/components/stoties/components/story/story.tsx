@@ -2,56 +2,39 @@ import { alpha, Box, Stack, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { theme } from '../../../../style/theme.ts';
 import { TStoryProps } from './types.ts';
-import { useUpdateUserMutation } from '../../../../store/userApi/userApiSlice.ts';
-import { showSuccessSnackbar } from '../../../snackbarStack/helpers/showSuccessSnackbar.ts';
-import {
-    VIEW_TYPE_OPTIONS
-} from '../../../cashbacks/components/cashbacksHeader/components/cashbacksActions/components/viewType/constants.ts';
-import { useSelector } from 'react-redux';
-import { getSeenStories } from '../../../../store/userApi/selectors/getSeenStories.ts';
 
 export const Story: FC<TStoryProps> = ({
     color,
-    id,
     imgUrl,
     isSeen,
     label,
+    onClick,
 }) => {
-    const [updateUser, {
-        isLoading: isUserLoading,
-    }] = useUpdateUserMutation();
-
-    const seenStories = useSelector(getSeenStories);
-
-    const onClick = () => {
-        setTimeout(() => { // ждем пока откроется сторис, чтобы не было прыжков
-            updateUser({ seenStories: [...seenStories, id] });
-        }, 500);
-    };
-
-    return <Stack
-        sx={{
-            ...containerStyle,
-            border: `${theme.spacing(0.25)} solid ${isSeen ? 'transparent' : theme.palette.primary.main}`,
-        }}
-        onClick={onClick}
-    >
+    return <>
         <Stack
             sx={{
-                ...contentStyle,
-                background: alpha(color, 0.5),
+                ...containerStyle,
+                border: `${theme.spacing(0.25)} solid ${isSeen ? alpha(theme.palette.common.white, 0.2) : theme.palette.primary.main}`,
             }}
+            onClick={onClick}
         >
-            <Box
-                sx={imgStyle}
-                component={'img'}
-                src={imgUrl}
-            />
-            <Typography fontSize={'0.65rem'} lineHeight={1.3} fontWeight={400}>
-                {label}
-            </Typography>
+            <Stack
+                sx={{
+                    ...contentStyle,
+                    background: alpha(color, 0.5),
+                }}
+            >
+                <Box
+                    sx={imgStyle}
+                    component={'img'}
+                    src={imgUrl}
+                />
+                <Typography fontSize={'0.65rem'} lineHeight={1.3} fontWeight={400}>
+                    {label}
+                </Typography>
+            </Stack>
         </Stack>
-    </Stack>;
+    </>;
 }
 
 const containerStyle = {
