@@ -64,6 +64,8 @@ export const Stories = () => {
         }
         setProgress(0);
         progressRef.current = 0;
+        setTranslateY(0);
+        setIsDragging(false);
         if (openedStory) {
             setTimeout(() => {
                 if (timerRef.current) clearInterval(timerRef.current);
@@ -142,6 +144,38 @@ export const Stories = () => {
         }, 0);
     }
 
+    const [translateY, setTranslateY] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const startY = useRef(null);
+
+    const onTouchStart = (e: React.TouchEvent) => {
+        startY.current = e.touches[0].clientY;
+        setIsDragging(true);
+    };
+
+    const onTouchMove = (e: React.TouchEvent) => {
+        if (!isDragging || startY.current === null) return;
+
+        const deltaY = e.touches[0].clientY - startY.current;
+
+        if (deltaY > 0) {
+            setTranslateY(deltaY);
+        }
+    };
+
+    const onTouchEnd = () => {
+        if (translateY > 80) {
+            onClose();
+        } else {
+            setTranslateY(0);
+        }
+
+        startY.current = null;
+        setIsDragging(false);
+    };
+
+    const opacity = 1 - Math.min(translateY / 300, 0.8);
+
     return <Stack
         direction={'row'}
         sx={containerStyle}
@@ -150,11 +184,19 @@ export const Stories = () => {
             open={!!openedStory}
             onClose={onClose}
             slotProps={{ backdrop: { sx: { backdropFilter: 'blur(3px)' }}}}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
         >
             <>
                 {openedStory &&
                     <Paper
-                        sx={modalStyle}
+                        sx={{
+                            ...modalStyle,
+                            transform: `translate(-50%, calc(-50% + ${translateY}px))`,
+                            opacity,
+                            transition: isDragging ? 'none' : 'transform 0.3s ease, opacity 0.3s ease',
+                        }}
                         onClick={onStoryClick}
                         onMouseDown={onMouseDown}
                         onMouseUp={onMouseUp}
