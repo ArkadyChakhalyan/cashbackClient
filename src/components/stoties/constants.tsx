@@ -1,5 +1,18 @@
 import { IStory } from './components/story/types.ts';
 import { theme } from '../../style/theme.ts';
+import { Slide_4_1 } from './components/slides/slide_4_1.tsx';
+import { Slide_4_2 } from './components/slides/slide_4_2.tsx';
+import { Slide_2_1 } from './components/slides/slide_2_1.tsx';
+import { Slide_2_2 } from './components/slides/slide_2_2.tsx';
+import { Slide_2_3 } from './components/slides/slide_2_3.tsx';
+import { Slide_3_1 } from './components/slides/slide_3_1.tsx';
+import { Slide_3_3 } from './components/slides/slide_3_3.tsx';
+import React from 'react';
+import { Slide_3_2 } from './components/slides/slide_3_2.tsx';
+import { Slide_1_4 } from './components/slides/slide_1_4.tsx';
+import { Slide_1_1 } from './components/slides/slide_1_1.tsx';
+import { Slide_1_2 } from './components/slides/slide_1_2.tsx';
+import { Slide_1_3 } from './components/slides/slide_1_3.tsx';
 
 export const STORIES: IStory[] = [
     {
@@ -8,8 +21,10 @@ export const STORIES: IStory[] = [
         imgUrl: './stories/create.png',
         color: theme.palette.purple.main,
         slides: [
-            <div>test1</div>,
-            <div>test2</div>,
+            <Slide_1_1 />,
+            <Slide_1_2 />,
+            <Slide_1_3 />,
+            <Slide_1_4 />,
         ],
     },
     {
@@ -18,8 +33,9 @@ export const STORIES: IStory[] = [
         imgUrl: './stories/create.png',
         color: theme.palette.green.main,
         slides: [
-            <div>test1</div>,
-            <div>test2</div>,
+            <Slide_2_1 />,
+            <Slide_2_2 />,
+            <Slide_2_3 />,
         ],
     },
     {
@@ -28,8 +44,9 @@ export const STORIES: IStory[] = [
         imgUrl: './stories/create.png',
         color: theme.palette.yellow.main,
         slides: [
-            <div>test1</div>,
-            <div>test2</div>,
+            <Slide_3_1 />,
+            <Slide_3_2 />,
+            <Slide_3_3 />,
         ],
     },
     {
@@ -38,8 +55,8 @@ export const STORIES: IStory[] = [
         imgUrl: './stories/create.png',
         color: theme.palette.blue.main,
         slides: [
-            <div>test1</div>,
-            <div>test2</div>,
+            <Slide_4_1 />,
+            <Slide_4_2 />,
         ],
     }
 ];

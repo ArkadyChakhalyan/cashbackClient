@@ -1,4 +1,4 @@
-import { alpha, IconButton, Modal, Paper, Stack } from '@mui/material';
+import { alpha, CircularProgress, IconButton, Modal, Paper, Stack } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { Story } from './components/story/story.tsx';
 import { STORIES } from './constants.tsx';
@@ -10,9 +10,7 @@ import { IStory } from './components/story/types.ts';
 import { useUpdateUserMutation } from '../../store/userApi/userApiSlice.ts';
 
 export const Stories = () => {
-    const [updateUser, {
-        isLoading,
-    }] = useUpdateUserMutation();
+    const [updateUser] = useUpdateUserMutation();
 
     const seenStoriesIds = useSelector(getSeenStories);
     const seenStories = [];
@@ -40,9 +38,11 @@ export const Stories = () => {
     let [currentSlide, _setCurrentSlide] = useState(0);
     const [watchedStoriesIds, setWatchedStoriesIds] = useState([]);
     let [progress, _setProgress] = useState(0);
+    const [isLoading, setLoading] = useState(true);
 
     const progressRef = useRef(null);
     const storyRef = useRef(null);
+    const loadingRef = useRef(true);
 
     const setProgress = (value: number) => {
         progress = value;
@@ -67,10 +67,14 @@ export const Stories = () => {
         setTranslateY(0);
         setIsDragging(false);
         if (openedStory) {
+            setLoading(true);
+            loadingRef.current = true;
             setTimeout(() => {
+                setLoading(false);
+                loadingRef.current = false;
                 if (timerRef.current) clearInterval(timerRef.current);
                 timerRef.current = setInterval(() => {
-                    if (holdRef.current) return;
+                    if (holdRef.current || loadingRef.current) return;
                     if (progressRef.current >= 100) {
                         setProgress(0);
                         progressRef.current = 0;
@@ -81,7 +85,7 @@ export const Stories = () => {
                         progressRef.current = progress;
                     }
                 }, 50);
-            }, 300);
+            }, 500);
         }
         return () => {
             if (timerRef.current) clearInterval(timerRef.current)
@@ -90,6 +94,12 @@ export const Stories = () => {
 
     const onNextSlide = () => {
         if (openedStory.slides.length > currentSlide + 1) {
+            setLoading(true);
+            loadingRef.current = true;
+            setTimeout(() => {
+                setLoading(false);
+                loadingRef.current = false;
+            }, 500);
             setCurrentSlide(currentSlide + 1);
             setProgress(0);
             progressRef.current = 0;
@@ -97,6 +107,7 @@ export const Stories = () => {
             const currentStoryIndex = stories.findIndex(story => story.id === openedStory.id);
             const nextStory = stories[currentStoryIndex + 1];
             if (nextStory && !seenStoriesIds.includes(nextStory.id)) {
+                setLoading(true);
                 setWatchedStoriesIds([...watchedStoriesIds, nextStory.id]);
                 setOpenedStory(nextStory);
                 setCurrentSlide(0);
@@ -114,7 +125,7 @@ export const Stories = () => {
         const rect = storyRef.current.getBoundingClientRect();
         const { clientX } = e;
 
-        if (clientX < rect.left + rect.width / 2) {
+        if (clientX < rect.left + rect.width * 0.4) {
             if (progress > 8) {
                 setProgress(0);
                 progressRef.current = 0;
@@ -221,6 +232,9 @@ export const Stories = () => {
                             <CloseRoundedIcon />
                         </IconButton>
                         {openedStory.slides[currentSlide]}
+                        {isLoading && <Stack sx={loaderStyle}>
+                            <CircularProgress size={theme.spacing(7)} />
+                        </Stack>}
                     </Paper>
                 }
             </>
@@ -258,6 +272,7 @@ const containerStyle = {
 
 const modalStyle = {
     position: 'fixed',
+    display: 'flex',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -265,14 +280,25 @@ const modalStyle = {
     height: '100%',
     minWidth: '100vw',
     minHeight: '100svh',
-    maxHeight: theme.spacing(80),
+    maxHeight: theme.spacing(90),
     maxWidth: theme.spacing(60),
     borderRadius: 0,
+    overflow: 'hidden',
+    cursor: 'pointer',
     [theme.breakpoints.up(64 * 8)]: {
         minHeight: 'unset',
         minWidth: 'unset',
         borderRadius: theme.spacing(1.5),
     }
+};
+
+const loaderStyle = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: theme.palette.background.paper,
+    position: 'absolute',
+    inset: 0,
+    zIndex: 7,
 };
 
 const headerStyle = {
@@ -282,6 +308,7 @@ const headerStyle = {
     right: theme.spacing(2),
     flexDirection: 'row',
     gap: theme.spacing(0.75),
+    zIndex: 10,
 };
 
 const headerItemStyle = {
@@ -306,5 +333,6 @@ const closeButtonStyle = {
     right: theme.spacing(2),
     top: theme.spacing(3.5),
     bgcolor: theme.palette.background.paper,
+    zIndex: 10,
 };
 
