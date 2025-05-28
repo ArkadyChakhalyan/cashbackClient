@@ -25,6 +25,7 @@ import {
 } from './components/cashback/components/cashbackActions/components/cashbackActionsMenu/cashbackActionsMenu.tsx';
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 import { CashbacksCardView } from './components/cashbacksCardView/cashbacksCardView.tsx';
+import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
@@ -32,6 +33,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const dispatch = useDispatch();
 
     const { isError: isCashbacksError } = useGetCashbacksQuery(null);
+    const { isError: isCardsError,  } = useGetCardsQuery(null);
 
     const period = useSelector(getPeriod);
     const currentMonthCashbacks = useSelector(getCurrentMonthCashbacks);
