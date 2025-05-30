@@ -63,7 +63,7 @@ export const Stories = () => {
 
     const timerRef = useRef(null);
     useEffect(() => {
-        if (!openedStory) {
+        if (!openedStory && watchedStoriesIds.length) {
             const seenStories = [...new Set([...seenStoriesIds, ...watchedStoriesIds])];
             if (
                 _.isEqual(
@@ -72,7 +72,7 @@ export const Stories = () => {
             ) {
                 return;
             }
-            updateUser({ seenStories: [...seenStoriesIds, ...watchedStoriesIds] });
+            updateUser({ seenStories });
         }
         setProgress(0);
         progressRef.current = 0;
