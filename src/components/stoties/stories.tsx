@@ -8,6 +8,8 @@ import { theme } from '../../style/theme.ts';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { IStory } from './components/story/types.ts';
 import { useUpdateUserMutation } from '../../store/userApi/userApiSlice.ts';
+import * as _ from 'underscore';
+import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
 
 export const Stories = () => {
     const [updateUser] = useUpdateUserMutation();
@@ -40,6 +42,8 @@ export const Stories = () => {
     let [progress, _setProgress] = useState(0);
     const [isLoading, setLoading] = useState(true);
 
+    useDisableScroll(!!openedStory);
+
     const progressRef = useRef(null);
     const storyRef = useRef(null);
     const loadingRef = useRef(true);
@@ -60,6 +64,8 @@ export const Stories = () => {
     const timerRef = useRef(null);
     useEffect(() => {
         if (!openedStory) {
+            const seenStories = [...new Set([...seenStoriesIds, ...watchedStoriesIds])];
+            if (_.isEqual(seenStories, seenStoriesIds)) return;
             updateUser({ seenStories: [...seenStoriesIds, ...watchedStoriesIds] });
         }
         setProgress(0);
