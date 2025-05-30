@@ -6,6 +6,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { theme } from '../../style/theme.ts';
 import { MenuItem } from './menuItem/menuItem.tsx';
 import { getIsNewIphonePWA } from '../../selectors/getIsNewIphonePWA.ts';
+import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
 
 export const Menu: FC<TMenuProps> = ({
     anchorEl,
@@ -14,6 +15,7 @@ export const Menu: FC<TMenuProps> = ({
     ...props
 }) => {
     const isMobile = getIsMobile();
+    useDisableScroll(!!anchorEl);
     const closeButton = <IconButton
         sx={closeButtonStyle}
         onClick={() => onClose(null, null)}
