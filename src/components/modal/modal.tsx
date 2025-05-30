@@ -5,6 +5,7 @@ import { getIsMobile } from '../../selectors/getIsMobile.ts';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { theme } from '../../style/theme.ts';
 import { getIsNewIphonePWA } from '../../selectors/getIsNewIphonePWA.ts';
+import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
 
 export const Modal: FC<TModalProps> = ({
     body,
@@ -13,6 +14,7 @@ export const Modal: FC<TModalProps> = ({
     onKeyDown,
 }) => {
     const isMobile = getIsMobile();
+    useDisableScroll(isOpen);
     const closeButton = <IconButton
         sx={closeButtonStyle}
         onClick={onClose}
