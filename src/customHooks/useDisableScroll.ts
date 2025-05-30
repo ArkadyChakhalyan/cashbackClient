@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
+function freezeVp (e: TouchEvent) {
+    e.preventDefault();
+}
+
 export const useDisableScroll = (isEnabled: boolean) => {
-    const freezeVp = function(e: TouchEvent) {
-        e.preventDefault();
-    };
 
     function stopBodyScrolling (isEnabled: boolean) {
         if (isEnabled) {
