@@ -1,5 +1,5 @@
 import { IconButton, Modal as MuiModal, Paper, SwipeableDrawer } from '@mui/material';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { TModalProps } from './types.ts';
 import { getIsMobile } from '../../selectors/getIsMobile.ts';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
@@ -15,12 +15,14 @@ export const Modal: FC<TModalProps> = ({
 }) => {
     const isMobile = getIsMobile();
     useDisableScroll(isOpen);
+
     const closeButton = <IconButton
         sx={closeButtonStyle}
         onClick={onClose}
     >
         <CloseRoundedIcon />
     </IconButton>;
+
     return <>
         <MuiModal
             open={isOpen && !isMobile}
