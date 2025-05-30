@@ -1,1 +1,1 @@
-export const SEARCH_PLACEHOLDER = 'Поиск...';
+export const SEARCH_PLACEHOLDER = 'Введите категорию или MCC-код...';

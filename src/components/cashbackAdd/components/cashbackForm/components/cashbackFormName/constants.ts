@@ -1,6 +1,6 @@
 export const CASHBACK_FORM_NAME_PLACEHOLDER = 'Категория';
 
-export const CASHBACK_FORM_NAME_CHIPS = [
+export const CASHBACK_FORM_NAME_BASE_CHIPS = [
     'Все покупки',
     'Кафе и рестораны',
     'Супермаркеты',
@@ -90,5 +90,19 @@ export const CASHBACK_FORM_NAME_CHIPS = [
     'Триал-Спорт',
     'Бургер Кинг',
     'RE',
-    'Рестораны, кафе, фастфуд',
+    'На все остальные покупки',
+];
+
+export const CASHBACK_FORM_NAME_CHIPS_OTP = [
+    'На все остальные покупки',
+    'Супермаркеты',
+    'Кафе и рестораны',
+    'Аптеки и медецинские услуги',
+    'ЖКХ',
+    'Одежда, обувь',
+    'Цветы',
+    'Такси и каршеринг',
+    'АЗС',
+    'Обучение и образование',
+    'Искусство',
 ];

@@ -226,6 +226,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 />
                 <CashbackFormName
                     name={name}
+                    bank={bank}
                     setName={setName}
                 />
                 <CashbackAddModalPercentage percentage={percentage} setPercentage={setPercentage} />

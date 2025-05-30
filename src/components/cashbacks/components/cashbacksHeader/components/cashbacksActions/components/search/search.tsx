@@ -1,7 +1,7 @@
-import { alpha, Fade, Grow, IconButton, Skeleton, TextField } from '@mui/material';
+import { alpha, Grow, IconButton, Skeleton, TextField } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { theme } from '../../../../../../../../style/theme.ts';
 import { setIsSearchModeAC, setSearchQueryAC } from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,7 +44,7 @@ export const Search = () => {
     };
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setSearchQueryAC(e.target.value));
+        dispatch(setSearchQueryAC(e.target.value.trim()));
     };
 
     return <>

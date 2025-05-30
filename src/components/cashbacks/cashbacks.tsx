@@ -26,6 +26,8 @@ import {
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 import { CashbacksCardView } from './components/cashbacksCardView/cashbacksCardView.tsx';
 import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
+import { isNumber } from 'underscore';
+import { CASHBACKS_CODES, CODES } from '../../constants.ts';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
@@ -56,10 +58,19 @@ export const Cashbacks: FC<TCashbacksProps> = ({
         if (isLoading) return;
         let cashbacks = period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
         if (searchQuery) {
-            cashbacks = cashbacks.filter(cashback => {
-                return cashback.name.toLowerCase().includes(searchQuery) ||
-                    cashback.card?.name.toLowerCase().includes(searchQuery);
-            });
+            if (CODES.includes(searchQuery)) {
+                cashbacks = cashbacks.filter(cashback => {
+                    const bankCodes = CASHBACKS_CODES[cashback.bank];
+                    const codesInfo = bankCodes && bankCodes[cashback.name];
+                    if (!codesInfo) return false;
+                    return codesInfo.isExclude ? !codesInfo.codes.includes(searchQuery) : codesInfo.codes.includes(searchQuery);
+                });
+            } else {
+                cashbacks = cashbacks.filter(cashback => {
+                    return cashback.name.toLowerCase().includes(searchQuery) ||
+                        cashback.card?.name.toLowerCase().includes(searchQuery);
+                });
+            }
         }
         setCashbacks(cashbacks);
     }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery]);
