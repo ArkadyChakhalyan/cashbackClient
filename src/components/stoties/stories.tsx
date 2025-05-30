@@ -65,7 +65,13 @@ export const Stories = () => {
     useEffect(() => {
         if (!openedStory) {
             const seenStories = [...new Set([...seenStoriesIds, ...watchedStoriesIds])];
-            if (_.isEqual(seenStories, seenStoriesIds)) return;
+            if (
+                _.isEqual(
+                    seenStories.sort((a, b) => a - b),
+                    seenStoriesIds.sort((a, b) => a - b))
+            ) {
+                return;
+            }
             updateUser({ seenStories: [...seenStoriesIds, ...watchedStoriesIds] });
         }
         setProgress(0);
@@ -91,7 +97,7 @@ export const Stories = () => {
                         progressRef.current = progress;
                     }
                 }, 50);
-            }, 500);
+            }, 800);
         }
         return () => {
             if (timerRef.current) clearInterval(timerRef.current)
@@ -105,7 +111,7 @@ export const Stories = () => {
             setTimeout(() => {
                 setLoading(false);
                 loadingRef.current = false;
-            }, 500);
+            }, 800);
             setCurrentSlide(currentSlide + 1);
             setProgress(0);
             progressRef.current = 0;
