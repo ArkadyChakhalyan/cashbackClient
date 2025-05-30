@@ -65,7 +65,13 @@ export const Stories = () => {
     useEffect(() => {
         if (!openedStory) {
             const seenStories = [...new Set([...seenStoriesIds, ...watchedStoriesIds])];
-            if (_.isEqual(seenStories, seenStoriesIds)) return;
+            if (
+                _.isEqual(
+                    seenStories.sort((a, b) => a - b),
+                    seenStoriesIds.sort((a, b) => a - b))
+            ) {
+                return;
+            }
             updateUser({ seenStories: [...seenStoriesIds, ...watchedStoriesIds] });
         }
         setProgress(0);
