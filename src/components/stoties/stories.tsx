@@ -91,7 +91,7 @@ export const Stories = () => {
                         progressRef.current = progress;
                     }
                 }, 50);
-            }, 500);
+            }, 800);
         }
         return () => {
             if (timerRef.current) clearInterval(timerRef.current)
@@ -105,7 +105,7 @@ export const Stories = () => {
             setTimeout(() => {
                 setLoading(false);
                 loadingRef.current = false;
-            }, 500);
+            }, 800);
             setCurrentSlide(currentSlide + 1);
             setProgress(0);
             progressRef.current = 0;
