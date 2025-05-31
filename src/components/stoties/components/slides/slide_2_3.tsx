@@ -14,10 +14,10 @@ export const Slide_2_3 = () => {
                 Группировка по картам
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Отображайте кэшбэк по каждой карте.
+                Отображайте кэшбэк для каждой карты.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Категории без карты будут объеденины в группировку по банкам.
+                Категории без карты будут объединены в группировку по банкам.
             </Typography>
         </Stack>
     </Stack>;
