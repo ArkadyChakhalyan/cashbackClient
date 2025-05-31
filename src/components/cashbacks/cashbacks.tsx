@@ -26,6 +26,13 @@ import {
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 import { CashbacksCardView } from './components/cashbacksCardView/cashbacksCardView.tsx';
 import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
+import { CASHBACKS_CODES, CODES } from '../../constants.ts';
+import { getCashbackCodesInfo } from '../../selectors/getCashbackCodesInfo.ts';
+import {
+    CashbackActionsCodes
+} from './components/cashback/components/cashbackActions/components/cashbackActionsCodes/cashbackActionsCodes.tsx';
+import { getCashbacks } from '../../store/cashbackApi/selectors/getCashbacks.ts';
+import { getCashbackPeriod } from '../../selectors/getCashbackPeriod.ts';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
@@ -36,6 +43,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const { isError: isCardsError,  } = useGetCardsQuery(null);
 
     const period = useSelector(getPeriod);
+    const allCashbacks = useSelector(getCashbacks);
     const currentMonthCashbacks = useSelector(getCurrentMonthCashbacks);
     const nextMonthCashbacks = useSelector(getNextMonthCashbacks);
     const isLoading = useSelector(getIsLoading);
@@ -54,17 +62,41 @@ export const Cashbacks: FC<TCashbacksProps> = ({
 
     useEffect(() => {
         if (isLoading) return;
-        let cashbacks = period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
+        let cashbacks = isSearchMode ? [...allCashbacks].sort((a, b) => getCashbackPeriod(a.timestamp) - getCashbackPeriod(b.timestamp))
+            : period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
         if (searchQuery) {
-            cashbacks = cashbacks.filter(cashback => {
-                return cashback.name.toLowerCase().includes(searchQuery) ||
-                    cashback.card?.name.toLowerCase().includes(searchQuery);
-            });
+            if (CODES.includes(searchQuery)) {
+                cashbacks = cashbacks.filter(cashback => {
+                    const codesInfo = getCashbackCodesInfo(cashback);
+                    if (!codesInfo) return false;
+                    if (codesInfo.isExclude) {
+                        const bankCodes = CASHBACKS_CODES[cashback.bank];
+                        const excludeCodes = [...codesInfo.codes];
+                        const userCashbacks = cashbacks
+                            .filter(item => item.bank === cashback.bank && item.id !== cashback.id)
+                            .map(cashback => cashback.name);
+                        for (let cashback in bankCodes) {
+                            const codesInfo = bankCodes[cashback];
+                            if (!codesInfo.isExclude && userCashbacks.includes(cashback)) {
+                                excludeCodes.push(...codesInfo.codes);
+                            }
+                        }
+                        return !excludeCodes.includes(searchQuery)
+                    }
+                    return codesInfo.codes.includes(searchQuery);
+                });
+            } else {
+                cashbacks = cashbacks.filter(cashback => {
+                    return cashback.name.toLowerCase().includes(searchQuery) ||
+                        cashback.card?.name.toLowerCase().includes(searchQuery);
+                });
+            }
         }
         setCashbacks(cashbacks);
-    }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery]);
+    }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery, isSearchMode]);
 
     return <Stack spacing={1.5} flexGrow={1}>
+        <CashbackActionsCodes />
         {!isCashbacksError && <CashbacksHeader />}
         {isLoading || !cashbacks ?
             Array(CASHBACKS_FAKE_COUNT).fill('').map((item, idx) => (

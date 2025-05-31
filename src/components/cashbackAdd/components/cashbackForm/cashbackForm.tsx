@@ -221,11 +221,13 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                     bank={bank}
                     card={card}
                     isOpen={isOpen}
+                    period={getCashbackPeriod(timestamp)}
                     setBank={setBank}
                     setCard={setCard}
                 />
                 <CashbackFormName
                     name={name}
+                    bank={bank}
                     setName={setName}
                 />
                 <CashbackAddModalPercentage percentage={percentage} setPercentage={setPercentage} />

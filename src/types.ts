@@ -4,6 +4,7 @@ export interface IBank {
     iconUrl: string;
     name: string;
     value: EBank;
+    cashbackCount?: number;
 }
 
 export enum ECashbackPeriod {
@@ -15,3 +16,12 @@ export enum ESnackbarVariant {
     ERROR = 'error',
     SUCCESS = 'success',
 }
+
+export type TCashbackCode = string;
+
+export interface IBankCashbackCodeInfo {
+    codes: TCashbackCode[];
+    isExclude?: boolean;
+}
+
+export type TBankCashbackCodes = {[key: string]: IBankCashbackCodeInfo};

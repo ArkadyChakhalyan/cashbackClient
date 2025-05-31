@@ -1,12 +1,13 @@
 import { TCashbackId } from 'cashback-check-types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICashbacksState } from './types.ts';
-import { ECashbackPeriod } from '../../types.ts';
+import { ECashbackPeriod, IBankCashbackCodeInfo } from '../../types.ts';
 
 const initialState: ICashbacksState = {
     editingCashbackId: null,
     isSearchMode: false,
     openedActionsCashbackId: null,
+    openedCashbackCodesInfo: null,
     period: ECashbackPeriod.CURRENT_MONTH,
     searchQuery: '',
 };
@@ -25,6 +26,12 @@ export const cashbacksSlice = createSlice({
             return {
                 ...state,
                 openedActionsCashbackId: action.payload,
+            };
+        },
+        setOpenedCashbackCodesInfoAC: (state, action: PayloadAction<IBankCashbackCodeInfo>) => {
+            return {
+                ...state,
+                openedCashbackCodesInfo: action.payload,
             };
         },
         setPeriodAC: (state, action: PayloadAction<ECashbackPeriod>) => {
@@ -52,6 +59,7 @@ export const {
     setEditingCashbackIdAC,
     setIsSearchModeAC,
     setOpenedActionsCashbackIdAC,
+    setOpenedCashbackCodesInfoAC,
     setPeriodAC,
     setSearchQueryAC,
 } = cashbacksSlice.actions;
