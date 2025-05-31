@@ -128,7 +128,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
 
     useEffect(() => {
         ref.current?.scrollIntoView({ behavior: 'smooth', inline: 'center', });
-    }, []);
+    }, [chips]);
 
     const isAdd = !!onAdd;
 

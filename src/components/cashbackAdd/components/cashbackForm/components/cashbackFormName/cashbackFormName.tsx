@@ -25,7 +25,6 @@ export const CashbackFormName: FC<TCashbackFormNameProps> = ({
     }, [name]);
 
     useEffect(() => {
-        if (name || !bank) return;
         let chips = CASHBACK_FORM_NAME_BASE_CHIPS;
         if (bank === EBank.OTP) {
             chips = CASHBACK_FORM_NAME_CHIPS_OTP;
