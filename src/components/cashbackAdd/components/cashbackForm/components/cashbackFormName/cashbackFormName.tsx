@@ -3,7 +3,10 @@ import { Stack, TextField } from '@mui/material';
 import { TCashbackFormNameProps } from './types.ts';
 import {
     CASHBACK_FORM_NAME_BASE_CHIPS,
-    CASHBACK_FORM_NAME_CHIPS_OTP, CASHBACK_FORM_NAME_CHIPS_OZON,
+    CASHBACK_FORM_NAME_CHIPS_OTP,
+    CASHBACK_FORM_NAME_CHIPS_OZON,
+    CASHBACK_FORM_NAME_CHIPS_VTB,
+    CASHBACK_FORM_NAME_CHIPS_YANDEX,
     CASHBACK_FORM_NAME_PLACEHOLDER
 } from './constants.ts';
 import { CashbackFormChips } from '../cashbackFormChips/cashbackFormChips.tsx';
@@ -30,6 +33,10 @@ export const CashbackFormName: FC<TCashbackFormNameProps> = ({
             chips = CASHBACK_FORM_NAME_CHIPS_OTP;
         } else if (bank === EBank.OZON) {
             chips = CASHBACK_FORM_NAME_CHIPS_OZON;
+        } else if (bank === EBank.VTB) {
+            chips = CASHBACK_FORM_NAME_CHIPS_VTB;
+        } else if (bank === EBank.YANDEX_PAY) {
+            chips = CASHBACK_FORM_NAME_CHIPS_YANDEX;
         }
         setChips(chips);
     }, [bank, name]);
