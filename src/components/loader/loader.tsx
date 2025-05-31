@@ -1,10 +1,13 @@
 import { Box, Stack } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { theme } from '../../style/theme.ts';
+import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
 
 export const Loader = () => {
     const [isShow, setShow] = useState(true);
     const [isHide, setHide] = useState(null);
+
+    useDisableScroll(isShow);
 
     const timerRef = useRef(null);
     useEffect(() => {
