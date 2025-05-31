@@ -69,9 +69,12 @@ export const Cashbacks: FC<TCashbacksProps> = ({
                     if (codesInfo.isExclude) {
                         const bankCodes = CASHBACKS_CODES[cashback.bank];
                         const excludeCodes = [...codesInfo.codes];
+                        const userCashbacks = cashbacks
+                            .filter(item => item.bank === cashback.bank && item.id !== cashback.id)
+                            .map(cashback => cashback.name);
                         for (let cashback in bankCodes) {
                             const codesInfo = bankCodes[cashback];
-                            if (!codesInfo.isExclude) {
+                            if (!codesInfo.isExclude && userCashbacks.includes(cashback)) {
                                 excludeCodes.push(...codesInfo.codes);
                             }
                         }
