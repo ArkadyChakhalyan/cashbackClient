@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { TCashbackActionsMenuProps } from './types.ts';
 import {
+    CASHBACK_ACTIONS_CODES,
     CASHBACK_ACTIONS_DELETE,
     CASHBACK_ACTIONS_EDIT,
     CASHBACK_ACTIONS_MOVE,
@@ -12,7 +13,10 @@ import { IState } from '../../../../../../../../store/types.ts';
 import { getCashback } from '../../../../../../../../store/cashbackApi/selectors/getCashback.ts';
 import { getNextMonthCashbacks } from '../../../../../../../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
 import { getPeriod } from '../../../../../../../../store/cashbacks/selectors/getPeriod.ts';
-import { setEditingCashbackIdAC } from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
+import {
+    setEditingCashbackIdAC,
+    setOpenedCashbackCodesInfoAC
+} from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
 import { getBankOrderNumber } from '../../../../../../../../selectors/getBankOrderNumber.ts';
 import { getOrderNumber } from '../../../../../../../../selectors/getOrderNumber.ts';
 import { getNextMonthDate } from '../../../../../../../../selectors/getNextMonthDate.ts';
@@ -33,6 +37,8 @@ import { Menu } from '../../../../../../../menu/menu.tsx';
 import { theme } from '../../../../../../../../style/theme.ts';
 import { getSameCashback } from '../../../../../../../../selectors/getSameCashback.ts';
 import { getCardOrderNumber } from '../../../../../../../../selectors/getCardOrderNumber.ts';
+import { getCashbackCodesInfo } from '../../../../../../../../selectors/getCashbackCodesInfo.ts';
+import QrCode2RoundedIcon from '@mui/icons-material/QrCode2Rounded';
 
 export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     anchor,
@@ -59,6 +65,10 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
 
     const onEdit = () => {
         dispatch(setEditingCashbackIdAC(id));
+    };
+
+    const onOpenCodes = () => {
+        dispatch(setOpenedCashbackCodesInfoAC(codesInfo));
     };
 
     const onCreate = () => {
@@ -109,6 +119,15 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
             onClick: onDelete,
         },
     ];
+
+    const codesInfo = cashback && getCashbackCodesInfo(cashback);
+    if (codesInfo) {
+        actions.unshift({
+            label: CASHBACK_ACTIONS_CODES,
+            icon: QrCode2RoundedIcon,
+            onClick: onOpenCodes,
+        });
+    }
 
     if (
         getIsShowNextMonth() &&

@@ -28,6 +28,10 @@ import { CashbacksCardView } from './components/cashbacksCardView/cashbacksCardV
 import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
 import { isNumber } from 'underscore';
 import { CASHBACKS_CODES, CODES } from '../../constants.ts';
+import { getCashbackCodesInfo } from '../../selectors/getCashbackCodesInfo.ts';
+import {
+    CashbackActionsCodes
+} from './components/cashback/components/cashbackActions/components/cashbackActionsCodes/cashbackActionsCodes.tsx';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
@@ -60,10 +64,20 @@ export const Cashbacks: FC<TCashbacksProps> = ({
         if (searchQuery) {
             if (CODES.includes(searchQuery)) {
                 cashbacks = cashbacks.filter(cashback => {
-                    const bankCodes = CASHBACKS_CODES[cashback.bank];
-                    const codesInfo = bankCodes && bankCodes[cashback.name];
+                    const codesInfo = getCashbackCodesInfo(cashback);
                     if (!codesInfo) return false;
-                    return codesInfo.isExclude ? !codesInfo.codes.includes(searchQuery) : codesInfo.codes.includes(searchQuery);
+                    if (codesInfo.isExclude) {
+                        const bankCodes = CASHBACKS_CODES[cashback.bank];
+                        const excludeCodes = [...codesInfo.codes];
+                        for (let cashback in bankCodes) {
+                            const codesInfo = bankCodes[cashback];
+                            if (!codesInfo.isExclude) {
+                                excludeCodes.push(...codesInfo.codes);
+                            }
+                        }
+                        return !excludeCodes.includes(searchQuery)
+                    }
+                    return codesInfo.codes.includes(searchQuery);
                 });
             } else {
                 cashbacks = cashbacks.filter(cashback => {
@@ -76,6 +90,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery]);
 
     return <Stack spacing={1.5} flexGrow={1}>
+        <CashbackActionsCodes />
         {!isCashbacksError && <CashbacksHeader />}
         {isLoading || !cashbacks ?
             Array(CASHBACKS_FAKE_COUNT).fill('').map((item, idx) => (
