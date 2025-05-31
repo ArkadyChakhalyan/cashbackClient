@@ -79,6 +79,7 @@ const banksStyle = {
     height: theme.spacing(6),
     flexDirection: 'row',
     overflow: 'scroll',
+    overflowY: 'hidden',
     '::-webkit-scrollbar': {
         display: 'none'
     }
