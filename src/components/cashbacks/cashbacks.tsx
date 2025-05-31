@@ -26,6 +26,8 @@ import {
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 import { CashbacksCardView } from './components/cashbacksCardView/cashbacksCardView.tsx';
 import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
+import { getCashbacks } from '../../store/cashbackApi/selectors/getCashbacks.ts';
+import { getCashbackPeriod } from '../../selectors/getCashbackPeriod.ts';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
@@ -36,6 +38,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     const { isError: isCardsError,  } = useGetCardsQuery(null);
 
     const period = useSelector(getPeriod);
+    const allCashbacks = useSelector(getCashbacks);
     const currentMonthCashbacks = useSelector(getCurrentMonthCashbacks);
     const nextMonthCashbacks = useSelector(getNextMonthCashbacks);
     const isLoading = useSelector(getIsLoading);
@@ -54,7 +57,8 @@ export const Cashbacks: FC<TCashbacksProps> = ({
 
     useEffect(() => {
         if (isLoading) return;
-        let cashbacks = period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
+        let cashbacks = isSearchMode ? [...allCashbacks].sort((a, b) => getCashbackPeriod(a.timestamp) - getCashbackPeriod(b.timestamp))
+            : period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
         if (searchQuery) {
             cashbacks = cashbacks.filter(cashback => {
                 return cashback.name.toLowerCase().includes(searchQuery) ||
@@ -62,7 +66,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
             });
         }
         setCashbacks(cashbacks);
-    }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery]);
+    }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery, isSearchMode]);
 
     return <Stack spacing={1.5} flexGrow={1}>
         {!isCashbacksError && <CashbacksHeader />}
