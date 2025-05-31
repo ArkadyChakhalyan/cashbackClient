@@ -26,6 +26,12 @@ import {
 import { setOpenedActionsCashbackIdAC } from '../../store/cashbacks/cashbackReducer.ts';
 import { CashbacksCardView } from './components/cashbacksCardView/cashbacksCardView.tsx';
 import { useGetCardsQuery } from '../../store/cardApi/cardApiSlice.ts';
+import { isNumber } from 'underscore';
+import { CASHBACKS_CODES, CODES } from '../../constants.ts';
+import { getCashbackCodesInfo } from '../../selectors/getCashbackCodesInfo.ts';
+import {
+    CashbackActionsCodes
+} from './components/cashback/components/cashbackActions/components/cashbackActionsCodes/cashbackActionsCodes.tsx';
 
 export const Cashbacks: FC<TCashbacksProps> = ({
     setError,
@@ -56,15 +62,38 @@ export const Cashbacks: FC<TCashbacksProps> = ({
         if (isLoading) return;
         let cashbacks = period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
         if (searchQuery) {
-            cashbacks = cashbacks.filter(cashback => {
-                return cashback.name.toLowerCase().includes(searchQuery) ||
-                    cashback.card?.name.toLowerCase().includes(searchQuery);
-            });
+            if (CODES.includes(searchQuery)) {
+                cashbacks = cashbacks.filter(cashback => {
+                    const codesInfo = getCashbackCodesInfo(cashback);
+                    if (!codesInfo) return false;
+                    if (codesInfo.isExclude) {
+                        const bankCodes = CASHBACKS_CODES[cashback.bank];
+                        const excludeCodes = [...codesInfo.codes];
+                        const userCashbacks = cashbacks
+                            .filter(item => item.bank === cashback.bank && item.id !== cashback.id)
+                            .map(cashback => cashback.name);
+                        for (let cashback in bankCodes) {
+                            const codesInfo = bankCodes[cashback];
+                            if (!codesInfo.isExclude && userCashbacks.includes(cashback)) {
+                                excludeCodes.push(...codesInfo.codes);
+                            }
+                        }
+                        return !excludeCodes.includes(searchQuery)
+                    }
+                    return codesInfo.codes.includes(searchQuery);
+                });
+            } else {
+                cashbacks = cashbacks.filter(cashback => {
+                    return cashback.name.toLowerCase().includes(searchQuery) ||
+                        cashback.card?.name.toLowerCase().includes(searchQuery);
+                });
+            }
         }
         setCashbacks(cashbacks);
     }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery]);
 
     return <Stack spacing={1.5} flexGrow={1}>
+        <CashbackActionsCodes />
         {!isCashbacksError && <CashbacksHeader />}
         {isLoading || !cashbacks ?
             Array(CASHBACKS_FAKE_COUNT).fill('').map((item, idx) => (
