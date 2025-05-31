@@ -1,13 +1,15 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
 import { TCashbackDefaultViewProps } from './types.ts';
 import { Cashback } from '../cashback/cashback.tsx';
 import { useUpdateCashbackMutation } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
-import { theme } from '../../../../style/theme.ts';
 import { showErrorSnackbar } from '../../../snackbarStack/helpers/showErrorSnackbar.ts';
 import { useSelector } from 'react-redux';
 import { getIsSearchMode } from '../../../../store/cashbacks/selectors/getIsSearchMode.ts';
+import { getCashbackPeriod } from '../../../../selectors/getCashbackPeriod.ts';
+import { MONTH_MAP } from '../../../../constants.ts';
+import { theme } from '../../../../style/theme.ts';
 
 export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
     cashbacks: _cashbacks,
@@ -24,7 +26,9 @@ export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
     const [cashbacks, setCashbacks] = useState([]);
 
     useEffect(() => {
-        setCashbacks([..._cashbacks].sort((a, b) => a.orderNumber - b.orderNumber));
+        const cashbacks = [..._cashbacks];
+        if (!isSearchMode) cashbacks.sort((a, b) => a.orderNumber - b.orderNumber);
+        setCashbacks(cashbacks);
     }, [_cashbacks]);
 
     const onDragEnd = async (result: DropResult) => {
@@ -75,6 +79,16 @@ export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
                                     {...provided.dragHandleProps}
                                     sx={{ pb: 1 }}
                                 >
+                                    {
+                                        isSearchMode &&
+                                        (
+                                            !index ||
+                                            getCashbackPeriod(cashback.timestamp) !==getCashbackPeriod(cashbacks[index - 1].timestamp)
+                                        ) &&
+                                        <Typography sx={{ m: theme.spacing(1, 0, 1.5, -0.5), opacity: 0.7 }} variant={'subtitle2'}>
+                                            Категории в {MONTH_MAP[new Date(cashback.timestamp).getMonth()]}
+                                        </Typography>
+                                    }
                                     <Cashback
                                         key={cashback.id}
                                         bank={cashback.bank}
