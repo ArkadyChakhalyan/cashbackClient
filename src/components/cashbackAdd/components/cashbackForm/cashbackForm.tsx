@@ -221,6 +221,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                     bank={bank}
                     card={card}
                     isOpen={isOpen}
+                    period={getCashbackPeriod(timestamp)}
                     setBank={setBank}
                     setCard={setCard}
                 />

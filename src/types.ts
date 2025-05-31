@@ -4,6 +4,7 @@ export interface IBank {
     iconUrl: string;
     name: string;
     value: EBank;
+    cashbackCount?: number;
 }
 
 export enum ECashbackPeriod {
