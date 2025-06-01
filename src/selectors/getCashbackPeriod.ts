@@ -3,6 +3,7 @@ import { ECashbackPeriod } from '../types.ts';
 export const getCashbackPeriod = (
     date: number
 ): ECashbackPeriod => {
+    if (!date) return ECashbackPeriod.CURRENT_MONTH;
     const currentMonth = new Date().getMonth();
     const dateMonth = new Date(date).getMonth();
     if (currentMonth === dateMonth) {
