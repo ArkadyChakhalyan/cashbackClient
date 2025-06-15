@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { IconButton, Stack, Typography } from '@mui/material';
+import { alpha, IconButton, Stack, Typography } from '@mui/material';
 import { TCashbackFormBankProps } from './types.ts';
 import { theme } from '../../../../../../style/theme.ts';
 import { CashbackBank } from '../../../../../cashbackBank/cashbackBank.tsx';
@@ -56,7 +56,8 @@ export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
                                 sx={{
                                     opacity: 1,
                                     lineHeight: 'unset',
-                                    fontSize: item.cashbackCount > 9 ? '0.6rem' : '0.75rem',
+                                    fontSize: item.cashbackCount > 9 ? '0.6rem' : '0.7rem',
+                                    color: theme.palette.background.default,
                                 }}
                             >
                                 {item.cashbackCount > 9 ? '9+' : item.cashbackCount}
@@ -102,9 +103,9 @@ const countStyle = {
     minHeight: theme.spacing(2),
     maxHeight: theme.spacing(2),
     overflow: 'hidden',
-    right: theme.spacing(-0.5),
-    bottom: theme.spacing(-0.25),
+    right: '-3px',
+    bottom: theme.spacing(0.25),
     borderRadius: '50%',
-    background: theme.palette.primary.main,
-    border: `2px solid ${theme.palette.background.paper}`,
+    background: theme.palette.common.white,
+    boxShadow: `0px 0px 0px 1.5px ${alpha(theme.palette.common.white, 0.5)}`,
 };

@@ -54,7 +54,7 @@ export const SignInButton: FC<TSignInButtonProps> = ({
 
     return <LoadingButton
         onClick={onClick}
-        startIcon={<><Icon sx={iconStyle} /><Icon sx={iconGlowStyle}/></>}
+        startIcon={<Icon sx={iconStyle} />}
         loading={isLoading}
         loadingPosition={'start'}
         sx={buttonStyle}
@@ -77,7 +77,7 @@ const buttonStyle = {
     '&:hover, &:focus, &:active': {
         '.MuiButton-startIcon .MuiSvgIcon-root': {
             opacity: 1,
-            color: yellow[500],
+            color: '#ff3700',
         }
     },
     [theme.breakpoints.down('sm')]: {
@@ -87,13 +87,4 @@ const buttonStyle = {
 
 const iconStyle = {
     transition: theme.transitions.create('all', {duration: 250, easing: 'ease-in-out'}),
-}
-
-const iconGlowStyle = {
-    ...iconStyle,
-    position: 'absolute',
-    inset: 0,
-    color: yellow[500],
-    opacity: 0,
-    filter: 'blur(6px)',
 };

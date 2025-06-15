@@ -8,6 +8,7 @@ import { setOpenedCashbackCodesInfoAC } from '../../../../../../../../store/cash
 import { Stack, Typography } from '@mui/material';
 import { CASHBACK_ACTIONS_CODES_EXCLUDE, CASHBACK_ACTIONS_CODES_TITLE } from './constants.ts';
 import { theme } from '../../../../../../../../style/theme.ts';
+import { getIsMobile } from '../../../../../../../../selectors/getIsMobile.ts';
 
 export const CashbackActionsCodes = () => {
     const dispatch = useDispatch();
@@ -21,13 +22,13 @@ export const CashbackActionsCodes = () => {
     return <Modal
         body={<>
             {codesInfo &&
-                <Stack gap={2}>
+                <Stack gap={2} sx={getIsMobile() ? { width: '100%'} : {}}>
                     <Stack alignItems={'center'} sx={headerStyle}>
                         <Typography variant={'h5'} fontWeight={300}>
                             {`${CASHBACK_ACTIONS_CODES_TITLE} ${codesInfo.isExclude ? CASHBACK_ACTIONS_CODES_EXCLUDE : ''}`}
                         </Typography>
                     </Stack>
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'left'}>
                         {codesInfo.codes.join(', ')}
                     </Typography>
                 </Stack>

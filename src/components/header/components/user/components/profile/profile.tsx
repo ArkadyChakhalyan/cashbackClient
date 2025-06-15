@@ -100,6 +100,11 @@ const buttonStyle = {
     width: theme.spacing(26),
     maxWidth: '100%',
     height: theme.spacing(5),
+    background: 'none',
+    backdropFilter: 'none',
+    '&:hover, &:focus': {
+        background: theme.palette.primary.main,
+    },
     [theme.breakpoints.down('xs')]: {
         width: '100%',
     }

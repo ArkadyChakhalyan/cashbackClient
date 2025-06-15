@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Paper, Stack, Typography } from '@mui/material';
+import { alpha, Paper, Stack, Typography } from '@mui/material';
 import { TCashbackProps } from './types.ts';
 import { theme } from '../../../../style/theme.ts';
 import { CASHBACK_COLOR_MAP, CASHBACK_ICON_MAP } from './constants.ts';
@@ -33,8 +33,8 @@ export const Cashback: FC<TCashbackProps> = ({
     return <Paper
         sx={{
             ...cashbackStyle,
-            bgcolor: isGroupView && !isSearchMode ? theme.palette.background.paper : theme.palette.background.default,
-            boxShadow: isDragging ? theme.shadows[5]: '',
+            bgcolor: isGroupView && !isSearchMode ? alpha(theme.palette.common.white, 0.05) : alpha(theme.palette.common.white, 0.1),
+            boxShadow: `0 2px 6px 0px rgba(0, 0, 0, ${isDragging ? 0.1 : 0.05})`,
             transform: isDragging ? 'scale(1.01)' : '',
         }}
         onMouseEnter={() => setGroupDragDisabled && setGroupDragDisabled(true)}
@@ -84,9 +84,7 @@ const iconStyle = {
     justifyContent: 'center',
     width: theme.spacing(4),
     height: theme.spacing(4),
-    bgcolor: 'red',
     borderRadius: '50%',
-
     '.MuiSvgIcon-root': {
         width: theme.spacing(2.5),
         height: theme.spacing(2.5),
@@ -101,7 +99,8 @@ const cashbackStyle = {
     gap: theme.spacing(1.5),
     p: theme.spacing(),
     borderRadius: theme.spacing(3),
-    bgcolor: theme.palette.background.default,
+    bgcolor: alpha(theme.palette.common.white, 0.1),
+    backdropFilter: 'blur(6px)',
 };
 
 const actionsStyle = {

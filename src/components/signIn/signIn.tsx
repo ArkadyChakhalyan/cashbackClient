@@ -1,7 +1,6 @@
 import { Stack } from '@mui/material';
 import { SignInButton } from './components/signInButton/signInButton.tsx';
 import { SIGN_IN_OPTIONS } from './constants.ts';
-import { theme } from '../../style/theme.ts';
 
 export const SignIn = () => {
     return <Stack gap={1.5} sx={containerStyle}>

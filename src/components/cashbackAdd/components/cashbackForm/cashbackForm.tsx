@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { Button, Stack, Typography } from '@mui/material';
+import { alpha, Button, Stack, Typography } from '@mui/material';
 import { TCashbackFormProps } from './types.ts';
 import DataSaverOnRoundedIcon from '@mui/icons-material/DataSaverOnRounded';
 import {
@@ -281,6 +281,10 @@ const addStyle = {
     maxWidth: '100%',
     fontWeight: 400,
     overflow: 'hidden',
+    bgcolor: alpha(theme.palette.primary.main, 0.85),
+    '&:hover,&:focus': {
+        bgcolor: theme.palette.primary.main,
+    },
     [theme.breakpoints.down('sm')]: {
         height: theme.spacing(6.5),
     }
@@ -294,8 +298,10 @@ const addMoreStyle = {
     height: theme.spacing(3.5),
     fontWeight: 300,
     background: 'none !important',
+    backdropFilter: 'none',
     fontSize: theme.typography.body2.fontSize,
     opacity: 0.6,
+    boxShadow: 'none !important',
     '&:hover, &:focus': {
         opacity: 0.8,
     }
