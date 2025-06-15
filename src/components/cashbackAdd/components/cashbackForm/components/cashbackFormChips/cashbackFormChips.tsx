@@ -232,8 +232,9 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
 }
 
 const containerStyle = {
-    height: theme.spacing(4),
+    height: theme.spacing(4.5),
     overflow: 'scroll',
+    mb: theme.spacing(-0.5),
     '::-webkit-scrollbar': {
         display: 'none'
     }

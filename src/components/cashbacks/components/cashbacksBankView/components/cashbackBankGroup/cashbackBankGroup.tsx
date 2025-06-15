@@ -21,7 +21,7 @@ export const CashbackBankGroup = ({
             ...containerStyle,
             backdropFilter: isDragging ? 'blur(6px)' : '',
             transform: isDragging ? 'scale(1.01)' : '',
-            boxShadow: isDragging ? theme.shadows[5]: '',
+            boxShadow: `0 2px 6px 0px rgba(0, 0, 0, ${isDragging ? 0.1 : 0.05})`,
         }}
     >
         <Stack sx={headerStyle}>

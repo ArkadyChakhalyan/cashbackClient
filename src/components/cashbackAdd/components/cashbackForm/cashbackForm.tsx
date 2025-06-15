@@ -282,7 +282,6 @@ const addStyle = {
     fontWeight: 400,
     overflow: 'hidden',
     bgcolor: alpha(theme.palette.primary.main, 0.85),
-    boxShadow: 'none !important',
     '&:hover,&:focus': {
         bgcolor: theme.palette.primary.main,
     },
@@ -302,6 +301,7 @@ const addMoreStyle = {
     backdropFilter: 'none',
     fontSize: theme.typography.body2.fontSize,
     opacity: 0.6,
+    boxShadow: 'none !important',
     '&:hover, &:focus': {
         opacity: 0.8,
     }

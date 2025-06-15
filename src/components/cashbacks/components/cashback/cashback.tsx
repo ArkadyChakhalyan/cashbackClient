@@ -34,7 +34,7 @@ export const Cashback: FC<TCashbackProps> = ({
         sx={{
             ...cashbackStyle,
             bgcolor: isGroupView && !isSearchMode ? alpha(theme.palette.common.white, 0.05) : alpha(theme.palette.common.white, 0.1),
-            boxShadow: isDragging ? theme.shadows[5]: '',
+            boxShadow: `0 2px 6px 0px rgba(0, 0, 0, ${isDragging ? 0.1 : 0.05})`,
             transform: isDragging ? 'scale(1.01)' : '',
         }}
         onMouseEnter={() => setGroupDragDisabled && setGroupDragDisabled(true)}

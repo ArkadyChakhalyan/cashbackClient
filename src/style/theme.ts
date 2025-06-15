@@ -108,14 +108,17 @@ export const theme = createTheme({
                     color: 'rgba(255, 255, 255, 0.7)',
                     background: 'rgba(255, 255, 255, 0.15)',
                     fontWeight: 300,
+                    boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.05)',
                     '&:hover,&:focus-visible': {
                         background: 'rgba(255, 255, 255, 0.25)',
+                        boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.1)',
                     },
                     '.MuiTouchRipple-root': {
                         display: 'none',
                     },
                     '&:active, &:focus-visible': {
                         scale: 0.95,
+                        boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.1)',
                     },
                     '&.Mui-focusVisible': {
                         background: 'rgba(255, 255, 255, 0.25)',
@@ -140,9 +143,11 @@ export const theme = createTheme({
                     transition: 'background 0.25s ease-in-out, color 0.25s ease-in-out',
                     background: 'rgba(255, 255, 255, 0.1)',
                     backdropFilter: 'blur(6px)',
+                    boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.05)',
 
                     '&:hover, &:focus-visible, &:active': {
                         background: 'rgba(255, 255, 255, 0.15)',
+                        boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.1)'
                     }
                 },
                 sizeLarge: {
@@ -158,6 +163,7 @@ export const theme = createTheme({
                 root: {
                     '.MuiInputBase-root': {
                         borderRadius: 32,
+                        boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.05)'
                     }
                 },
             }
@@ -209,8 +215,10 @@ export const theme = createTheme({
                     padding: 0,
                     background: 'rgba(255, 255, 255, 0.1)',
                     transition: 'all 0.25s ease-in-out, visibility none',
+                    boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.05)',
                     '&:hover,&:focus-visible': {
                         background: 'rgba(255, 255, 255, 0.15)',
+                        boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.1)'
                     },
                     '&:active, &:focus-visible': {
                         scale: 0.95,
