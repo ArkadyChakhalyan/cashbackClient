@@ -21,6 +21,7 @@ export const CashbackCard: FC<TCashbackCardProps> = ({
             variant={'body2'}
             fontSize={12}
             fontWeight={500}
+            sx={{ opacity: 0.8 }}
             noWrap
         >
             {name}

@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { alpha, createTheme } from '@mui/material';
 
 export const theme = createTheme({
     components: {
@@ -25,7 +25,7 @@ export const theme = createTheme({
                 anchor: 'bottom',
                 slotProps: {
                     backdrop: {
-                        sx: { backdropFilter: 'blur(3px)' }
+                        sx: { backdropFilter: 'blur(2px)', background: 'rgba(0, 0, 0, 0.3)' }
                     }
                 },
                 sx: {
@@ -79,7 +79,7 @@ export const theme = createTheme({
             },
             styleOverrides: {
                 root: {
-                    color: '#ffffff70',
+                    color: 'rgba(255, 255, 255, 0.7)',
                     borderRadius: '24px',
                     height: '32px',
                     padding: '12px 16px',
@@ -105,11 +105,11 @@ export const theme = createTheme({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    color: '#ffffff70',
-                    background: '#262130',
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    background: 'rgba(255, 255, 255, 0.15)',
                     fontWeight: 300,
                     '&:hover,&:focus-visible': {
-                        background: '#3a3248',
+                        background: 'rgba(255, 255, 255, 0.25)',
                     },
                     '.MuiTouchRipple-root': {
                         display: 'none',
@@ -118,7 +118,7 @@ export const theme = createTheme({
                         scale: 0.95,
                     },
                     '&.Mui-focusVisible': {
-                        background: '#262130',
+                        background: 'rgba(255, 255, 255, 0.25)',
                     },
                 }
             }
@@ -138,8 +138,11 @@ export const theme = createTheme({
                     textTransform: 'unset',
                     borderRadius: 32,
                     transition: 'background 0.25s ease-in-out, color 0.25s ease-in-out',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(6px)',
+
                     '&:hover, &:focus-visible, &:active': {
-                        backgroundColor: '#ab5e59',
+                        background: 'rgba(255, 255, 255, 0.15)',
                     }
                 },
                 sizeLarge: {
@@ -166,7 +169,7 @@ export const theme = createTheme({
                     borderRadius: 32,
                     color: '#fff',
                     border: 'none',
-                    background: '#262130',
+                    background: 'rgba(255, 255, 255, 0.1)',
                     transition: 'background 0.25s ease-in-out',
                     '&:hover, &:active': {
                         '.MuiOutlinedInput-notchedOutline': {
@@ -204,10 +207,10 @@ export const theme = createTheme({
                     width: 40,
                     height: 40,
                     padding: 0,
-                    background: '#262130',
+                    background: 'rgba(255, 255, 255, 0.1)',
                     transition: 'all 0.25s ease-in-out, visibility none',
                     '&:hover,&:focus-visible': {
-                        background: '#3a3248',
+                        background: 'rgba(255, 255, 255, 0.15)',
                     },
                     '&:active, &:focus-visible': {
                         scale: 0.95,
@@ -224,7 +227,14 @@ export const theme = createTheme({
                     opacity: 1,
                     fontWeight: 300,
                     borderRadius: '64px',
-                    color: '#ffffff'
+                    color: '#ffffff',
+                    backdropFilter: 'blur(6px)',
+                },
+                filledError: {
+                    background: '#c9474795',
+                },
+                filledSuccess: {
+                    background: '#47c95a95',
                 },
             },
         },
@@ -247,7 +257,7 @@ export const theme = createTheme({
                     borderRadius: 24,
                     height: 40,
                     '&:hover, &:focus-visible': {
-                        background: '#3a3248',
+                        background: 'rgba(255, 255, 255, 0.15)',
                     },
                     '.MuiListItemIcon-root': {
                         minWidth: 32,
@@ -258,8 +268,9 @@ export const theme = createTheme({
                         height: 22,
                     },
                     '&+.MuiDivider-root': {
-                        margin: '4px 14px',
-                        background: '#3a3248',
+                        margin: '4px 8px',
+                        background: 'rgba(255, 255, 255, 0.4)',
+                        borderRadius: '2px',
                     },
                 },
             }

@@ -277,7 +277,7 @@ const actionStyle = {
     height: theme.spacing(3),
     width: theme.spacing(3),
     background: 'none !important',
-    opacity: '0.75',
+    opacity: '0.8',
     '&:hover,&:focus': {
         opacity: 1,
     },

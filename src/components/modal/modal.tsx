@@ -1,4 +1,4 @@
-import { IconButton, Modal as MuiModal, Paper, SwipeableDrawer } from '@mui/material';
+import { alpha, IconButton, Modal as MuiModal, Paper, SwipeableDrawer } from '@mui/material';
 import React, { FC, useEffect } from 'react';
 import { TModalProps } from './types.ts';
 import { getIsMobile } from '../../selectors/getIsMobile.ts';
@@ -27,7 +27,7 @@ export const Modal: FC<TModalProps> = ({
         <MuiModal
             open={isOpen && !isMobile}
             onClose={onClose}
-            slotProps={{ backdrop: { sx: { backdropFilter: 'blur(3px)' } }}}
+            slotProps={{ backdrop: { sx: { backdropFilter: 'blur(2px)', background: alpha(theme.palette.common.black, 0.3) } }}}
             onKeyDown={onKeyDown}
         >
             <Paper
@@ -64,7 +64,7 @@ const closeButtonStyle = {
     position: 'absolute',
     right: theme.spacing(2),
     top: theme.spacing(2),
-    bgcolor: theme.palette.background.paper,
+    background: 'none !important',
 };
 
 const paperStyle = {
@@ -77,7 +77,8 @@ const paperStyle = {
     px: 3,
     pb: 3,
     borderRadius: theme.spacing(5),
-    bgcolor: theme.palette.background.default,
+    bgcolor: alpha(theme.palette.common.white, 0.15),
+    backdropFilter: 'blur(10px)',
     overflow: 'hidden',
     margin: 'auto',
 };

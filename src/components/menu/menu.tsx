@@ -1,4 +1,4 @@
-import { IconButton, Menu as MuiMenu, SwipeableDrawer } from '@mui/material';
+import { alpha, IconButton, Menu as MuiMenu, SwipeableDrawer } from '@mui/material';
 import React, { FC } from 'react';
 import { TMenuProps } from './types.ts';
 import { getIsMobile } from '../../selectors/getIsMobile.ts';
@@ -40,6 +40,17 @@ export const Menu: FC<TMenuProps> = ({
                 anchorEl={anchorEl}
                 onClose={onClose}
                 {...props}
+                slotProps={{
+                    ...(props.slotProps || {}),
+                    paper: {
+                        ...(props.slotProps?.paper || {}),
+                        sx: {
+                            ...menuStyle,
+                            //@ts-ignore
+                            ...(props.slotProps?.paper?.sx || {}),
+                        },
+                    },
+                }}
             >
                 {menuItems}
             </MuiMenu>
@@ -66,7 +77,7 @@ const closeButtonStyle = {
     position: 'absolute',
     right: theme.spacing(2),
     top: theme.spacing(2),
-    bgcolor: theme.palette.background.paper,
+    background: 'none !important',
 };
 
 const paperStyle = {
@@ -77,11 +88,17 @@ const paperStyle = {
     pt: 8,
     px: 2,
     borderRadius: theme.spacing(5),
-    bgcolor: theme.palette.background.default,
+    bgcolor: alpha(theme.palette.common.white, 0.15),
+    backdropFilter: 'blur(10px)',
     overflow: 'hidden',
     margin: 'auto',
     '& > .MuiMenuItem-root': {
         width: '100%',
         height: theme.spacing(6),
     }
+};
+
+const menuStyle = {
+    bgcolor: alpha(theme.palette.common.white, 0.15),
+    backdropFilter: 'blur(6px)',
 };

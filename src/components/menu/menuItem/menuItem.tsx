@@ -1,4 +1,4 @@
-import { Divider, ListItemIcon, MenuItem as MuiMenuItem, Typography } from '@mui/material';
+import { alpha, Divider, ListItemIcon, MenuItem as MuiMenuItem, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { TMenuItemProps } from './types.ts';
 import { getIsMobile } from '../../../selectors/getIsMobile.ts';

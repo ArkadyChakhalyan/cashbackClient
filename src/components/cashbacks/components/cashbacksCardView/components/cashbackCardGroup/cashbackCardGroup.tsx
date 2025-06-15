@@ -24,6 +24,7 @@ export const CashbackCardGroup = ({
     return <Paper
         sx={{
             ...containerStyle,
+            backdropFilter: isDragging ? 'blur(6px)' : '',
             transform: isDragging ? 'scale(1.01)' : '',
             boxShadow: isDragging ? theme.shadows[5]: '',
         }}
@@ -94,7 +95,7 @@ const containerStyle = {
     p: 2,
     pb: 1,
     borderRadius: theme.spacing(3),
-    bgcolor: theme.palette.background.default,
+    bgcolor: alpha(theme.palette.common.white, 0.1),
     overflow: 'hidden',
     [theme.breakpoints.down('sm')]: {
         px: 1.5,
