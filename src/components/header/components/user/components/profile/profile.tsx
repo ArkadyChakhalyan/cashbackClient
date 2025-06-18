@@ -105,6 +105,9 @@ const buttonStyle = {
     '&:hover, &:focus': {
         background: theme.palette.primary.main,
     },
+    [theme.breakpoints.down('sm')]: {
+        height: theme.spacing(6),
+    },
     [theme.breakpoints.down('xs')]: {
         width: '100%',
     }

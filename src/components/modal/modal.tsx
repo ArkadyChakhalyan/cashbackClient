@@ -65,6 +65,7 @@ const closeButtonStyle = {
     right: theme.spacing(2),
     top: theme.spacing(2),
     background: 'none !important',
+    boxShadow: 'none !important',
 };
 
 const paperStyle = {

@@ -154,8 +154,18 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
                 }}
                 label={onChange || onDelete ?
                     <Stack direction={'row'} gap={1} alignItems={'center'}>
-                        {chip}
-                        <Stack direction={'row'} gap={0.25}>
+                        <Typography
+                            variant={'body2'}
+                            fontSize={13}
+                            sx={{
+                                ...labelStyle,
+                                ...(value === chip ? selectedLabelStyle : {}),
+                                ...(editingChip === chip ? editingLabelStyle : {}),
+                            }}
+                        >
+                            {chip}
+                        </Typography>
+                        <Stack direction={'row'} gap={0.25} sx={editingChip === chip ? { opacity: 0 } : {}}>
                             <IconButton
                                 sx={actionStyle}
                                 className={'action'}
@@ -209,8 +219,8 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
                 label={
                     <>
                         <Stack direction={'row'} gap={0.25} alignItems={'center'}>
-                            <AddRoundedIcon style={{ opacity: 0.75 }} />
-                            <Typography variant={'body2'} fontSize={13}>
+                            <AddRoundedIcon style={{ opacity: isAdding ? 0 : 0.75 }} />
+                            <Typography variant={'body2'} fontSize={13} sx={isAdding ? { opacity: 0 } : {}}>
                                 {addLabel}
                             </Typography>
                         </Stack>
@@ -240,6 +250,18 @@ const containerStyle = {
     }
 };
 
+const labelStyle = {
+    opacity: 0.7,
+};
+
+const selectedLabelStyle = {
+    opacity: 1,
+};
+
+const editingLabelStyle = {
+    opacity: 0,
+};
+
 const textStyle = {
     alignSelf: 'center',
     ml: `${theme.spacing(1.5)} !important`,
@@ -264,7 +286,6 @@ const editingStyle = {
 const inputStyle = {
     position: 'absolute',
     inset: 0,
-    bgcolor: '#3a3248 !important',
     '.MuiInputBase-root': {
         background: 'none !important',
     },
@@ -278,6 +299,7 @@ const actionStyle = {
     height: theme.spacing(3),
     width: theme.spacing(3),
     background: 'none !important',
+    boxShadow: 'none !important',
     opacity: '0.8',
     '&:hover,&:focus': {
         opacity: 1,
