@@ -57,7 +57,7 @@ export const Search = () => {
                             <SearchRoundedIcon />
                         </IconButton>
                     </Grow>
-                    <Grow appear in={isSearchMode} timeout={250}>
+                    <Grow appear in={isSearchMode} timeout={isSearchMode ? 600 : 200}>
                         <TextField
                             inputRef={input => input && input.focus()}
                             onBlur={onBlur}

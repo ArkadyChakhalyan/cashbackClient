@@ -28,7 +28,7 @@ export const CashbackActionsCodes = () => {
                             {`${CASHBACK_ACTIONS_CODES_TITLE} ${codesInfo.isExclude ? CASHBACK_ACTIONS_CODES_EXCLUDE : ''}`}
                         </Typography>
                     </Stack>
-                    <Typography variant={'body1'} textAlign={'left'}>
+                    <Typography variant={'body2'} textAlign={'left'}>
                         {codesInfo.codes.join(', ')}
                     </Typography>
                 </Stack>
