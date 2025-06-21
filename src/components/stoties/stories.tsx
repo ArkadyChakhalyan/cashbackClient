@@ -224,7 +224,7 @@ export const Stories = () => {
                         onMouseDown={onMouseDown}
                         onTouchStart={onMouseDown}
                         onMouseUp={onMouseUp}
-                        onTouchEnd={onMouseDown}
+                        onTouchEnd={onMouseUp}
                         ref={storyRef}
                     >
                         <Stack sx={headerStyle}>
