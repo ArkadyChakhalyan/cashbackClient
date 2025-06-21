@@ -2,29 +2,29 @@ import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
-export const Slide_2_2 = () => {
+export const Slide_5_4 = () => {
     return <Stack sx={containerStyle}>
         <Box
             sx={imgStyle}
             component={'img'}
-            src={'./stories/slide_2_2.png'}
+            src={'./stories/slide_5_4.png'}
         />
         <Stack sx={contentStyle}>
             <Typography variant={'h5'} mb={1}>
-                Группировка по банкам
+                Список МСС-кодов категории
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Отображайте кэшбэк по банкам.
+                Полный список МСС-кодов также доступен в меню каждой категории.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Это наиболее подходящий и оптимальный вариант для новичков!
+                Все данные взяты из официальных документов программы лояльности банка.
             </Typography>
         </Stack>
     </Stack>;
 }
 
 const containerStyle = {
-    pt: 4,
+    pt: 5,
     pointerEvents: 'none',
     userSelect: 'none',
     '&:before': {
@@ -33,7 +33,7 @@ const containerStyle = {
         left: 0,
         top: 0,
         right: 0,
-        height: theme.spacing(4),
+        height: theme.spacing(6),
         zIndex: 5,
         background: '#120b1b',
     },
@@ -52,7 +52,7 @@ const contentStyle = {
         left: 0,
         top: 0,
         right: 0,
-        height: theme.spacing(6),
+        height: theme.spacing(8),
         zIndex: 5,
         background: 'linear-gradient(0deg, #262130 10%, transparent)',
         transform: 'translateY(-100%)',

@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -11,10 +11,10 @@ export const Slide_4_2 = () => {
         />
         <Stack sx={contentStyle}>
             <Typography variant={'h5'} mb={1}>
-                Также можно изменить порядок группы!
+                Также можно изменить порядок групп!
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Достаточно схватиться за любое место, кроме внутренних элементов.
+                Чтобы изменить порядок, просто перетащите группу за любое место, кроме внутренних элементов.
             </Typography>
         </Stack>
     </Stack>;

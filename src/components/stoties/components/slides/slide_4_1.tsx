@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -14,10 +14,10 @@ export const Slide_4_1 = () => {
                 Как изменить порядок?
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Чтобы изменить порядок, достаточно перетащить элемент в нужное место!
+                Чтобы изменить порядок, просто перетащите элемент в нужное место.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Также можно перетаскивать элементы из одной группы в другую. Банк или карта автоматически изменятся в соответствии с группой.
+                Элементы также можно перетаскивать из одной группы в другую — банк или карта автоматически изменятся в соответствии с выбранной группой.
             </Typography>
         </Stack>
     </Stack>;

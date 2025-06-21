@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -14,10 +14,10 @@ export const Slide_3_2 = () => {
                 Добавление новой категории
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                В диалоге добавления нового кэшбэка выберите нужный месяц.
+                В окне добавления нового кэшбэка выберите нужный месяц.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                По умолчанию будет выбран месяц, отображённый на главном экране.
+                По умолчанию будет выбран месяц, отображаемый на главном экране.
             </Typography>
         </Stack>
     </Stack>;

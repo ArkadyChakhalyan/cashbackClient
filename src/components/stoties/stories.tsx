@@ -20,7 +20,7 @@ export const Stories = () => {
     for (let i = 0; i < STORIES.length; i++) {
         const story = STORIES[i];
         if (seenStoriesIds.includes(story.id)) {
-            seenStories.push({
+            seenStories.unshift({
                 ...story,
                 isSeen: true,
             });
@@ -67,8 +67,8 @@ export const Stories = () => {
             const seenStories = [...new Set([...seenStoriesIds, ...watchedStoriesIds])];
             if (
                 _.isEqual(
-                    seenStories.sort((a, b) => a - b),
-                    seenStoriesIds.sort((a, b) => a - b))
+                    [...seenStories].sort((a, b) => a - b),
+                    [...seenStoriesIds].sort((a, b) => a - b))
             ) {
                 return;
             }
@@ -222,7 +222,9 @@ export const Stories = () => {
                         }}
                         onClick={onStoryClick}
                         onMouseDown={onMouseDown}
+                        onTouchStart={onMouseDown}
                         onMouseUp={onMouseUp}
+                        onTouchEnd={onMouseDown}
                         ref={storyRef}
                     >
                         <Stack sx={headerStyle}>
@@ -245,7 +247,10 @@ export const Stories = () => {
                         </IconButton>
                         {openedStory.slides[currentSlide]}
                         {isLoading && <Stack sx={loaderStyle}>
-                            <CircularProgress size={theme.spacing(7)} />
+                            <CircularProgress
+                                size={theme.spacing(7)}
+                                sx={{ color: theme.palette.common.white, opacity: 0.8 }}
+                            />
                         </Stack>}
                     </Paper>
                 }
@@ -297,6 +302,7 @@ const modalStyle = {
     borderRadius: 0,
     overflow: 'hidden',
     cursor: 'pointer',
+    userSelect: 'none',
     [theme.breakpoints.up(64 * 8)]: {
         minHeight: 'unset',
         minWidth: 'unset',

@@ -36,7 +36,7 @@ const containerStyle = {
     borderRadius: theme.spacing(5),
     p: 6,
     bgcolor: alpha(theme.palette.common.white, 0.02),
-    boxShadow: theme.shadows[9],
+    boxShadow: '0 2px 6px 0px rgba(0, 0, 0, 0.1)',
     [theme.breakpoints.down('md')]: {
         flexDirection: 'column-reverse',
         maxWidth: `calc(100% - ${theme.spacing(20)})`,

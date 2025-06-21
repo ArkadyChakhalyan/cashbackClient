@@ -13,6 +13,10 @@ import { Slide_1_4 } from './components/slides/slide_1_4.tsx';
 import { Slide_1_1 } from './components/slides/slide_1_1.tsx';
 import { Slide_1_2 } from './components/slides/slide_1_2.tsx';
 import { Slide_1_3 } from './components/slides/slide_1_3.tsx';
+import { Slide_5_1 } from './components/slides/slide_5_1.tsx';
+import { Slide_5_3 } from './components/slides/slide_5_3.tsx';
+import { Slide_5_2 } from './components/slides/slide_5_2.tsx';
+import { Slide_5_4 } from './components/slides/slide_5_4.tsx';
 
 export const STORIES: IStory[] = [
     {
@@ -58,5 +62,17 @@ export const STORIES: IStory[] = [
             <Slide_4_1 />,
             <Slide_4_2 />,
         ],
-    }
+    },
+    {
+        id: 5,
+        label: 'Поиск и МСС коды',
+        imgUrl: './stories/create.png',
+        color: theme.palette.brown.main,
+        slides: [
+            <Slide_5_1 />,
+            <Slide_5_2 />,
+            <Slide_5_3 />,
+            <Slide_5_4 />,
+        ],
+    },
 ];

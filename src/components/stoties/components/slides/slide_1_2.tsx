@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -17,10 +17,10 @@ export const Slide_1_2 = () => {
                 Обязательные поля для заполнения: банк, категория и процент.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                При необходимости можно создать карту и добавить её к нужным кэшбэкам. Карта сохранится, и в дальнейшем её нужно будет только выбрать.
+                При необходимости можно создать карту и добавить её к нужным кэшбэкам. Карта будет сохранена, и в дальнейшем её нужно будет только выбрать.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                После добавления кэшбэка можно будет его изменить.
+                После добавления кэшбэка его можно будет изменить.
             </Typography>
         </Stack>
     </Stack>;

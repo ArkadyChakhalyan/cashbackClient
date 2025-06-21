@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -14,10 +14,10 @@ export const Slide_2_3 = () => {
                 Группировка по картам
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Отображайте кэшбэк для каждой карты.
+                Отображайте кэшбэк для каждой карты отдельно.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Категории без карты будут объединены в группировку по банкам.
+                Категории без привязки к карте будут объединены в группировку по банкам.
             </Typography>
         </Stack>
     </Stack>;
