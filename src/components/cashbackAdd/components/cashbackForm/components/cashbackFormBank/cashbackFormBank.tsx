@@ -49,14 +49,14 @@ export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
                     }}
                 >
                     <CashbackBank bank={item.value} />
-                    {bank !== item.value && !!item.cashbackCount &&
+                    {!!item.cashbackCount &&
                         <Stack sx={countStyle}>
                             <Typography
                                 variant={'caption'}
                                 sx={{
                                     opacity: 1,
                                     lineHeight: 'unset',
-                                    fontSize: item.cashbackCount > 9 ? '0.6rem' : '0.7rem',
+                                    fontSize: item.cashbackCount > 9 ? '0.5rem' : '0.6rem',
                                     color: theme.palette.background.default,
                                 }}
                             >
@@ -92,18 +92,19 @@ const buttonStyle = {
     width: theme.spacing(6),
     p: theme.spacing(0.25),
     background: 'none !important',
+    boxShadow: 'none !important',
 };
 
 const countStyle = {
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: theme.spacing(2),
-    maxWidth: theme.spacing(2),
-    minHeight: theme.spacing(2),
-    maxHeight: theme.spacing(2),
+    minWidth: theme.spacing(1.75),
+    maxWidth: theme.spacing(1.75),
+    minHeight: theme.spacing(1.75),
+    maxHeight: theme.spacing(1.75),
     overflow: 'hidden',
-    right: '-3px',
+    right: theme.spacing(-0.25),
     bottom: theme.spacing(0.25),
     borderRadius: '50%',
     background: theme.palette.common.white,

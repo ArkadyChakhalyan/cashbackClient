@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -14,7 +14,7 @@ export const Slide_2_1 = () => {
                 Какую группировку выбрать
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Для удобства отображения можно выбрать одну из группировок.
+                Для удобства отображения выберите одну из доступных группировок.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
                 По умолчанию категории не группируются и отображаются в порядке их добавления.

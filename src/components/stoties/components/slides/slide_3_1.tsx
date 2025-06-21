@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -14,7 +14,7 @@ export const Slide_3_1 = () => {
                 Как и когда выбирать кэшбэк на следующий месяц
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                После 25 числа каждого месяца можно увидеть категории для следующего месяца.
+                После 25 числа каждого месяца будут доступны категории для следующего месяца.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
                 Категории прошедших месяцев будут автоматически удалены и станут недоступны.

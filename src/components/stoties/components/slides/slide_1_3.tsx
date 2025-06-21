@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -14,10 +14,10 @@ export const Slide_1_3 = () => {
                 Фильтры
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Для удобства есть готовые фильтры, чтобы не нужно было вводить весь текст.
+                Для удобства есть готовые фильтры, чтобы не вводить весь текст вручную.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Можно пролистать и найти нужный кэшбэк, или начать вводить категорию и выбрать один из предложенных вариантов. Также при необходимости можно ввести свой вариант.
+                Вы можете пролистать и найти нужный кэшбэк, или начать вводить категорию и выбрать один из предложенных вариантов. Также, при необходимости, можно ввести свой вариант.
             </Typography>
         </Stack>
     </Stack>;

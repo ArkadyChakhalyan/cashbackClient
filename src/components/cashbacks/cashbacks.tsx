@@ -95,7 +95,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
         setCashbacks(cashbacks);
     }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery, isSearchMode]);
 
-    return <Stack spacing={isSearchMode ? 1 : 1.5} flexGrow={1}>
+    return <Stack spacing={1.5} flexGrow={1}>
         <CashbackActionsCodes />
         {!isCashbacksError && <CashbacksHeader />}
         {isLoading || !cashbacks ?

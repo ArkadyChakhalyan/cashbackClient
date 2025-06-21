@@ -17,7 +17,6 @@ import { CashbackAddModalPercentage } from './components/cashbackFormPercentage/
 import { CashbackFormPeriod } from './components/cashbackFormPeriod/cashbackFormPeriod.tsx';
 import {
     useCreateCashbackMutation,
-    useDeleteCashbackMutation,
     useUpdateCashbackMutation
 } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
 import { Modal } from '../../../modal/modal.tsx';
@@ -37,7 +36,6 @@ import { MONTH_MAP } from '../../../../constants.ts';
 import { getBankOrderNumber } from '../../../../selectors/getBankOrderNumber.ts';
 import { getOrderNumber } from '../../../../selectors/getOrderNumber.ts';
 import { showSuccessSnackbar } from '../../../snackbarStack/helpers/showSuccessSnackbar.ts';
-import { getNextMonthDate } from '../../../../selectors/getNextMonthDate.ts';
 import { getCardOrderNumber } from '../../../../selectors/getCardOrderNumber.ts';
 
 export const CashbackForm: FC<TCashbackFormProps> = ({
@@ -57,12 +55,6 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         isSuccess: isUpdateSuccess,
         reset: updateReset,
     }] = useUpdateCashbackMutation();
-
-    const [deleteCashback, {
-        isLoading: isDeleteLoading,
-        isError: isDeleteError,
-        isSuccess: isDeleteSuccess,
-    }] = useDeleteCashbackMutation();
 
     const cashback = useSelector(getEditingCashback);
     const currentMonthCashbacks = useSelector(getCurrentMonthCashbacks);
@@ -114,18 +106,6 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                 id: cashback.id,
                 ...data,
             });
-            if (
-                !getIsCashbackExist(nextMonthCashbacks, cashback) &&
-                period === ECashbackPeriod.CURRENT_MONTH
-            ) {
-                createCashback({
-                    ...data,
-                    bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
-                    cardOrderNumber: getCardOrderNumber(nextMonthCashbacks, card, bank),
-                    orderNumber: getOrderNumber(nextMonthCashbacks),
-                    timestamp: getNextMonthDate().getTime(),
-                });
-            }
         } else {
             const cashbacks = !timestamp || getCashbackPeriod(timestamp) === ECashbackPeriod.CURRENT_MONTH ?
                 currentMonthCashbacks : nextMonthCashbacks;

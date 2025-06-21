@@ -1,21 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { theme } from '../../style/theme.ts';
-import { Box, Button, Grow, Stack } from '@mui/material';
-import { LANDING_PAGE_BLOCKS, LANDING_PAGE_BUTTON_TIMEOUT, LANDING_PAGE_LOGIN } from './constants.ts';
+import { Box, Button, Stack } from '@mui/material';
+import { LANDING_PAGE_BLOCKS, LANDING_PAGE_LOGIN } from './constants.ts';
 import { ERoutes } from '../../router/types.ts';
 import { Block } from '../../components/block/block.tsx';
 
 export const LandingPage = () => {
     const navigate = useNavigate();
-
-    const [isShowButton, setShowButton] = useState(null);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setShowButton(true);
-        }, LANDING_PAGE_BUTTON_TIMEOUT);
-    }, []);
 
     return <Stack sx={containerStyle}>
         {LANDING_PAGE_BLOCKS.map(block => {
@@ -35,14 +26,12 @@ export const LandingPage = () => {
                 isReversed={isRevered}
             />;
         })}
-        <Grow appear in={isShowButton} timeout={600}>
-            <Button
-                sx={buttonStyle}
-                onClick={() => navigate('/' + ERoutes.LOGIN)}
-            >
-                {LANDING_PAGE_LOGIN}
-            </Button>
-        </Grow>
+        <Button
+            sx={buttonStyle}
+            onClick={() => navigate('/' + ERoutes.LOGIN)}
+        >
+            {LANDING_PAGE_LOGIN}
+        </Button>
     </Stack>;
 }
 
@@ -73,7 +62,6 @@ const buttonStyle = {
     position: 'absolute',
     bottom: theme.spacing(7),
     width: theme.spacing(28),
-    boxShadow: theme.shadows[5],
     [theme.breakpoints.down('sm')]: {
         bottom: theme.spacing(3.75),
         height: theme.spacing(6.5),

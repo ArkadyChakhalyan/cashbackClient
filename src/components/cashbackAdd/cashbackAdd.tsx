@@ -65,7 +65,10 @@ const buttonStyle = {
     position: 'fixed',
     width: theme.spacing(28),
     maxWidth: '100%',
-    boxShadow: theme.shadows[9],
+    boxShadow: theme.shadows[4],
+    '&:hover, &:focus': {
+        boxShadow: theme.shadows[6],
+    },
     [theme.breakpoints.down('sm')]: {
         height: theme.spacing(6.5),
     }

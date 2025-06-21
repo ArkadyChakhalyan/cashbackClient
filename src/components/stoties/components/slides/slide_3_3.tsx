@@ -1,4 +1,4 @@
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { theme } from '../../../../style/theme.ts';
 
@@ -14,10 +14,10 @@ export const Slide_3_3 = () => {
                 Быстрые дейсвия
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Если категория кэшбэка в следующем месяце совпадает с текущей, её можно продублировать, чтобы не тратить время на повторное заполнение.
+                Если категория кэшбэка в следующем месяце совпадает с текущей, её можно продублировать — это сэкономит время на повторное заполнение.
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
-                Опция будет также доступна после 25 числа.
+                Опция также будет доступна после 25 числа.
             </Typography>
         </Stack>
     </Stack>;
