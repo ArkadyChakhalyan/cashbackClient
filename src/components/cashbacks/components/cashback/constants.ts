@@ -32,6 +32,8 @@ import { theme } from '../../../../style/theme.ts';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon/SvgIcon';
 
+export const CASHBACK_LOYALTY_PROGRAM = 'Программа лояльности';
+
 export const CASHBACK_ICON_MAP: {[key: string]: OverridableComponent<SvgIconTypeMap>}= {
     [ECashbackIcon.COMMON]: AccountBalanceWalletRoundedIcon,
     [ECashbackIcon.TAXI]: LocalTaxiRoundedIcon,

@@ -22,6 +22,9 @@ export type TCashbackCode = string;
 export interface IBankCashbackCodeInfo {
     codes: TCashbackCode[];
     isExclude?: boolean;
+    loyaltyProgram?: string;
 }
 
 export type TBankCashbackCodes = {[key: string]: IBankCashbackCodeInfo};
+
+export type TBankCashbackLoyaltyProgram = TBankCashbackCodes | {[key: string]: TBankCashbackCodes}

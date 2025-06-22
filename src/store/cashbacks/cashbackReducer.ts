@@ -7,7 +7,7 @@ const initialState: ICashbacksState = {
     editingCashbackId: null,
     isSearchMode: false,
     openedActionsCashbackId: null,
-    openedCashbackCodesInfo: null,
+    openedCashbackCodesInfos: null,
     period: ECashbackPeriod.CURRENT_MONTH,
     searchQuery: '',
 };
@@ -28,10 +28,10 @@ export const cashbacksSlice = createSlice({
                 openedActionsCashbackId: action.payload,
             };
         },
-        setOpenedCashbackCodesInfoAC: (state, action: PayloadAction<IBankCashbackCodeInfo>) => {
+        setOpenedCashbackCodesInfosAC: (state, action: PayloadAction<IBankCashbackCodeInfo[]>) => {
             return {
                 ...state,
-                openedCashbackCodesInfo: action.payload,
+                openedCashbackCodesInfos: action.payload,
             };
         },
         setPeriodAC: (state, action: PayloadAction<ECashbackPeriod>) => {
@@ -59,7 +59,7 @@ export const {
     setEditingCashbackIdAC,
     setIsSearchModeAC,
     setOpenedActionsCashbackIdAC,
-    setOpenedCashbackCodesInfoAC,
+    setOpenedCashbackCodesInfosAC,
     setPeriodAC,
     setSearchQueryAC,
 } = cashbacksSlice.actions;

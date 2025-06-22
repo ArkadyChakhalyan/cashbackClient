@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { alpha, Paper, Stack, Typography } from '@mui/material';
 import { TCashbackProps } from './types.ts';
 import { theme } from '../../../../style/theme.ts';
-import { CASHBACK_COLOR_MAP, CASHBACK_ICON_MAP } from './constants.ts';
+import { CASHBACK_COLOR_MAP, CASHBACK_ICON_MAP, CASHBACK_LOYALTY_PROGRAM } from './constants.ts';
 import { CashbackActions } from './components/cashbackActions/cashbackActions.tsx';
 import { CashbackBank } from '../../../cashbackBank/cashbackBank.tsx';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,9 @@ import { getIsSearchMode } from '../../../../store/cashbacks/selectors/getIsSear
 import { CashbackCard } from './components/cashbackCard/cashbackCard.tsx';
 import { CASHBACKS_GROUPED_VIEWS } from '../../constants.ts';
 import { ECashbacksView } from 'cashback-check-types';
+import { getCashbackCodesInfo } from '../../../../selectors/getCashbackCodesInfo.ts';
+import { getSearchQuery } from '../../../../store/cashbacks/selectors/getSearchQuery.ts';
+import { CODES } from '../../../../constants.ts';
 
 export const Cashback: FC<TCashbackProps> = ({
     bank,
@@ -26,9 +29,28 @@ export const Cashback: FC<TCashbackProps> = ({
     const Icon = CASHBACK_ICON_MAP[icon];
     const view = useSelector(getCashbacksView);
     const isSearchMode = useSelector(getIsSearchMode);
+    const searchQuery = useSelector(getSearchQuery);
 
     const isGroupView = CASHBACKS_GROUPED_VIEWS.includes(view);
     const isCardView = view === ECashbacksView.CARD;
+
+    const [loyaltyPrograms, setLoyaltyPrograms] = useState(null);
+    useEffect(() => {
+        const bankCodes = getCashbackCodesInfo(bank, name);
+        if (!searchQuery || !CODES.includes(searchQuery) || !bankCodes[0].loyaltyProgram) {
+            setLoyaltyPrograms(null);
+            return;
+        }
+        const loyaltyPrograms: string[] = [];
+        bankCodes.forEach(bankCode => {
+            if (bankCode.isExclude) {
+                loyaltyPrograms.push(bankCode.loyaltyProgram);
+            } else if (bankCode.codes.includes(searchQuery)) {
+                loyaltyPrograms.push(bankCode.loyaltyProgram);
+            }
+        });
+        setLoyaltyPrograms(loyaltyPrograms);
+    }, [searchQuery]);
 
     return <Paper
         sx={{
@@ -52,17 +74,35 @@ export const Cashback: FC<TCashbackProps> = ({
             variant={'body1'}
             noWrap
             sx={{
+                mt: loyaltyPrograms && loyaltyPrograms.length ? -1.5 : 0,
                 maxWidth: `calc(100% - ${isCardView ? 0
                     : theme.spacing((isGroupView ? 10.25 : 15.5) + (card ? 14.75 : 0))})`,
                 userSelect: 'none',
                 [theme.breakpoints.down('sm')]: {
                     maxWidth: `calc(100% - ${isCardView ? 0
                         : theme.spacing((isGroupView ? 10.25 : 15.5) + (card ? 8.75 : 0))})`,
-                }
+                },
             }}
         >
             {`${percentage}% ${name}`}
         </Typography>
+        {loyaltyPrograms && !!loyaltyPrograms.length &&
+            <Typography
+                noWrap
+                variant={'caption'}
+                sx={{
+                    ...infoStyle,
+                    maxWidth: `calc(100% - ${isCardView ? 0
+                        : theme.spacing((isGroupView ? 10.25 : 15.5) + (card ? 14.75 : 0))})`,
+                    [theme.breakpoints.down('sm')]: {
+                        maxWidth: `calc(100% - ${isCardView ? 0
+                            : theme.spacing((isGroupView ? 10.25 : 15.5) + (card ? 8.75 : 0))})`,
+                    },
+                }}
+            >
+                {CASHBACK_LOYALTY_PROGRAM} {loyaltyPrograms.map((item: string) => item[0].toUpperCase() + item.slice(1)).join(', ')}
+            </Typography>
+        }
         <Stack sx={actionsStyle} gap={1}>
             {card && (!isCardView || isSearchMode) && <CashbackCard name={card.name} />}
             {(!isGroupView || isSearchMode) &&
@@ -109,4 +149,14 @@ const actionsStyle = {
     top: '50%',
     transform: 'translateY(-50%)',
     flexDirection: 'row',
+};
+
+const infoStyle = {
+    position: 'absolute',
+    bottom: theme.spacing(0.75),
+    left: theme.spacing(6.5),
+    fontSize: '0.7rem',
+    opacity: 0.6,
+    lineHeight: 'unset',
+    userSelect: 'none',
 };

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { TCashbackActionsMenuProps } from './types.ts';
 import {
     CASHBACK_ACTIONS_CODES,
@@ -15,7 +15,7 @@ import { getNextMonthCashbacks } from '../../../../../../../../store/cashbackApi
 import { getPeriod } from '../../../../../../../../store/cashbacks/selectors/getPeriod.ts';
 import {
     setEditingCashbackIdAC,
-    setOpenedCashbackCodesInfoAC
+    setOpenedCashbackCodesInfosAC
 } from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
 import { getBankOrderNumber } from '../../../../../../../../selectors/getBankOrderNumber.ts';
 import { getOrderNumber } from '../../../../../../../../selectors/getOrderNumber.ts';
@@ -68,7 +68,7 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     };
 
     const onOpenCodes = () => {
-        dispatch(setOpenedCashbackCodesInfoAC(codesInfo));
+        dispatch(setOpenedCashbackCodesInfosAC(codesInfos));
     };
 
     const onCreate = () => {
@@ -120,8 +120,13 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
         },
     ];
 
-    const codesInfo = cashback && getCashbackCodesInfo(cashback);
-    if (codesInfo) {
+    const [codesInfos, setCodesInfos] = useState(null);
+    useEffect(() => {
+        if (!cashback) return;
+        setCodesInfos(getCashbackCodesInfo(cashback.bank, cashback.name));
+    }, [cashback]);
+
+    if (codesInfos && codesInfos.length) {
         actions.unshift({
             label: CASHBACK_ACTIONS_CODES,
             icon: QrCode2RoundedIcon,

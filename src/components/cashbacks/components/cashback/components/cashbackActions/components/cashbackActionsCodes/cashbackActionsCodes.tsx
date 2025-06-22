@@ -2,45 +2,55 @@ import React from 'react';
 import { Modal } from '../../../../../../../modal/modal.tsx';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    getOpenedCashbackCodesInfo
-} from '../../../../../../../../store/cashbacks/selectors/getOpenedCashbackCodesInfo.ts';
-import { setOpenedCashbackCodesInfoAC } from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
+    getOpenedCashbackCodesInfos
+} from '../../../../../../../../store/cashbacks/selectors/getOpenedCashbackCodesInfos.ts';
+import { setOpenedCashbackCodesInfosAC } from '../../../../../../../../store/cashbacks/cashbackReducer.ts';
 import { Stack, Typography } from '@mui/material';
-import { CASHBACK_ACTIONS_CODES_EXCLUDE, CASHBACK_ACTIONS_CODES_TITLE } from './constants.ts';
+import { CASHBACK_ACTIONS_CODES_EXCLUDE, CASHBACK_ACTIONS_CODES_TITLE, CASHBACK_ACTIONS_LOYALTY } from './constants.ts';
 import { theme } from '../../../../../../../../style/theme.ts';
 import { getIsMobile } from '../../../../../../../../selectors/getIsMobile.ts';
 
 export const CashbackActionsCodes = () => {
     const dispatch = useDispatch();
 
-    const codesInfo = useSelector(getOpenedCashbackCodesInfo);
+    const codesInfos = useSelector(getOpenedCashbackCodesInfos);
 
     const onClose = () => {
-        dispatch(setOpenedCashbackCodesInfoAC(null));
+        dispatch(setOpenedCashbackCodesInfosAC(null));
     };
 
     return <Modal
         body={<>
-            {codesInfo &&
-                <Stack gap={2} sx={getIsMobile() ? { width: '100%'} : {}}>
+            {codesInfos && !!codesInfos.length &&
+                <Stack gap={1} sx={getIsMobile() ? { width: '100%'} : {}}>
                     <Stack alignItems={'center'} sx={headerStyle}>
                         <Typography variant={'h5'} fontWeight={300}>
-                            {`${CASHBACK_ACTIONS_CODES_TITLE} ${codesInfo.isExclude ? CASHBACK_ACTIONS_CODES_EXCLUDE : ''}`}
+                            {`${CASHBACK_ACTIONS_CODES_TITLE} ${codesInfos[0].isExclude ? CASHBACK_ACTIONS_CODES_EXCLUDE : ''}`}
                         </Typography>
                     </Stack>
-                    <Typography variant={'body2'} textAlign={'left'}>
-                        {codesInfo.codes.join(', ')}
-                    </Typography>
+                    {codesInfos.map(codesInfo => (
+                        <>
+                            {codesInfo.loyaltyProgram &&
+                                <Typography variant={'subtitle2'} textAlign={'left'}>
+                                    {CASHBACK_ACTIONS_LOYALTY} {codesInfo.loyaltyProgram[0].toUpperCase() + codesInfo.loyaltyProgram.slice(1)}:
+                                </Typography>
+                            }
+                            <Typography variant={'body2'} textAlign={'left'}>
+                                {codesInfo.codes.join(', ')}
+                            </Typography>
+                        </>
+                    ))}
                 </Stack>
             }
         </>}
-        isOpen={!!codesInfo}
+        isOpen={!!codesInfos}
         onClose={onClose}
     />
 }
 
 const headerStyle = {
     gap: 1.5,
+    mb: 1,
     [theme.breakpoints.down('sm')]: {
         gap: 0.5,
     }
