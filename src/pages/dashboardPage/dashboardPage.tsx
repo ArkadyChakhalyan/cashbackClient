@@ -29,7 +29,7 @@ const dashboardStyle = {
     justifyContent: 'space-between',
     p: 3,
     pt: 1,
-    gap: theme.spacing(1.5),
+    gap: theme.spacing(),
     [theme.breakpoints.down('sm')]: {
         px: 1.5,
     }
