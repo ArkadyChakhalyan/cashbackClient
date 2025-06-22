@@ -3,6 +3,9 @@ import { EBank, ICashback } from 'cashback-check-types';
 import { IBankCashbackCodeInfo, TBankCashbackCodes, TBankCashbackLoyaltyProgram } from '../types.ts';
 
 const isBankCashbackCodes = (item: TBankCashbackLoyaltyProgram): item is TBankCashbackCodes => {
+    if (item === null || item === undefined) {
+        return false;
+    }
     return !Array.isArray(item) && Object.keys(item).every(key => {
         const value = item[key];
         return value && typeof value === 'object' && 'codes' in value && Array.isArray(value.codes);
