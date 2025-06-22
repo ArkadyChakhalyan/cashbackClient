@@ -1,6 +1,16 @@
 import { CASHBACKS_CODES } from '../constants.ts';
-import { EBank } from 'cashback-check-types';
-import { IBankCashbackCodeInfo, TBankCashbackCodes } from '../types.ts';
+import { EBank, ICashback } from 'cashback-check-types';
+import { IBankCashbackCodeInfo, TBankCashbackCodes, TBankCashbackLoyaltyProgram } from '../types.ts';
+
+const isBankCashbackCodes = (bankCodes: TBankCashbackLoyaltyProgram): boolean => {
+    let isBankCashbackCodes = false;
+    //@ts-ignore
+    for (let bankCode in bankCodes) {
+        isBankCashbackCodes = !!bankCodes[bankCode].codes;
+        break;
+    }
+    return isBankCashbackCodes;
+}
 
 export const getCashbackCodesInfo = (
     bank: EBank,
@@ -8,7 +18,7 @@ export const getCashbackCodesInfo = (
 ): IBankCashbackCodeInfo[] => {
     const codeInfos: IBankCashbackCodeInfo[] = [];
     const bankCodes = CASHBACKS_CODES[bank];
-    if (bankCodes && bankCodes.codes && bankCodes[name]) {
+    if (bankCodes && isBankCashbackCodes(bankCodes) && bankCodes[name]) {
         codeInfos.push(bankCodes[name] as IBankCashbackCodeInfo);
     } else {
         for (let loyaltyProgram in bankCodes as {[key: string]: TBankCashbackCodes}) {
