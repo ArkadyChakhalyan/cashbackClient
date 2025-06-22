@@ -37,7 +37,7 @@ export const Cashback: FC<TCashbackProps> = ({
     const [loyaltyPrograms, setLoyaltyPrograms] = useState(null);
     useEffect(() => {
         const bankCodes = getCashbackCodesInfo(bank, name);
-        if (!searchQuery || !CODES.includes(searchQuery) || !bankCodes[0].loyaltyProgram) {
+        if (!searchQuery || !CODES.includes(searchQuery) || bankCodes && bankCodes[0] && !bankCodes[0].loyaltyProgram) {
             setLoyaltyPrograms(null);
             return;
         }
