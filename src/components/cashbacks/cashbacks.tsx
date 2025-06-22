@@ -12,7 +12,7 @@ import { CashbacksBankView } from './components/cashbacksBankView/cashbacksBankV
 import { getCurrentMonthCashbacks } from '../../store/cashbackApi/selectors/getCurrentMonthCashbacks.ts';
 import { getPeriod } from '../../store/cashbacks/selectors/getPeriod.ts';
 import { getNextMonthCashbacks } from '../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
-import { ECashbackPeriod } from '../../types.ts';
+import { ECashbackPeriod, TBankCashbackCodes } from '../../types.ts';
 import { showErrorSnackbar } from '../snackbarStack/helpers/showErrorSnackbar.ts';
 import { TCashbacksProps } from './types.ts';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -67,23 +67,33 @@ export const Cashbacks: FC<TCashbacksProps> = ({
         if (searchQuery) {
             if (CODES.includes(searchQuery)) {
                 cashbacks = cashbacks.filter(cashback => {
-                    const codesInfo = getCashbackCodesInfo(cashback);
-                    if (!codesInfo) return false;
-                    if (codesInfo.isExclude) {
-                        const bankCodes = CASHBACKS_CODES[cashback.bank];
-                        const excludeCodes = [...codesInfo.codes];
-                        const userCashbacks = cashbacks
-                            .filter(item => item.bank === cashback.bank && item.id !== cashback.id)
-                            .map(cashback => cashback.name);
-                        for (let cashback in bankCodes) {
-                            const codesInfo = bankCodes[cashback];
-                            if (!codesInfo.isExclude && userCashbacks.includes(cashback)) {
-                                excludeCodes.push(...codesInfo.codes);
+                    const codesInfos = getCashbackCodesInfo(cashback.bank, cashback.name);
+                    if (!codesInfos.length) return false;
+                    if (codesInfos[0].isExclude) {
+                        let isShow = false;
+                        for (let i = 0; i < codesInfos.length; i++) {
+                            const codeInfo = codesInfos[i];
+                            const bankCodes = CASHBACKS_CODES[cashback.bank][codeInfo.loyaltyProgram] as TBankCashbackCodes ||
+                                CASHBACKS_CODES[cashback.bank] as TBankCashbackCodes;
+                            const excludeCodes = [...codeInfo.codes];
+                            const userCashbacks = cashbacks
+                                .filter(item => item.bank === cashback.bank && item.id !== cashback.id)
+                                .map(cashback => cashback.name);
+                            for (let cashback in bankCodes) {
+                                const codeInfo = bankCodes[cashback];
+                                if (!codeInfo.isExclude && userCashbacks.includes(cashback)) {
+                                    excludeCodes.push(...codeInfo.codes);
+                                }
                             }
+                            isShow = !excludeCodes.includes(searchQuery);
+                            if (isShow) break;
                         }
-                        return !excludeCodes.includes(searchQuery)
+                        return isShow;
                     }
-                    return codesInfo.codes.includes(searchQuery);
+                    const codes = codesInfos.reduce((codes, item) => {
+                        return [...codes, ...item.codes];
+                    }, []);
+                    return codes.includes(searchQuery);
                 });
             } else {
                 cashbacks = cashbacks.filter(cashback => {

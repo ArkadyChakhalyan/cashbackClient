@@ -5,7 +5,7 @@ export interface ICashbacksState {
     editingCashbackId: TCashbackId;
     isSearchMode: boolean;
     openedActionsCashbackId: TCashbackId;
-    openedCashbackCodesInfo: IBankCashbackCodeInfo;
+    openedCashbackCodesInfos: IBankCashbackCodeInfo[];
     period: ECashbackPeriod;
     searchQuery: string;
 }
