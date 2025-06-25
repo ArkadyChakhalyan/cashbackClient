@@ -60,13 +60,19 @@ export const theme = createTheme({
         MuiToggleButtonGroup: {
             styleOverrides: {
                 root: {
+                    '.MuiButtonBase-root': {
+                        background: 'rgba(255, 255, 255, 0.1)',
+                    },
                     '.MuiToggleButtonGroup-middleButton, .MuiToggleButtonGroup-lastButton': {
                         marginLeft: 0,
                     },
                     '.MuiButtonBase-root:not(.Mui-selected)': {
                         '&:hover,&:focus': {
-                            background: '#3a324875',
+                            background: 'rgba(255, 255, 255, 0.25)',
                         },
+                    },
+                    '.MuiButtonBase-root.Mui-selected': {
+                        background: 'rgba(255, 255, 255, 0.25) !important',
                     },
                 },
             },
