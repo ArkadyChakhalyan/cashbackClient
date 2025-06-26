@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { getPeriod } from '../../../../../../store/cashbacks/selectors/getPeriod.ts';
 import { getNextMonthDate } from '../../../../../../selectors/getNextMonthDate.ts';
 import { ECashbackPeriod } from '../../../../../../types.ts';
+import { isNull } from 'underscore';
 
 export const CashbackFormPeriod: FC<TCashbackFormPeriodProps> = ({
     period,
@@ -14,6 +15,7 @@ export const CashbackFormPeriod: FC<TCashbackFormPeriodProps> = ({
     const dashboardPeriod = useSelector(getPeriod);
 
     const onChange = (period: ECashbackPeriod) => {
+        if (isNull(period)) return;
         if (period === ECashbackPeriod.CURRENT_MONTH) {
             setPeriod(new Date().getTime());
         } else {

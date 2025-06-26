@@ -60,7 +60,7 @@ export const Menu: FC<TMenuProps> = ({
             onClose={() => onClose(null, null)}
             ModalProps={{ keepMounted: true }}
             PaperProps={{
-                sx: { ...paperStyle, pb: getIsNewIphonePWA ? 6 : 4},
+                sx: { ...paperStyle, pb: getIsNewIphonePWA() ? 6 : 4},
             }}
             SwipeAreaProps={{ sx: { display: 'none' }}}
             onOpen={() => {}}

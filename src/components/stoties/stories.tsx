@@ -10,8 +10,11 @@ import { IStory } from './components/story/types.ts';
 import { useUpdateUserMutation } from '../../store/userApi/userApiSlice.ts';
 import * as _ from 'underscore';
 import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
+import { getShowStories } from '../../store/userApi/selectors/getShowStories.ts';
 
 export const Stories = () => {
+    const isShow = useSelector(getShowStories);
+
     const [updateUser] = useUpdateUserMutation();
 
     const seenStoriesIds = useSelector(getSeenStories);
@@ -196,6 +199,8 @@ export const Stories = () => {
         startY.current = null;
         setIsDragging(false);
     };
+
+    if (!isShow) return null;
 
     const opacity = 1 - Math.min(translateY / 300, 0.8);
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, IconButton, Skeleton } from '@mui/material';
-import { USER_LOGOUT, USER_PROFILE } from './constants.ts';
+import { USER_LOGOUT, USER_PROFILE, USER_SETTINGS } from './constants.ts';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { getUser } from '../../../../store/userApi/selectors/getUser.ts';
@@ -14,6 +14,8 @@ import { Profile } from './components/profile/profile.tsx';
 import { cashbackApiSlice } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
 import { Donations } from './components/donations/donations.tsx';
 import { setIsSearchModeAC, setSearchQueryAC } from '../../../../store/cashbacks/cashbackReducer.ts';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import { Settings } from './components/settings/settings.tsx';
 
 export const User = () => {
     const dispatch = useDispatch();
@@ -24,6 +26,7 @@ export const User = () => {
 
     const [anchor, setAnchor] = useState(null);
     const [isProfileOpen, setProfileOpen] = useState(false);
+    const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isDonationsOpen, setDonationsOpen] = useState(false);
 
     const onLogout = () => {
@@ -34,6 +37,10 @@ export const User = () => {
 
     const onOpenProfile = () => {
         setProfileOpen(true);
+    };
+
+    const onOpenSettings = () => {
+        setSettingsOpen(true);
     };
 
     const onOpenDonations = () => {
@@ -49,8 +56,13 @@ export const User = () => {
     const items: TMenuItemProps[] = [
         {
             label: USER_PROFILE,
-            icon: SettingsRoundedIcon,
+            icon: PersonRoundedIcon,
             onClick: onOpenProfile,
+        },
+        {
+            label: USER_SETTINGS,
+            icon: SettingsRoundedIcon,
+            onClick: onOpenSettings,
         },
         // {
         //     label: USER_DONATE,
@@ -88,7 +100,8 @@ export const User = () => {
                     items={items}
                 />
                 <Profile isOpen={isProfileOpen} onClose={() => setProfileOpen(false)} />
-                <Donations isOpen={isDonationsOpen} onClose={() => setDonationsOpen(false)} />
+                <Settings isOpen={isSettingsOpen} onClose={() => setSettingsOpen(false)} />
+                {/*<Donations isOpen={isDonationsOpen} onClose={() => setDonationsOpen(false)} />*/}
             </>
             :
             <Skeleton variant={'circular'} animation={'wave'} sx={userStyle}>
