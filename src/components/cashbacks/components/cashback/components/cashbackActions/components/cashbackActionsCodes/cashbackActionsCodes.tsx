@@ -28,8 +28,8 @@ export const CashbackActionsCodes = () => {
                             {`${CASHBACK_ACTIONS_CODES_TITLE} ${codesInfos[0].isExclude ? CASHBACK_ACTIONS_CODES_EXCLUDE : ''}`}
                         </Typography>
                     </Stack>
-                    {codesInfos.map(codesInfo => (
-                        <>
+                    {codesInfos.map((codesInfo, idx) => (
+                        <Stack key={idx}>
                             {codesInfo.loyaltyProgram &&
                                 <Typography variant={'subtitle2'} textAlign={'left'}>
                                     {CASHBACK_ACTIONS_LOYALTY} {codesInfo.loyaltyProgram[0].toUpperCase() + codesInfo.loyaltyProgram.slice(1)}:
@@ -38,7 +38,7 @@ export const CashbackActionsCodes = () => {
                             <Typography variant={'body2'} textAlign={'left'}>
                                 {codesInfo.codes.join(', ')}
                             </Typography>
-                        </>
+                        </Stack>
                     ))}
                 </Stack>
             }
