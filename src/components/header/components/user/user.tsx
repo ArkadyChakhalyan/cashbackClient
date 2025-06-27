@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, IconButton, Skeleton } from '@mui/material';
-import { USER_LOGOUT, USER_PROFILE } from './constants.ts';
+import { USER_DONATE, USER_LOGOUT, USER_PROFILE } from './constants.ts';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { getUser } from '../../../../store/userApi/selectors/getUser.ts';
@@ -14,6 +14,7 @@ import { Profile } from './components/profile/profile.tsx';
 import { cashbackApiSlice } from '../../../../store/cashbackApi/cashbackApiSlice.ts';
 import { Donations } from './components/donations/donations.tsx';
 import { setIsSearchModeAC, setSearchQueryAC } from '../../../../store/cashbacks/cashbackReducer.ts';
+import SavingsRoundedIcon from '@mui/icons-material/SavingsRounded';
 
 export const User = () => {
     const dispatch = useDispatch();
@@ -52,11 +53,11 @@ export const User = () => {
             icon: SettingsRoundedIcon,
             onClick: onOpenProfile,
         },
-        // {
-        //     label: USER_DONATE,
-        //     icon: SavingsRoundedIcon,
-        //     onClick: onOpenDonations,
-        // },
+        {
+            label: USER_DONATE,
+            icon: SavingsRoundedIcon,
+            onClick: onOpenDonations,
+        },
         {
             label: USER_LOGOUT,
             icon: LogoutRoundedIcon,
