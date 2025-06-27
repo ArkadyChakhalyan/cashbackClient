@@ -64,22 +64,23 @@ export const theme = createTheme({
             },
             styleOverrides: {
                 root: {
-                    width: 38,
-                    height: 20,
+                    width: 44,
+                    height: 22,
                     padding: 0,
+                    borderRadius: 24,
                     display: 'flex',
                     '&:active': {
                         '& .MuiSwitch-thumb': {
-                            width: 18,
+                            width: 20,
                         },
                         '& .MuiSwitch-switchBase.Mui-checked': {
-                            transform: 'translateX(16px)',
+                            transform: 'translateX(20px)',
                         },
                     },
                     '& .MuiSwitch-switchBase': {
                         padding: 2,
                         '&.Mui-checked': {
-                            transform: 'translateX(18px)',
+                            transform: 'translateX(22px)',
                             color: '#fff',
                             '& + .MuiSwitch-track': {
                                 opacity: 1,
@@ -90,9 +91,9 @@ export const theme = createTheme({
                 },
                 thumb: {
                     boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-                    width: 16,
-                    height: 16,
-                    borderRadius: 8,
+                    width: 18,
+                    height: 18,
+                    borderRadius: 12,
                 },
                 switchBase: {
                     padding: 2,

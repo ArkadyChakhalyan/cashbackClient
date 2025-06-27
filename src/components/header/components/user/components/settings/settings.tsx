@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormControlLabel, Stack, Switch, Typography } from '@mui/material';
+import { alpha, FormControlLabel, Stack, Switch, Typography } from '@mui/material';
 import { TSettingsProps } from './types.ts';
 import { useDeleteUserMutation, useUpdateUserMutation } from '../../../../../../store/userApi/userApiSlice.ts';
 import { getUser } from '../../../../../../store/userApi/selectors/getUser.ts';
@@ -104,11 +104,11 @@ const iconStyle = {
 
 const formStyle = {
     justifyContent: 'space-between',
+    width: '100%',
     ml: 0,
 };
 
 const blockStyle = {
     width: '100%',
     maxWidth: theme.spacing(60),
-    pb: 1,
 };
