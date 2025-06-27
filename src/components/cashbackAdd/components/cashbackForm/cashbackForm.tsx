@@ -13,7 +13,7 @@ import {
 } from './constants.ts';
 import { LoadingButton } from '@mui/lab';
 import { CashbackFormName } from './components/cashbackFormName/cashbackFormName.tsx';
-import { CashbackAddModalPercentage } from './components/cashbackFormPercentage/cashbackAddModalPercentage.tsx';
+import { CashbackAddFormPercentage } from './components/cashbackFormPercentage/cashbackAddFormPercentage.tsx';
 import { CashbackFormPeriod } from './components/cashbackFormPeriod/cashbackFormPeriod.tsx';
 import {
     useCreateCashbackMutation,
@@ -186,7 +186,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         body={<>
             <Stack alignItems={'center'} sx={headerStyle}>
                 <DataSaverOnRoundedIcon sx={iconStyle} />
-                <Typography variant={'h6'} fontWeight={300}>
+                <Typography variant={'h5'} fontWeight={300}>
                     {cashback ? CASHBACK_FORM_EDIT_TITLE : CASHBACK_FORM_ADD_TITLE}
                 </Typography>
             </Stack>
@@ -210,7 +210,7 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                     bank={bank}
                     setName={setName}
                 />
-                <CashbackAddModalPercentage percentage={percentage} setPercentage={setPercentage} />
+                <CashbackAddFormPercentage percentage={percentage} setPercentage={setPercentage} />
             </Stack>
             <Stack gap={0.5} alignItems={'center'} sx={addWrapperStyle}>
                 <LoadingButton

@@ -100,7 +100,7 @@ export const theme = createTheme({
                 track: {
                     borderRadius: 10,
                     opacity: 1,
-                    backgroundColor: 'rgba(0,0,0,.25)',
+                    backgroundColor: 'rgba(0,0,0,.45)',
                     boxSizing: 'border-box',
                 },
             }

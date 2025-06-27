@@ -48,19 +48,19 @@ export const Settings: FC<TSettingsProps> = ({
     const body = <Stack alignItems={'center'} gap={2} width={'100%'}>
         <Stack alignItems={'center'} sx={headerStyle}>
             <SettingsSuggestRoundedIcon sx={iconStyle} />
-            <Typography variant={'h6'} fontWeight={300}>
+            <Typography variant={'h5'} fontWeight={300}>
                 {SETTINGS_TITLE}
             </Typography>
         </Stack>
         <Stack sx={blockStyle} gap={1}>
-            <Typography variant={'body2'}>
+            <Typography variant={'subtitle1'} fontWeight={300}>
                 {SETTINGS_VIEW_TITLE}
             </Typography>
             <FormControlLabel
                 sx={formStyle}
                 slotProps={{
                     typography: {
-                        variant: 'subtitle1',
+                        variant: 'body2',
                         fontWeight: 300,
                         sx: { userSelect: 'none', },
                     }
