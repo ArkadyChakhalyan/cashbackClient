@@ -1,4 +1,4 @@
-import { alpha, CircularProgress, IconButton, Modal, Paper, Stack } from '@mui/material';
+import { alpha, CircularProgress, IconButton, Modal, Paper, Slide, Stack } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { Story } from './components/story/story.tsx';
 import { STORIES } from './constants.tsx';
@@ -10,8 +10,11 @@ import { IStory } from './components/story/types.ts';
 import { useUpdateUserMutation } from '../../store/userApi/userApiSlice.ts';
 import * as _ from 'underscore';
 import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
+import { getShowStories } from '../../store/userApi/selectors/getShowStories.ts';
 
 export const Stories = () => {
+    const isShow = useSelector(getShowStories);
+
     const [updateUser] = useUpdateUserMutation();
 
     const seenStoriesIds = useSelector(getSeenStories);
@@ -197,6 +200,8 @@ export const Stories = () => {
         setIsDragging(false);
     };
 
+    if (!isShow) return null;
+
     const opacity = 1 - Math.min(translateY / 300, 0.8);
 
     return <Stack
@@ -211,50 +216,51 @@ export const Stories = () => {
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
         >
-            <>
-                {openedStory &&
-                    <Paper
-                        sx={{
-                            ...modalStyle,
-                            transform: `translate(-50%, calc(-50% + ${translateY}px))`,
+            <Slide in={!!openedStory} direction={'up'}>
+                <Paper
+                    sx={{
+                        ...modalStyle,
+                        ...(isDragging && {
+                            transform: `translateY(${translateY}px) !important`,
                             opacity,
-                            transition: isDragging ? 'none' : 'transform 0.3s ease, opacity 0.3s ease',
-                        }}
-                        onClick={onStoryClick}
-                        onMouseDown={onMouseDown}
-                        onTouchStart={onMouseDown}
-                        onMouseUp={onMouseUp}
-                        onTouchEnd={onMouseUp}
-                        ref={storyRef}
+                            transition: 'none',
+                        })
+
+                    }}
+                    onClick={onStoryClick}
+                    onMouseDown={onMouseDown}
+                    onTouchStart={onMouseDown}
+                    onMouseUp={onMouseUp}
+                    onTouchEnd={onMouseUp}
+                    ref={storyRef}
+                >
+                    <Stack sx={headerStyle}>
+                        {openedStory && openedStory.slides.map((slide, index) => (
+                            <Stack sx={headerItemStyle} key={index}>
+                                <Stack
+                                    sx={{
+                                        ...headerItemProgressStyle,
+                                        width: index === currentSlide ? `${progress}%` : currentSlide < index ? 0 : '100%',
+                                    }}
+                                />
+                            </Stack>
+                        ))}
+                    </Stack>
+                    <IconButton
+                        sx={closeButtonStyle}
+                        onClick={onClose}
                     >
-                        <Stack sx={headerStyle}>
-                            {openedStory.slides.map((slide, index) => (
-                                <Stack sx={headerItemStyle} key={index}>
-                                    <Stack
-                                        sx={{
-                                            ...headerItemProgressStyle,
-                                            width: index === currentSlide ? `${progress}%` : currentSlide < index ? 0 : '100%',
-                                        }}
-                                    />
-                                </Stack>
-                            ))}
-                        </Stack>
-                        <IconButton
-                            sx={closeButtonStyle}
-                            onClick={onClose}
-                        >
-                            <CloseRoundedIcon />
-                        </IconButton>
-                        {openedStory.slides[currentSlide]}
-                        {isLoading && <Stack sx={loaderStyle}>
-                            <CircularProgress
-                                size={theme.spacing(7)}
-                                sx={{ color: theme.palette.common.white, opacity: 0.8 }}
-                            />
-                        </Stack>}
-                    </Paper>
-                }
-            </>
+                        <CloseRoundedIcon />
+                    </IconButton>
+                    {openedStory && openedStory.slides[currentSlide]}
+                    {isLoading && <Stack sx={loaderStyle}>
+                        <CircularProgress
+                            size={theme.spacing(7)}
+                            sx={{ color: theme.palette.common.white, opacity: 0.8 }}
+                        />
+                    </Stack>}
+                </Paper>
+            </Slide>
         </Modal>
         {
             stories.map(story => (
@@ -283,23 +289,19 @@ const containerStyle = {
     gap: theme.spacing(),
     overflow: 'auto',
     '::-webkit-scrollbar': {
-        display: 'none'
+        display: 'none',
     }
 };
 
 const modalStyle = {
-    position: 'fixed',
     display: 'flex',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
     width: '100%',
     height: '100%',
     minWidth: '100vw',
     minHeight: '100svh',
     maxHeight: theme.spacing(90),
     maxWidth: theme.spacing(60),
-    borderRadius: 0,
+    borderRadius: theme.spacing(1.5),
     overflow: 'hidden',
     cursor: 'pointer',
     userSelect: 'none',
@@ -315,6 +317,7 @@ const loaderStyle = {
     justifyContent: 'center',
     background: theme.palette.background.paper,
     position: 'absolute',
+    borderRadius: theme.spacing(1.5),
     inset: 0,
     zIndex: 7,
 };

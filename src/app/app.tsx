@@ -41,8 +41,12 @@ export const App = () => {
 
     useEffect(() => {
         if (!isPWA) return;
-        const isToken = !!getAuthToken();
-        navigate('/' + (isToken ? ERoutes.DASHBOARD : ERoutes.LOGIN));
+        window.history.pushState(null, '', window.location.href);
+        window.onpopstate = () => window.history.go(1);
+
+        return () => {
+            window.onpopstate = null;
+        };
     }, []);
 
     useEffect(() => {

@@ -9,7 +9,7 @@ import {
 import { CashbackFormChips } from '../cashbackFormChips/cashbackFormChips.tsx';
 import { theme } from '../../../../../../style/theme.ts';
 
-export const CashbackAddModalPercentage: FC<TCashbackFormPercentageProps> = ({
+export const CashbackAddFormPercentage: FC<TCashbackFormPercentageProps> = ({
     percentage,
     setPercentage,
 }) => {

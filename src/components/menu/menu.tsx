@@ -60,7 +60,7 @@ export const Menu: FC<TMenuProps> = ({
             onClose={() => onClose(null, null)}
             ModalProps={{ keepMounted: true }}
             PaperProps={{
-                sx: { ...paperStyle, pb: getIsNewIphonePWA ? 6 : 4},
+                sx: { ...paperStyle, pb: getIsNewIphonePWA() ? 6 : 4},
             }}
             SwipeAreaProps={{ sx: { display: 'none' }}}
             onOpen={() => {}}
@@ -90,7 +90,7 @@ const paperStyle = {
     px: 2,
     borderRadius: theme.spacing(5),
     bgcolor: alpha(theme.palette.common.white, 0.15),
-    backdropFilter: 'blur(10px)',
+    backdropFilter: 'blur(12px)',
     overflow: 'hidden',
     margin: 'auto',
     '& > .MuiMenuItem-root': {

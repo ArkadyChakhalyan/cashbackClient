@@ -9,6 +9,7 @@ import {
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import { showSuccessSnackbar } from '../../../../../../../snackbarStack/helpers/showSuccessSnackbar.ts';
 import { theme } from '../../../../../../../../style/theme.ts';
+import { ECrypto } from './types.ts';
 
 export const CryptoDonations = () => {
     const [crypto, setCrypto] = useState(CRYPTO_DONATIONS_DEFAULT);
@@ -21,12 +22,21 @@ export const CryptoDonations = () => {
         showSuccessSnackbar(CRYPTO_DONATIONS_COPIED);
     };
 
+    const onChange = (
+        e: React.MouseEvent,
+        value: ECrypto,
+    ) => {
+        if (!value || value === crypto) return;
+        setCrypto(value);
+    };
+
     return <Stack alignItems={'center'} gap={1.5} width={'100%'}>
+
         <Typography mb={0.5} variant={'body1'}>{CRYPTO_DONATIONS_TITLE}</Typography>
         <ToggleButtonGroup
             value={crypto}
             exclusive
-            onChange={(e, value) => setCrypto(value)}
+            onChange={onChange}
         >
             {CRYPTO_DONATIONS_OPTIONS.map(crypto => {
                 const Icon = crypto.icon;
@@ -61,7 +71,7 @@ const codeStyle = {
     justifyContent: 'center',
     p: theme.spacing(2, 7, 2, 3),
     borderRadius: theme.spacing(3),
-    background: theme.palette.background.paper,
+    background: alpha(theme.palette.common.white, 0.1),
 };
 
 const addressStyle = {

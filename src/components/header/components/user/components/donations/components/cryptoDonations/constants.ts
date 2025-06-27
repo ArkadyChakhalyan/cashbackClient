@@ -5,24 +5,24 @@ import { TonIcon } from './icons/tonIcon.tsx';
 
 export const CRYPTO_DONATIONS_DEFAULT = ECrypto.USDT;
 
-export const CRYPTO_DONATIONS_TITLE = 'Поддержать в крипто';
+export const CRYPTO_DONATIONS_TITLE = 'Поддержать в крипте';
 export const CRYPTO_DONATIONS_COPIED = 'Скопировано в буфер обмена';
 
 export const CRYPTO_DONATIONS_OPTIONS = [
     {
-        address: 'TB7B4WB3kRU5b9avWRDrtgVZzRKwYZiVhs',
+        address: '0xeb6d88f1a8ac080536b79a0b0b4b8eadf9351b40',
         icon: UsdtIcon,
         label: 'USDT',
         value: ECrypto.USDT,
     },
     {
-        address: '1B4d56SZpaVfSBgWDDhCDKoQV4CshAGjAp',
+        address: '15YcjJKxGyUqQ93uJnLgnMBTtVnCG9iK4C',
         icon: BtcIcon,
         label: 'BTC',
         value: ECrypto.BTC,
     },
     {
-        address: 'UQDLvdV5a2xQV4LqhMkMrK4vARc1mzj44RR08wM1xRzJBG76',
+        address: 'UQB6DG8CSUaSh7pskvGp2AVzIsnzN9MdUHcnQigUgB3-kRpL',
         icon: TonIcon,
         label: 'TON',
         value: ECrypto.TON,
