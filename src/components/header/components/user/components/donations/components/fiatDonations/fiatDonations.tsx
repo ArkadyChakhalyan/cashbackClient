@@ -12,6 +12,9 @@ export const FiatDonations = () => {
             sx={{
                 height: theme.spacing(5),
                 minWidth: theme.spacing(25),
+                [theme.breakpoints.down('sm')]: {
+                    height: theme.spacing(6),
+                }
             }}
         >
             {FIAT_DONATIONS_CLOUD_TIPS}
