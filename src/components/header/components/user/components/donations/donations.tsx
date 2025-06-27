@@ -20,8 +20,10 @@ export const Donations: FC<TDonationsProps> = ({
         <Typography variant={'body2'} sx={descStyle}>
             {DONATIONS_DESC}
         </Typography>
-        <FiatDonations />
-        <CryptoDonations />
+        <Stack gap={3} alignItems={'center'} width={'100%'}>
+            <FiatDonations />
+            <CryptoDonations />
+        </Stack>
     </Stack>;
 
     return <Modal
