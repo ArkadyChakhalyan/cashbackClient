@@ -79,7 +79,7 @@ const paperStyle = {
     pb: 3,
     borderRadius: theme.spacing(5),
     bgcolor: alpha(theme.palette.common.white, 0.15),
-    backdropFilter: 'blur(10px)',
+    backdropFilter: 'blur(12px)',
     overflow: 'hidden',
     margin: 'auto',
 };
