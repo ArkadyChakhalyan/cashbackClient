@@ -22,8 +22,8 @@ import { DashboardPage } from '../pages/dashboardPage/dashboardPage.tsx';
 import { theme } from '../style/theme.ts';
 import { getIsIOS } from '../selectors/getIsIOS.ts';
 import { getIsPWA } from '../selectors/getIsPWA.ts';
-import { getAuthToken } from '../selectors/getAuthToken.ts';
 import { Loader } from '../components/loader/loader.tsx';
+import { OfflinePage } from '../pages/offlinePage/offlinePage.tsx';
 
 export const App = () => {
     const { logout, isAuthenticated } = useAuth();
@@ -49,17 +49,32 @@ export const App = () => {
         };
     }, []);
 
+    const [isOffline, setOffline] = useState(!navigator.onLine);
+    useEffect(() => {
+        const onOnline = () => setOffline(false);
+        const onOffline = () => setOffline(true);
+
+        window.addEventListener('online', onOnline);
+        window.addEventListener('offline', onOffline);
+
+        return () => {
+            window.removeEventListener('online', onOnline);
+            window.removeEventListener('offline', onOffline);
+        };
+    }, []);
+
     useEffect(() => {
         if (!isAuthenticated || isLoginRoute || user) return;
         triggerGetUser(null, true);
     }, [location]);
 
     useEffect(() => {
+        if (isOffline) return;
         if (isError && !isLoginRoute) {
             logout();
             navigate('/' + ERoutes.LOGIN);
         }
-    }, [isError, user]);
+    }, [isError, user, isOffline]);
 
     useEffect(() => {
         if (!isSuccess || !user) return;
@@ -91,14 +106,6 @@ export const App = () => {
     }, [isPWA]);
 
     return <>
-        <PWAPrompt
-            appIconPath={'./apple-touch-icon.png'}
-            copyTitle={APP_NAME}
-            copyDescription={APP_PWA_DESCRIPTION}
-            copyShareStep={APP_PWA_SHARE_TEXT}
-            copyAddToHomeScreenStep={APP_PWA_ADD_TEXT}
-            isShown={isShowPWAPrompt}
-        />
         <GlobalStyles
             styles={{
                 ...styles,
@@ -108,22 +115,35 @@ export const App = () => {
                 }
             }}
         />
-        <SnackbarStack />
-        <Header />
-        <Loader />
-        <Routes>
-            <Route path={'/'} element={<LandingPage />} />
-            <Route path={'/' + ERoutes.LOGIN} element={<LoginPage />} />
-            <Route
-                path={'/' + ERoutes.DASHBOARD}
-                element={
-                    <ProtectedRoute>
-                        <DashboardPage />
-                    </ProtectedRoute>
-                }
-            />
-            <Route path="*" element={<Navigate to={`/${isAuthenticated ? ERoutes.DASHBOARD : `/${ERoutes.LOGIN}`}`} />} />
-        </Routes>
+        {isOffline ?
+            <OfflinePage />
+            : <>
+                <PWAPrompt
+                    appIconPath={'./apple-touch-icon.png'}
+                    copyTitle={APP_NAME}
+                    copyDescription={APP_PWA_DESCRIPTION}
+                    copyShareStep={APP_PWA_SHARE_TEXT}
+                    copyAddToHomeScreenStep={APP_PWA_ADD_TEXT}
+                    isShown={isShowPWAPrompt}
+                />
+                <SnackbarStack />
+                <Header />
+                <Loader />
+                <Routes>
+                    <Route path={'/'} element={<LandingPage />} />
+                    <Route path={'/' + ERoutes.LOGIN} element={<LoginPage />} />
+                    <Route
+                        path={'/' + ERoutes.DASHBOARD}
+                        element={
+                            <ProtectedRoute>
+                                <DashboardPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route path="*" element={<Navigate to={`/${isAuthenticated ? ERoutes.DASHBOARD : `/${ERoutes.LOGIN}`}`} />} />
+                </Routes>
+            </>
+        }
     </>;
 };
 

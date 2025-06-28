@@ -2,9 +2,11 @@ import React, { FC, useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
 import { TCashbackFormNameProps } from './types.ts';
 import {
-    CASHBACK_FORM_NAME_BASE_CHIPS, CASHBACK_FORM_NAME_CHIPS_ALPHA,
+    CASHBACK_FORM_NAME_BASE_CHIPS,
+    CASHBACK_FORM_NAME_CHIPS_ALPHA,
     CASHBACK_FORM_NAME_CHIPS_OTP,
-    CASHBACK_FORM_NAME_CHIPS_OZON, CASHBACK_FORM_NAME_CHIPS_T,
+    CASHBACK_FORM_NAME_CHIPS_OZON, CASHBACK_FORM_NAME_CHIPS_PSB,
+    CASHBACK_FORM_NAME_CHIPS_T,
     CASHBACK_FORM_NAME_CHIPS_VTB,
     CASHBACK_FORM_NAME_CHIPS_YANDEX,
     CASHBACK_FORM_NAME_PLACEHOLDER
@@ -41,6 +43,8 @@ export const CashbackFormName: FC<TCashbackFormNameProps> = ({
             chips = CASHBACK_FORM_NAME_CHIPS_ALPHA;
         } else if (bank === EBank.T) {
             chips = CASHBACK_FORM_NAME_CHIPS_T;
+        } else if (bank === EBank.PSB) {
+            chips = CASHBACK_FORM_NAME_CHIPS_PSB;
         }
         setChips(chips);
     }, [bank, name]);
