@@ -5,7 +5,12 @@ import { TSettingsProps } from './types.ts';
 import { useDeleteUserMutation, useUpdateUserMutation } from '../../../../../../store/userApi/userApiSlice.ts';
 import { getUser } from '../../../../../../store/userApi/selectors/getUser.ts';
 import { Modal } from '../../../../../modal/modal.tsx';
-import { SETTINGS_TITLE, SETTINGS_VIEW_STORIES_TITLE, SETTINGS_VIEW_TITLE } from './constants.ts';
+import {
+    SETTINGS_TITLE,
+    SETTINGS_VIEW_ADD_CARD_TITLE,
+    SETTINGS_VIEW_STORIES_TITLE,
+    SETTINGS_VIEW_TITLE
+} from './constants.ts';
 import { showErrorSnackbar } from '../../../../../snackbarStack/helpers/showErrorSnackbar.ts';
 import { theme } from '../../../../../../style/theme.ts';
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
@@ -16,8 +21,6 @@ export const Settings: FC<TSettingsProps> = ({
     isOpen,
     onClose,
 }) => {
-    const dispatch = useDispatch();
-
     const [updateUser, {
         isLoading,
         isError,
@@ -27,6 +30,7 @@ export const Settings: FC<TSettingsProps> = ({
     const settings = useSelector(getSettings);
     const {
         isHideStories,
+        isShowAddCard,
     } = settings;
 
     const onUpdateSettings = (
@@ -45,6 +49,24 @@ export const Settings: FC<TSettingsProps> = ({
         showErrorSnackbar();
     }, [isError]);
 
+    const settingsBlocks = [
+        {
+            title: SETTINGS_VIEW_TITLE,
+            settings: [
+                {
+                    title: SETTINGS_VIEW_STORIES_TITLE,
+                    value: !isHideStories,
+                    onChange: () => onUpdateSettings({ isHideStories: !isHideStories }),
+                },
+                {
+                    title: SETTINGS_VIEW_ADD_CARD_TITLE,
+                    value: !isShowAddCard,
+                    onChange: () => onUpdateSettings({ isShowAddCard: !isShowAddCard }),
+                },
+            ]
+        }
+    ]
+
     const body = <Stack alignItems={'center'} gap={2} width={'100%'}>
         <Stack alignItems={'center'} sx={headerStyle}>
             <SettingsSuggestRoundedIcon sx={iconStyle} />
@@ -52,29 +74,31 @@ export const Settings: FC<TSettingsProps> = ({
                 {SETTINGS_TITLE}
             </Typography>
         </Stack>
-        <Stack sx={blockStyle} gap={1}>
-            <Typography variant={'subtitle1'} fontWeight={300}>
-                {SETTINGS_VIEW_TITLE}
-            </Typography>
-            <FormControlLabel
-                sx={formStyle}
-                slotProps={{
-                    typography: {
-                        variant: 'body2',
-                        fontWeight: 300,
-                        sx: { userSelect: 'none', },
-                    }
-                }}
-                labelPlacement={'start'}
-                control={<Switch
-                    checked={!isHideStories}
-                    onChange={() => {
-                        onUpdateSettings({ isHideStories: !isHideStories });
-                    }}
-                />}
-                label={SETTINGS_VIEW_STORIES_TITLE}
-            />
-        </Stack>
+        {settingsBlocks.map(block => (
+            <Stack sx={blockStyle} gap={1.5}>
+                <Typography variant={'subtitle1'} fontWeight={300}>
+                    {block.title}
+                </Typography>
+                {block.settings.map(setting => (
+                    <FormControlLabel
+                        sx={formStyle}
+                        slotProps={{
+                            typography: {
+                                variant: 'body2',
+                                fontWeight: 300,
+                                sx: { userSelect: 'none', },
+                            }
+                        }}
+                        labelPlacement={'start'}
+                        control={<Switch
+                            checked={setting.value}
+                            onChange={setting.onChange}
+                        />}
+                        label={setting.title}
+                    />
+                ))}
+            </Stack>
+        ))}
     </Stack>;
 
     return <Modal
@@ -111,4 +135,5 @@ const formStyle = {
 const blockStyle = {
     width: '100%',
     maxWidth: theme.spacing(60),
+    pb: 1,
 };
