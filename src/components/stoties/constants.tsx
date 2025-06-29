@@ -18,6 +18,8 @@ import { Slide_5_3 } from './components/slides/slide_5_3.tsx';
 import { Slide_5_2 } from './components/slides/slide_5_2.tsx';
 import { Slide_5_4 } from './components/slides/slide_5_4.tsx';
 
+export const MAX_WIDTH_MOBILE = 64 * 8;
+
 export const STORIES: IStory[] = [
     {
         id: 1,

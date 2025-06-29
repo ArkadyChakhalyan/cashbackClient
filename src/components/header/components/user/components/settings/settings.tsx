@@ -75,12 +75,13 @@ export const Settings: FC<TSettingsProps> = ({
             </Typography>
         </Stack>
         {settingsBlocks.map(block => (
-            <Stack sx={blockStyle} gap={1.5}>
+            <Stack sx={blockStyle} gap={1.5} key={block.title}>
                 <Typography variant={'subtitle1'} fontWeight={300}>
                     {block.title}
                 </Typography>
                 {block.settings.map(setting => (
                     <FormControlLabel
+                        key={setting.title}
                         sx={formStyle}
                         slotProps={{
                             typography: {
@@ -119,7 +120,7 @@ const iconStyle = {
     width: theme.spacing(12),
     height: theme.spacing(12),
     ml: 2,
-    color: theme.palette.blue.main,
+    color: alpha(theme.palette.common.white, 0.75),
     [theme.breakpoints.down('sm')]: {
         width: theme.spacing(10),
         height: theme.spacing(10),

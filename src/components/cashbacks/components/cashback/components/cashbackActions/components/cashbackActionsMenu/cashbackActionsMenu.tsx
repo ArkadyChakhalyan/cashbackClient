@@ -163,7 +163,6 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         sx={{ mt: 1.5, ml: 1 }}
-        keepMounted
         slotProps={{
             paper: { sx: { minWidth: theme.spacing(18) }},
         }}
