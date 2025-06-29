@@ -11,6 +11,7 @@ import { useUpdateUserMutation } from '../../store/userApi/userApiSlice.ts';
 import * as _ from 'underscore';
 import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
 import { getShowStories } from '../../store/userApi/selectors/getShowStories.ts';
+import { getIsMobile } from '../../selectors/getIsMobile.ts';
 
 export const Stories = () => {
     const isShow = useSelector(getShowStories);
@@ -207,7 +208,7 @@ export const Stories = () => {
     const [isMobile, setMobile] = useState(false);
     useEffect(() => {
         const onResize = () => {
-            setMobile(window.innerWidth < MAX_WIDTH_MOBILE);
+            setMobile(getIsMobile() || window.innerWidth < MAX_WIDTH_MOBILE);
         };
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
