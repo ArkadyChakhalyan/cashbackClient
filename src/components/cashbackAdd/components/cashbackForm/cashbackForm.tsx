@@ -6,14 +6,14 @@ import {
     CASHBACK_FORM_ADD,
     CASHBACK_FORM_ADD_MORE,
     CASHBACK_FORM_ADD_TITLE,
-    CASHBACK_FORM_ADDED,
+    CASHBACK_FORM_ADDED, CASHBACK_FORM_ADDED_EVENT,
     CASHBACK_FORM_EDIT,
     CASHBACK_FORM_EDIT_TITLE,
     getCashbackErrorText,
 } from './constants.ts';
 import { LoadingButton } from '@mui/lab';
 import { CashbackFormName } from './components/cashbackFormName/cashbackFormName.tsx';
-import { CashbackAddFormPercentage } from './components/cashbackFormPercentage/cashbackAddFormPercentage.tsx';
+import { CashbackFormPercentage } from './components/cashbackFormPercentage/cashbackFormPercentage.tsx';
 import { CashbackFormPeriod } from './components/cashbackFormPeriod/cashbackFormPeriod.tsx';
 import {
     useCreateCashbackMutation,
@@ -37,11 +37,14 @@ import { getBankOrderNumber } from '../../../../selectors/getBankOrderNumber.ts'
 import { getOrderNumber } from '../../../../selectors/getOrderNumber.ts';
 import { showSuccessSnackbar } from '../../../snackbarStack/helpers/showSuccessSnackbar.ts';
 import { getCardOrderNumber } from '../../../../selectors/getCardOrderNumber.ts';
+import { useEvent } from '../../../../event/eventContext.tsx';
 
 export const CashbackForm: FC<TCashbackFormProps> = ({
     isOpen,
     onClose,
 }) => {
+    const { showEvent } = useEvent();
+
     const [createCashback, {
         isLoading: isCreateLoading,
         isError: isCreateError,
@@ -79,7 +82,10 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         cashback.percentage === percentage &&
         cashback?.card?.name === card?.name;
 
-    const onAdd = (isAddMore: boolean = false) => {
+    const onAdd = (
+        isAddMore: boolean = false,
+        e?: React.MouseEvent,
+    ) => {
         if (isDisabled || isNotChanged) return;
 
         const data: Partial<ICashback> = {
@@ -113,6 +119,9 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
             data.bankOrderNumber = getBankOrderNumber(cashbacks, bank);
             data.cardOrderNumber = getCardOrderNumber(cashbacks, card, bank);
             createCashback(data);
+            if (e) {
+                showEvent(e.clientX, e.clientY, CASHBACK_FORM_ADDED_EVENT);
+            }
         }
 
         if (isAddMore) {
@@ -120,9 +129,9 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
         }
     };
 
-    const onAddMore = () => {
+    const onAddMore = (e: React.MouseEvent) => {
         setAddMore(true);
-        onAdd(true);
+        onAdd(true, e);
     };
 
     const onSetData = (
@@ -210,13 +219,15 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
                     bank={bank}
                     setName={setName}
                 />
-                <CashbackAddFormPercentage percentage={percentage} setPercentage={setPercentage} />
+                <CashbackFormPercentage percentage={percentage} setPercentage={setPercentage} />
             </Stack>
             <Stack gap={0.5} alignItems={'center'} sx={addWrapperStyle}>
                 <LoadingButton
                     ref={addRef}
                     sx={addStyle}
-                    onClick={() => onAdd()}
+                    onClick={(e) => {
+                        onAdd(false, e);
+                    }}
                     loading={isCreateLoading || isUpdateLoading}
                     disabled={isDisabled || isNotChanged}
                 >
@@ -249,7 +260,7 @@ const headerStyle = {
 const iconStyle = {
     width: theme.spacing(12),
     height: theme.spacing(12),
-    color: theme.palette.green.main,
+    color: alpha(theme.palette.common.white, 0.75),
     [theme.breakpoints.down('sm')]: {
         width: theme.spacing(10),
         height: theme.spacing(10),

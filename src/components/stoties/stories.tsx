@@ -1,7 +1,7 @@
 import { alpha, CircularProgress, IconButton, Modal, Paper, Slide, Stack } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { Story } from './components/story/story.tsx';
-import { STORIES } from './constants.tsx';
+import { MAX_WIDTH_MOBILE, STORIES } from './constants.tsx';
 import { getSeenStories } from '../../store/userApi/selectors/getSeenStories.ts';
 import { useSelector } from 'react-redux';
 import { theme } from '../../style/theme.ts';
@@ -204,6 +204,59 @@ export const Stories = () => {
 
     const opacity = 1 - Math.min(translateY / 300, 0.8);
 
+    const [isMobile, setMobile] = useState(false);
+    useEffect(() => {
+        const onResize = () => {
+            setMobile(window.innerWidth < MAX_WIDTH_MOBILE);
+        };
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, []);
+
+    const content = <Paper
+        sx={{
+            ...modalStyle,
+            ...(isMobile && isDragging && {
+                transform: `translateY(${translateY}px) !important`,
+                opacity,
+                transition: 'none',
+            })
+
+        }}
+        onClick={onStoryClick}
+        onMouseDown={onMouseDown}
+        onTouchStart={onMouseDown}
+        onMouseUp={onMouseUp}
+        onTouchEnd={onMouseUp}
+        ref={storyRef}
+    >
+        <Stack sx={headerStyle}>
+            {openedStory && openedStory.slides.map((slide, index) => (
+                <Stack sx={headerItemStyle} key={index}>
+                    <Stack
+                        sx={{
+                            ...headerItemProgressStyle,
+                            width: index === currentSlide ? `${progress}%` : currentSlide < index ? 0 : '100%',
+                        }}
+                    />
+                </Stack>
+            ))}
+        </Stack>
+        <IconButton
+            sx={closeButtonStyle}
+            onClick={onClose}
+        >
+            <CloseRoundedIcon />
+        </IconButton>
+        {openedStory && openedStory.slides[currentSlide]}
+        {isLoading && <Stack sx={loaderStyle}>
+            <CircularProgress
+                size={theme.spacing(7)}
+                sx={{ color: theme.palette.common.white, opacity: 0.8 }}
+            />
+        </Stack>}
+    </Paper>;
+
     return <Stack
         direction={'row'}
         sx={containerStyle}
@@ -216,51 +269,12 @@ export const Stories = () => {
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
         >
-            <Slide in={!!openedStory} direction={'up'}>
-                <Paper
-                    sx={{
-                        ...modalStyle,
-                        ...(isDragging && {
-                            transform: `translateY(${translateY}px) !important`,
-                            opacity,
-                            transition: 'none',
-                        })
-
-                    }}
-                    onClick={onStoryClick}
-                    onMouseDown={onMouseDown}
-                    onTouchStart={onMouseDown}
-                    onMouseUp={onMouseUp}
-                    onTouchEnd={onMouseUp}
-                    ref={storyRef}
-                >
-                    <Stack sx={headerStyle}>
-                        {openedStory && openedStory.slides.map((slide, index) => (
-                            <Stack sx={headerItemStyle} key={index}>
-                                <Stack
-                                    sx={{
-                                        ...headerItemProgressStyle,
-                                        width: index === currentSlide ? `${progress}%` : currentSlide < index ? 0 : '100%',
-                                    }}
-                                />
-                            </Stack>
-                        ))}
-                    </Stack>
-                    <IconButton
-                        sx={closeButtonStyle}
-                        onClick={onClose}
-                    >
-                        <CloseRoundedIcon />
-                    </IconButton>
-                    {openedStory && openedStory.slides[currentSlide]}
-                    {isLoading && <Stack sx={loaderStyle}>
-                        <CircularProgress
-                            size={theme.spacing(7)}
-                            sx={{ color: theme.palette.common.white, opacity: 0.8 }}
-                        />
-                    </Stack>}
-                </Paper>
-            </Slide>
+            {isMobile ?
+                <Slide in={!!openedStory} direction={'up'}>
+                    {content}
+                </Slide>
+                : content
+            }
         </Modal>
         {
             stories.map(story => (
@@ -305,10 +319,14 @@ const modalStyle = {
     overflow: 'hidden',
     cursor: 'pointer',
     userSelect: 'none',
-    [theme.breakpoints.up(64 * 8)]: {
+    [theme.breakpoints.up(MAX_WIDTH_MOBILE)]: {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
         minHeight: 'unset',
         minWidth: 'unset',
-        borderRadius: theme.spacing(1.5),
+        borderRadius: theme.spacing(2.5),
     }
 };
 
@@ -353,7 +371,8 @@ const closeButtonStyle = {
     position: 'absolute',
     right: theme.spacing(2),
     top: theme.spacing(3.5),
-    bgcolor: theme.palette.background.paper,
+    background: 'none !important',
+    boxShadow: 'none !important',
     zIndex: 10,
 };
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Stack, Typography } from '@mui/material';
+import { alpha, Stack, Typography } from '@mui/material';
 import { TDonationsProps } from './types.ts';
 import { Modal } from '../../../../../modal/modal.tsx';
 import { DONATIONS_DESC, DONATIONS_TITLE } from './constants.ts';
@@ -43,7 +43,7 @@ const headerStyle = {
 const iconStyle = {
     width: theme.spacing(12),
     height: theme.spacing(12),
-    color: theme.palette.green.main,
+    color: alpha(theme.palette.common.white, 0.75),
     [theme.breakpoints.down('sm')]: {
         width: theme.spacing(10),
         height: theme.spacing(10),

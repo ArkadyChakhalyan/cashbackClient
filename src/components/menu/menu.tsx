@@ -35,7 +35,7 @@ export const Menu: FC<TMenuProps> = ({
     ));
 
     return <>
-        {!isMobile &&
+        {!isMobile ?
             <MuiMenu
                 anchorEl={anchorEl}
                 onClose={onClose}
@@ -54,22 +54,22 @@ export const Menu: FC<TMenuProps> = ({
             >
                 {menuItems}
             </MuiMenu>
+            : <SwipeableDrawer
+                open={isMobile && !!anchorEl}
+                onClose={() => onClose(null, null)}
+                ModalProps={{ keepMounted: true }}
+                PaperProps={{
+                    sx: { ...paperStyle, pb: getIsNewIphonePWA() ? 6 : 4},
+                }}
+                SwipeAreaProps={{ sx: { display: 'none' }}}
+                onOpen={() => {}}
+            >
+                <>
+                    {closeButton}
+                    {menuItems}
+                </>
+            </SwipeableDrawer>
         }
-        <SwipeableDrawer
-            open={isMobile && !!anchorEl}
-            onClose={() => onClose(null, null)}
-            ModalProps={{ keepMounted: true }}
-            PaperProps={{
-                sx: { ...paperStyle, pb: getIsNewIphonePWA() ? 6 : 4},
-            }}
-            SwipeAreaProps={{ sx: { display: 'none' }}}
-            onOpen={() => {}}
-        >
-            <>
-                {closeButton}
-                {menuItems}
-            </>
-        </SwipeableDrawer>
     </>
 }
 
