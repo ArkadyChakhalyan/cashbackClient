@@ -12,6 +12,7 @@ import * as _ from 'underscore';
 import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
 import { getShowStories } from '../../store/userApi/selectors/getShowStories.ts';
 import { getIsMobile } from '../../selectors/getIsMobile.ts';
+import { getIsPWA } from '../../selectors/getIsPWA.ts';
 
 export const Stories = () => {
     const isShow = useSelector(getShowStories);
@@ -62,6 +63,23 @@ export const Stories = () => {
         _setCurrentSlide(value);
     };
 
+    const onLoad = () => {
+        setLoading(false);
+        loadingRef.current = false;
+        if (timerRef.current) clearInterval(timerRef.current);
+        timerRef.current = setInterval(() => {
+            if (holdRef.current || loadingRef.current) return;
+            if (progressRef.current >= 100) {
+                setProgress(0);
+                progressRef.current = 0;
+                onNextSlide();
+            } else {
+                const progress = progressRef.current + 0.5;
+                setProgress(progress);
+                progressRef.current = progress;
+            }
+        }, 50);
+    };
 
     const onClose = () => setOpenedStory(null);
 
@@ -85,23 +103,6 @@ export const Stories = () => {
         if (openedStory) {
             setLoading(true);
             loadingRef.current = true;
-            setTimeout(() => {
-                setLoading(false);
-                loadingRef.current = false;
-                if (timerRef.current) clearInterval(timerRef.current);
-                timerRef.current = setInterval(() => {
-                    if (holdRef.current || loadingRef.current) return;
-                    if (progressRef.current >= 100) {
-                        setProgress(0);
-                        progressRef.current = 0;
-                        onNextSlide();
-                    } else {
-                        const progress = progressRef.current + 0.5;
-                        setProgress(progress);
-                        progressRef.current = progress;
-                    }
-                }, 50);
-            }, 800);
         }
         return () => {
             if (timerRef.current) clearInterval(timerRef.current)
@@ -201,18 +202,20 @@ export const Stories = () => {
         setIsDragging(false);
     };
 
-    if (!isShow) return null;
-
     const opacity = 1 - Math.min(translateY / 300, 0.8);
 
     const [isMobile, setMobile] = useState(false);
     useEffect(() => {
         const onResize = () => {
-            setMobile(getIsMobile() || window.innerWidth < MAX_WIDTH_MOBILE);
+            setMobile(getIsMobile() || getIsPWA() || window.innerWidth < MAX_WIDTH_MOBILE);
         };
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
     }, []);
+
+    if (!isShow) return null;
+
+    const StorySlide = openedStory && openedStory.slides[currentSlide];
 
     const content = <Paper
         sx={{
@@ -221,14 +224,24 @@ export const Stories = () => {
                 transform: `translateY(${translateY}px) !important`,
                 opacity,
                 transition: 'none',
-            })
-
+            }),
         }}
         onClick={onStoryClick}
         onMouseDown={onMouseDown}
-        onTouchStart={onMouseDown}
         onMouseUp={onMouseUp}
-        onTouchEnd={onMouseUp}
+        onTouchStart={e => {
+            onMouseDown();
+            onTouchStart(e);
+        }}
+        onTouchMove={onTouchMove}
+        onTouchCancel={() => {
+            onMouseUp();
+            onTouchEnd();
+        }}
+        onTouchEnd={e => {
+            onMouseUp();
+            onTouchEnd();
+        }}
         ref={storyRef}
     >
         <Stack sx={headerStyle}>
@@ -249,7 +262,7 @@ export const Stories = () => {
         >
             <CloseRoundedIcon />
         </IconButton>
-        {openedStory && openedStory.slides[currentSlide]}
+        {StorySlide && <StorySlide onLoad={onLoad} />}
         {isLoading && <Stack sx={loaderStyle}>
             <CircularProgress
                 size={theme.spacing(7)}
@@ -266,9 +279,6 @@ export const Stories = () => {
             open={!!openedStory}
             onClose={onClose}
             slotProps={{ backdrop: { sx: { backdropFilter: 'blur(3px)' }}}}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
         >
             {isMobile ?
                 <Slide in={!!openedStory} direction={'up'}>

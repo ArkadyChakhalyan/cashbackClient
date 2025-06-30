@@ -30,9 +30,10 @@ const eventStyle = {
     position: 'fixed',
     zIndex: 9999,
     transform: `translate(-50%, ${theme.spacing(-2.5)})`,
-    color: theme.palette.common.white,
+    color: theme.palette.success.main,
     animation: 'moveUpFadeOut 1s ease-out forwards',
     fontSize: '1rem',
+
 };
 
 const keyframes = `
