@@ -1,12 +1,16 @@
 import { Box, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 import { theme } from '../../../../style/theme.ts';
+import { TSlideProps } from './types.ts';
 
-export const Slide_4_1 = () => {
+export const Slide_4_1: FC<TSlideProps> = ({
+    onLoad,
+}) => {
     return <Stack sx={containerStyle}>
         <Box
             sx={imgStyle}
             component={'img'}
+            onLoad={onLoad}
             src={'./stories/slide_4_1.png'}
         />
         <Stack sx={contentStyle}>
@@ -33,9 +37,9 @@ const containerStyle = {
         left: 0,
         top: 0,
         right: 0,
-        height: theme.spacing(14),
+        height: theme.spacing(17),
         zIndex: 5,
-        background: 'linear-gradient(180deg, #120b1b 20%, transparent)',
+        background: 'linear-gradient(180deg, #120b1b 25%, transparent)',
     },
 };
 

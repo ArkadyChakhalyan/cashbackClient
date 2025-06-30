@@ -1,12 +1,16 @@
 import { Box, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 import { theme } from '../../../../style/theme.ts';
+import { TSlideProps } from './types.ts';
 
-export const Slide_1_2 = () => {
+export const Slide_1_2: FC<TSlideProps> = ({
+    onLoad,
+}) => {
     return <Stack sx={containerStyle}>
         <Box
             sx={imgStyle}
             component={'img'}
+            onLoad={onLoad}
             src={'./stories/slide_1_2.png'}
         />
         <Stack sx={contentStyle}>
