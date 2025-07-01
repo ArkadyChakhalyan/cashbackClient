@@ -106,7 +106,6 @@ export const Cashbacks: FC<TCashbacksProps> = ({
     }, [isLoading, currentMonthCashbacks, nextMonthCashbacks, period, searchQuery, isSearchMode]);
 
     return <Stack spacing={1.5} flexGrow={1}>
-        <CashbackActionsCodes />
         {!isCashbacksError && <CashbacksHeader />}
         {isLoading || !cashbacks ?
             Array(CASHBACKS_FAKE_COUNT).fill('').map((item, idx) => (
@@ -141,6 +140,7 @@ export const Cashbacks: FC<TCashbacksProps> = ({
                     id={openedActionsCashbackId}
                     onClose={() => dispatch(setOpenedActionsCashbackIdAC(null))}
                 />
+                <CashbackActionsCodes />
             </>
         }
     </Stack>;

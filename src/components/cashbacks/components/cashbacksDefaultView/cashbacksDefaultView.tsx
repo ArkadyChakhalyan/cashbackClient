@@ -85,7 +85,7 @@ export const CashbacksDefaultView: FC<TCashbackDefaultViewProps> = ({
                                             !index ||
                                             getCashbackPeriod(cashback.timestamp) !==getCashbackPeriod(cashbacks[index - 1].timestamp)
                                         ) &&
-                                        <Typography sx={{ m: theme.spacing(1, 0, 1.5, -0.5), opacity: 0.7 }} variant={'subtitle2'}>
+                                        <Typography sx={{ m: theme.spacing(1, 0, 1.5, 0), opacity: 0.7 }} variant={'subtitle2'}>
                                             Категории в {MONTH_MAP[new Date(cashback.timestamp).getMonth()]}
                                         </Typography>
                                     }
