@@ -12,6 +12,7 @@ import { ECashbackPeriod } from '../../../../../../types.ts';
 import { getCurrentMonthCashbacks } from '../../../../../../store/cashbackApi/selectors/getCurrentMonthCashbacks.ts';
 import { getNextMonthCashbacks } from '../../../../../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
 import { getShowAddCard } from '../../../../../../store/userApi/selectors/getShowAddCard.ts';
+import { SCROLL_CLASS } from '../../../../../../customHooks/constants.tsx';
 
 export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
     bank,
@@ -34,7 +35,7 @@ export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
     }, [isOpen, period, cashbacks]);
 
     return <Stack gap={1} sx={containerStyle}>
-        <Stack gap={0.25} sx={banksStyle}>
+        <Stack gap={0.25} sx={banksStyle} className={SCROLL_CLASS}>
             {banks.map(item => (
                 <IconButton
                     key={item.value}
