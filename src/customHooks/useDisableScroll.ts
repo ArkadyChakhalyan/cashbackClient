@@ -1,7 +1,22 @@
 import { useEffect } from 'react';
+import { SCROLL_CLASS } from './constants.tsx';
 
 function freezeVp (e: TouchEvent) {
-    e.preventDefault();
+    let isScrollable = e.target === document.documentElement;
+    if (!isScrollable) {
+        let el = e.target as HTMLElement;
+        while (el && el !== document.body) {
+            if (el.classList.contains(SCROLL_CLASS)) {
+                isScrollable = true;
+                break;
+            }
+            el = el.parentElement;
+        }
+    }
+
+    if (!isScrollable) {
+        e.preventDefault();
+    }
 }
 
 export const useDisableScroll = (isEnabled: boolean) => {

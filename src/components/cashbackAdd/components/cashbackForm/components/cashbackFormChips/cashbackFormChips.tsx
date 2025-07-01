@@ -7,6 +7,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { showErrorSnackbar } from '../../../../../snackbarStack/helpers/showErrorSnackbar.ts';
+import { SCROLL_CLASS } from '../../../../../../customHooks/constants.tsx';
 
 export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
     addLabel,
@@ -132,7 +133,7 @@ export const CashbackFormChips: FC<TCashbackFormNameProps> = ({
 
     const isAdd = !!onAdd;
 
-    return <Stack spacing={0.75} direction={'row'} sx={containerStyle}>
+    return <Stack spacing={0.75} direction={'row'} sx={containerStyle} className={SCROLL_CLASS}>
         {!chips.length && !isAdd &&
             <Typography variant={'body2'} sx={textStyle}>
                 {notFoundLabel || CASHBACK_FORM_CHIPS_NOT_FOUND}
