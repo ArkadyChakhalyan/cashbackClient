@@ -39,6 +39,7 @@ import { getSameCashback } from '../../../../../../../../selectors/getSameCashba
 import { getCardOrderNumber } from '../../../../../../../../selectors/getCardOrderNumber.ts';
 import { getCashbackCodesInfo } from '../../../../../../../../selectors/getCashbackCodesInfo.ts';
 import QrCode2RoundedIcon from '@mui/icons-material/QrCode2Rounded';
+import { useEvent } from '../../../../../../../../event/eventContext.tsx';
 
 export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     anchor,
@@ -71,7 +72,9 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
         dispatch(setOpenedCashbackCodesInfosAC(codesInfos));
     };
 
-    const onCreate = () => {
+    const { showEvent } = useEvent();
+
+    const onCreate = (e: React.MouseEvent) => {
         const {
             name,
             percentage,
@@ -79,6 +82,7 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
             card,
         } = cashback;
         try {
+            showEvent(e.clientX, e.clientY, '+1 категория');
             createCashback({
                 bank,
                 bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
