@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { TCashbackActionsMenuProps } from './types.ts';
 import {
+    CASHBACK_ACTIONS_ADDED,
     CASHBACK_ACTIONS_CODES,
     CASHBACK_ACTIONS_DELETE,
     CASHBACK_ACTIONS_EDIT,
@@ -82,7 +83,7 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
             card,
         } = cashback;
         try {
-            showEvent(e.clientX, e.clientY, '+1 категория');
+            showEvent(e.clientX, e.clientY, CASHBACK_ACTIONS_ADDED);
             createCashback({
                 bank,
                 bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
