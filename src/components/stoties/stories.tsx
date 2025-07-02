@@ -64,21 +64,23 @@ export const Stories = () => {
     };
 
     const onLoad = () => {
-        setLoading(false);
-        loadingRef.current = false;
-        if (timerRef.current) clearInterval(timerRef.current);
-        timerRef.current = setInterval(() => {
-            if (holdRef.current || loadingRef.current) return;
-            if (progressRef.current >= 100) {
-                setProgress(0);
-                progressRef.current = 0;
-                onNextSlide();
-            } else {
-                const progress = progressRef.current + 0.5;
-                setProgress(progress);
-                progressRef.current = progress;
-            }
-        }, 50);
+        setTimeout(() => {
+            setLoading(false);
+            loadingRef.current = false;
+            if (timerRef.current) clearInterval(timerRef.current);
+            timerRef.current = setInterval(() => {
+                if (holdRef.current || loadingRef.current) return;
+                if (progressRef.current >= 100) {
+                    setProgress(0);
+                    progressRef.current = 0;
+                    onNextSlide();
+                } else {
+                    const progress = progressRef.current + 0.5;
+                    setProgress(progress);
+                    progressRef.current = progress;
+                }
+            }, 50);
+        }, 200);
     };
 
     const onClose = () => setOpenedStory(null);
