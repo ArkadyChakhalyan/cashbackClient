@@ -171,8 +171,8 @@ export const Stories = () => {
         if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
         setTimeout(() => {
             holdRef.current = false;
-        }, 0);
-    }
+        }, 100);
+    };
 
     const [translateY, setTranslateY] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
@@ -209,8 +209,9 @@ export const Stories = () => {
     const [isMobile, setMobile] = useState(false);
     useEffect(() => {
         const onResize = () => {
-            setMobile(getIsMobile() || getIsPWA() || window.innerWidth < MAX_WIDTH_MOBILE);
+            setMobile(getIsMobile() || window.innerWidth < MAX_WIDTH_MOBILE);
         };
+        onResize();
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
     }, []);
@@ -237,7 +238,6 @@ export const Stories = () => {
         }}
         onTouchMove={onTouchMove}
         onTouchCancel={() => {
-            onMouseUp();
             onTouchEnd();
         }}
         onTouchEnd={e => {
