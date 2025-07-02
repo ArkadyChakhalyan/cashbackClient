@@ -64,21 +64,23 @@ export const Stories = () => {
     };
 
     const onLoad = () => {
-        setLoading(false);
-        loadingRef.current = false;
-        if (timerRef.current) clearInterval(timerRef.current);
-        timerRef.current = setInterval(() => {
-            if (holdRef.current || loadingRef.current) return;
-            if (progressRef.current >= 100) {
-                setProgress(0);
-                progressRef.current = 0;
-                onNextSlide();
-            } else {
-                const progress = progressRef.current + 0.5;
-                setProgress(progress);
-                progressRef.current = progress;
-            }
-        }, 50);
+        setTimeout(() => {
+            setLoading(false);
+            loadingRef.current = false;
+            if (timerRef.current) clearInterval(timerRef.current);
+            timerRef.current = setInterval(() => {
+                if (holdRef.current || loadingRef.current) return;
+                if (progressRef.current >= 100) {
+                    setProgress(0);
+                    progressRef.current = 0;
+                    onNextSlide();
+                } else {
+                    const progress = progressRef.current + 0.5;
+                    setProgress(progress);
+                    progressRef.current = progress;
+                }
+            }, 50);
+        }, 200);
     };
 
     const onClose = () => setOpenedStory(null);
@@ -169,8 +171,8 @@ export const Stories = () => {
         if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
         setTimeout(() => {
             holdRef.current = false;
-        }, 0);
-    }
+        }, 100);
+    };
 
     const [translateY, setTranslateY] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
@@ -207,8 +209,9 @@ export const Stories = () => {
     const [isMobile, setMobile] = useState(false);
     useEffect(() => {
         const onResize = () => {
-            setMobile(getIsMobile() || getIsPWA() || window.innerWidth < MAX_WIDTH_MOBILE);
+            setMobile(getIsMobile() || window.innerWidth < MAX_WIDTH_MOBILE);
         };
+        onResize();
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
     }, []);
@@ -235,7 +238,6 @@ export const Stories = () => {
         }}
         onTouchMove={onTouchMove}
         onTouchCancel={() => {
-            onMouseUp();
             onTouchEnd();
         }}
         onTouchEnd={e => {

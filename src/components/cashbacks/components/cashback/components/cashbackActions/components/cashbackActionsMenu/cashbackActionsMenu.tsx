@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { TCashbackActionsMenuProps } from './types.ts';
 import {
+    CASHBACK_ACTIONS_ADDED,
     CASHBACK_ACTIONS_CODES,
     CASHBACK_ACTIONS_DELETE,
     CASHBACK_ACTIONS_EDIT,
@@ -39,6 +40,7 @@ import { getSameCashback } from '../../../../../../../../selectors/getSameCashba
 import { getCardOrderNumber } from '../../../../../../../../selectors/getCardOrderNumber.ts';
 import { getCashbackCodesInfo } from '../../../../../../../../selectors/getCashbackCodesInfo.ts';
 import QrCode2RoundedIcon from '@mui/icons-material/QrCode2Rounded';
+import { useEvent } from '../../../../../../../../event/eventContext.tsx';
 
 export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
     anchor,
@@ -71,7 +73,9 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
         dispatch(setOpenedCashbackCodesInfosAC(codesInfos));
     };
 
-    const onCreate = () => {
+    const { showEvent } = useEvent();
+
+    const onCreate = (e: React.MouseEvent) => {
         const {
             name,
             percentage,
@@ -79,6 +83,7 @@ export const CashbackActionsMenu: FC<TCashbackActionsMenuProps> = ({
             card,
         } = cashback;
         try {
+            showEvent(e.clientX, e.clientY, CASHBACK_ACTIONS_ADDED);
             createCashback({
                 bank,
                 bankOrderNumber: getBankOrderNumber(nextMonthCashbacks, bank),
