@@ -11,7 +11,6 @@ import { getSortedBanks } from './selectors/getSortedBanks.ts';
 import { ECashbackPeriod } from '../../../../../../types.ts';
 import { getCurrentMonthCashbacks } from '../../../../../../store/cashbackApi/selectors/getCurrentMonthCashbacks.ts';
 import { getNextMonthCashbacks } from '../../../../../../store/cashbackApi/selectors/getNextMonthCashbacks.ts';
-import { getShowAddCard } from '../../../../../../store/userApi/selectors/getShowAddCard.ts';
 import { SCROLL_CLASS } from '../../../../../../customHooks/constants.tsx';
 
 export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
@@ -26,7 +25,6 @@ export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
     const cards = useSelector(getCards);
     const currentMonthCashbacks = useSelector(getCurrentMonthCashbacks);
     const nextMonthCashbacks = useSelector(getNextMonthCashbacks);
-    const isShowAddCard = card || useSelector(getShowAddCard);
     const cashbacks = period === ECashbackPeriod.NEXT_MONTH ? nextMonthCashbacks : currentMonthCashbacks;
     const [banks, setBanks] = useState(getSortedBanks(userBanks, cards, cashbacks));
 
@@ -70,7 +68,7 @@ export const CashbackFormBank: FC<TCashbackFormBankProps> = ({
                 </IconButton>
             ))}
         </Stack>
-        {isShowAddCard && <CashbackFormCard card={card} setCard={setCard} bank={bank}/>}
+        <CashbackFormCard card={card} setCard={setCard} bank={bank}/>
     </Stack>;
 }
 

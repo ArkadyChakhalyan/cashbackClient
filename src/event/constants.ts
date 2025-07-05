@@ -1,1 +1,1 @@
-export const EVENT_HIDE_TIME = 1000;
+export const EVENT_HIDE_TIME = 1600;
