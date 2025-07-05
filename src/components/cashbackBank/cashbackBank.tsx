@@ -17,6 +17,7 @@ export const CashbackBank: FC<TCashbackBankProps> = ({
             ...sx,
         } as SxProps<Theme>}
         component={'img'}
+        loading={'lazy'}
         src={iconUrl}
         alt={name}
     />

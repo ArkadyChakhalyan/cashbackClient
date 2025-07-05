@@ -9,6 +9,7 @@ export const Slide_5_3: FC<TSlideProps> = ({
     return <Stack sx={containerStyle}>
         <Stack sx={imgContainerStyle}>
             <Box
+                loading={'lazy'}
                 sx={imgStyle}
                 component={'img'}
                 onLoad={onLoad}
