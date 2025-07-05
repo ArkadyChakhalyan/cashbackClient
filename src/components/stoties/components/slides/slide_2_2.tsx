@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { alpha, Box, Stack, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { theme } from '../../../../style/theme.ts';
 import { TSlideProps } from './types.ts';
@@ -7,12 +7,14 @@ export const Slide_2_2: FC<TSlideProps> = ({
     onLoad,
 }) => {
     return <Stack sx={containerStyle}>
-        <Box
-            sx={imgStyle}
-            component={'img'}
-            onLoad={onLoad}
-            src={'/stories/slide_2_2.png'}
-        />
+        <Stack sx={imgContainerStyle}>
+            <Box
+                sx={imgStyle}
+                component={'img'}
+                onLoad={onLoad}
+                src={'/stories/slide22.png'}
+            />
+        </Stack>
         <Stack sx={contentStyle}>
             <Typography variant={'h5'} mb={1}>
                 Группировка по банкам
@@ -28,39 +30,16 @@ export const Slide_2_2: FC<TSlideProps> = ({
 }
 
 const containerStyle = {
-    pt: 4,
+    p: theme.spacing(12, 3, 3),
     pointerEvents: 'none',
     userSelect: 'none',
-    '&:before': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        right: 0,
-        height: theme.spacing(4),
-        zIndex: 5,
-        background: '#120b1b',
-    },
 };
 
 const contentStyle = {
     position: 'relative',
-    p: 4,
-    pt: 2,
     justifyContent: 'center',
-    flexGrow: 1,
     gap: theme.spacing(),
-    '&:before': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        right: 0,
-        height: theme.spacing(6),
-        zIndex: 5,
-        background: 'linear-gradient(0deg, #262130 10%, transparent)',
-        transform: 'translateY(-100%)',
-    },
+    flexGrow: 1,
 };
 
 const textStyle = {
@@ -70,4 +49,11 @@ const textStyle = {
 const imgStyle = {
     width: '100%',
     height: 'auto',
+};
+
+const imgContainerStyle = {
+    borderRadius: theme.spacing(1.75),
+    overflow: 'hidden',
+    background: theme.palette.background.default,
+    boxShadow: `0 0 ${theme.spacing(2.5)} ${alpha(theme.palette.primary.main, 0.4)}`,
 };
