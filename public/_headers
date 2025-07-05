@@ -1,0 +1,14 @@
+/banks/*
+  Cache-Control: no-store
+
+/stories/*
+  Cache-Control: no-store
+
+/*.png
+  Cache-Control: no-store
+
+/*.jpg
+  Cache-Control: no-store
+
+/*.webp
+  Cache-Control: no-store

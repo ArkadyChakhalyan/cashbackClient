@@ -1,4 +1,4 @@
-import { IBank, TBankCashbackCodes, TBankCashbackLoyaltyProgram } from './types.ts';
+import { IBank, TBankCashbackLoyaltyProgram } from './types.ts';
 import { EBank } from 'cashback-check-types';
 
 export const APP_NAME = 'CashbackCheck';
@@ -7,192 +7,192 @@ export const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export const BANKS: IBank[] = [
     {
-        iconUrl: './banks/t.png',
+        iconUrl: '/banks/t.png',
         name: 'Т-Банк',
         value: EBank.T,
     },
     {
-        iconUrl: './banks/sber.png',
+        iconUrl: '/banks/sber.png',
         name: 'СберБанк',
         value: EBank.SBER,
     },
     {
-        iconUrl: './banks/vtb.png',
+        iconUrl: '/banks/vtb.png',
         name: 'ВТБ',
         value: EBank.VTB,
     },
     {
-        iconUrl: './banks/alpha.png',
+        iconUrl: '/banks/alpha.png',
         name: 'Альфа-Банк',
         value: EBank.ALPHA,
     },
     {
-        iconUrl: './banks/yandex.png',
+        iconUrl: '/banks/yandex.png',
         name: 'Яндекс Пэй',
         value: EBank.YANDEX_PAY,
     },
     {
-        iconUrl: './banks/gazprom.png',
+        iconUrl: '/banks/gazprom.png',
         name: 'Газпромбанк',
         value: EBank.GAZPROM,
     },
     {
-        iconUrl: './banks/otp.png',
+        iconUrl: '/banks/otp.png',
         name: 'ОТП Банк',
         value: EBank.OTP,
     },
     {
-        iconUrl: './banks/psb.png',
+        iconUrl: '/banks/psb.png',
         name: 'ПСБ',
         value: EBank.PSB,
     },
     {
-        iconUrl: './banks/ozon.png',
+        iconUrl: '/banks/ozon.png',
         name: 'Озон Банк',
         value: EBank.OZON,
     },
     {
-        iconUrl: './banks/sovcom.png',
+        iconUrl: '/banks/sovcom.png',
         name: 'Совкомбанк',
         value: EBank.SOVCOM,
     },
     {
-        iconUrl: './banks/mts.png',
+        iconUrl: '/banks/mts.png',
         name: 'МТС Банк',
         value: EBank.MTS,
     },
     {
-        iconUrl: './banks/uralsib.png',
+        iconUrl: '/banks/uralsib.png',
         name: 'Уралсиб Банк',
         value: EBank.URAL,
     },
     {
-        iconUrl: './banks/raiffeisen.png',
+        iconUrl: '/banks/raiffeisen.png',
         name: 'Райфайзен Банк',
         value: EBank.RAIFFEISEN,
     },
     {
-        iconUrl: './banks/keb.png',
+        iconUrl: '/banks/keb.png',
         name: 'Кредит Европа Банк',
         value: EBank.KEB,
     },
     {
-        iconUrl: './banks/akbars.png',
+        iconUrl: '/banks/akbars.png',
         name: 'Ак Барс',
         value: EBank.AKBARS,
     },
     {
-        iconUrl: './banks/mkb.png',
+        iconUrl: '/banks/mkb.png',
         name: 'МКБ',
         value: EBank.MKB,
     },
     {
-        iconUrl: './banks/pochta.png',
+        iconUrl: '/banks/pochta.png',
         name: 'Почта Банк',
         value: EBank.POCHTA,
     },
     {
-        iconUrl: './banks/rosselhoz.png',
+        iconUrl: '/banks/rosselhoz.png',
         name: 'Россельхозбанк',
         value: EBank.ROSSELHOZ,
     },
     {
-        iconUrl: './banks/svoi.png',
+        iconUrl: '/banks/svoi.png',
         name: 'Свой Банк',
         value: EBank.SVOI,
     },
     {
-        iconUrl: './banks/expo.png',
+        iconUrl: '/banks/expo.png',
         name: 'Экспобанк',
         value: EBank.EXPO,
     },
     {
-        iconUrl: './banks/zenit.png',
+        iconUrl: '/banks/zenit.png',
         name: 'Банк Зенит',
         value: EBank.ZENIT,
     },
     {
-        iconUrl: './banks/bbr.png',
+        iconUrl: '/banks/bbr.png',
         name: 'ББР Банк',
         value: EBank.BBR,
     },
     {
-        iconUrl: './banks/sinara.png',
+        iconUrl: '/banks/sinara.png',
         name: 'Банк Синара',
         value: EBank.SINARA,
     },
     {
-        iconUrl: './banks/prim_soc.png',
+        iconUrl: '/banks/prim_soc.png',
         name: 'Примсоцбанк',
         value: EBank.PRIM_SOC,
     },
     {
-        iconUrl: './banks/spb.png',
+        iconUrl: '/banks/spb.png',
         name: 'Банк Санкт-Петеребург',
         value: EBank.SPB,
     },
     {
-        iconUrl: './banks/loko.png',
+        iconUrl: '/banks/loko.png',
         name: 'Локо-Банк',
         value: EBank.LOKO,
     },
     {
-        iconUrl: './banks/bks.png',
+        iconUrl: '/banks/bks.png',
         name: 'БКС Банк',
         value: EBank.BKS,
     },
     {
-        iconUrl: './banks/ubrir.png',
+        iconUrl: '/banks/ubrir.png',
         name: 'УБРиР',
         value: EBank.UBRR,
     },
     {
-        iconUrl: './banks/levoberegny.png',
+        iconUrl: '/banks/levoberegny.png',
         name: 'Банк Левобережный',
         value: EBank.LEVOBEREGNY,
     },
     {
-        iconUrl: './banks/atb.png',
+        iconUrl: '/banks/atb.png',
         name: 'Азиатско-Тихоокеанский Банк',
         value: EBank.ATB,
     },
     {
-        iconUrl: './banks/tkb.png',
+        iconUrl: '/banks/tkb.png',
         name: 'Транскапиталбанк',
         value: EBank.TKB,
     },
     {
-        iconUrl: './banks/vbrr.png',
+        iconUrl: '/banks/vbrr.png',
         name: 'ВБРР',
         value: EBank.VBRR,
     },
     {
-        iconUrl: './banks/domrf.png',
+        iconUrl: '/banks/domrf.png',
         name: 'Банк Дом.РФ',
         value: EBank.DOMRF,
     },
     {
-        iconUrl: './banks/yoomoney.png',
+        iconUrl: '/banks/yoomoney.png',
         name: 'ЮMoney',
         value: EBank.YOOMONEY,
     },
     {
-        iconUrl: './banks/ab.png',
+        iconUrl: '/banks/ab.png',
         name: 'Абсолют Банкт',
         value: EBank.AB,
     },
     {
-        iconUrl: './banks/rsb.png',
+        iconUrl: '/banks/rsb.png',
         name: 'Русский Стандарт',
         value: EBank.RSB,
     },
     {
-        iconUrl: './banks/unicredit.png',
+        iconUrl: '/banks/unicredit.png',
         name: 'ЮниКредит Банк',
         value: EBank.UNICREDIT,
     },
     {
-        iconUrl: './banks/home.png',
+        iconUrl: '/banks/home.png',
         name: 'Хоум Банк',
         value: EBank.HOME,
     },

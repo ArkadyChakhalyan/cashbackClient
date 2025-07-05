@@ -23,7 +23,7 @@ export const STORIES: IStory[] = [
     {
         id: 1,
         label: 'Как добавлять кэкшбэк',
-        imgUrl: './stories/create.png',
+        imgUrl: '/stories/create.png',
         color: theme.palette.purple.main,
         slides: [
             Slide_1_1,
@@ -35,7 +35,7 @@ export const STORIES: IStory[] = [
     {
         id: 2,
         label: 'Какую группировку выбрать',
-        imgUrl: './stories/create.png',
+        imgUrl: '/stories/create.png',
         color: theme.palette.green.main,
         slides: [
             Slide_2_1,
@@ -46,7 +46,7 @@ export const STORIES: IStory[] = [
     {
         id: 3,
         label: 'Кэшбэк на следующий месяц',
-        imgUrl: './stories/create.png',
+        imgUrl: '/stories/create.png',
         color: theme.palette.yellow.main,
         slides: [
             Slide_3_1,
@@ -57,7 +57,7 @@ export const STORIES: IStory[] = [
     {
         id: 4,
         label: 'Как изменить порядок',
-        imgUrl: './stories/create.png',
+        imgUrl: '/stories/create.png',
         color: theme.palette.blue.main,
         slides: [
             Slide_4_1,
@@ -67,7 +67,7 @@ export const STORIES: IStory[] = [
     {
         id: 5,
         label: 'Поиск и МСС коды',
-        imgUrl: './stories/create.png',
+        imgUrl: '/stories/create.png',
         color: theme.palette.brown.main,
         slides: [
             Slide_5_1,
