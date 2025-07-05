@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { alpha, Box, Stack, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { theme } from '../../../../style/theme.ts';
 import { TSlideProps } from './types.ts';
@@ -7,15 +7,17 @@ export const Slide_5_1: FC<TSlideProps> = ({
     onLoad,
 }) => {
     return <Stack sx={containerStyle}>
-        <Box
-            sx={imgStyle}
-            component={'img'}
-            onLoad={onLoad}
-            src={'/stories/slide_5_1.png'}
-        />
+        <Stack sx={imgContainerStyle}>
+            <Box
+                sx={imgStyle}
+                component={'img'}
+                onLoad={onLoad}
+                src={'/stories/slide51.png'}
+            />
+        </Stack>
         <Stack sx={contentStyle}>
             <Typography variant={'h5'} mb={1}>
-                Как найти нужную категорию?
+                🔍 Как найти нужную категорию?
             </Typography>
             <Typography variant={'body1'} sx={textStyle}>
                 Чтобы быстро найти нужную вам категорию, воспользуйтесь поиском.
@@ -25,39 +27,16 @@ export const Slide_5_1: FC<TSlideProps> = ({
 }
 
 const containerStyle = {
-    pt: 8,
+    p: theme.spacing(12, 3, 3),
+    gap: 5,
     pointerEvents: 'none',
     userSelect: 'none',
-    '&:before': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        right: 0,
-        height: theme.spacing(10),
-        zIndex: 5,
-        background: '#120b1b',
-    },
 };
 
 const contentStyle = {
     position: 'relative',
-    p: 4,
-    pt: 2,
     justifyContent: 'center',
-    flexGrow: 1,
     gap: theme.spacing(),
-    '&:before': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        right: 0,
-        height: theme.spacing(8),
-        zIndex: 5,
-        background: 'linear-gradient(0deg, #262130 10%, transparent)',
-        transform: 'translateY(-100%)',
-    },
 };
 
 const textStyle = {
@@ -67,4 +46,12 @@ const textStyle = {
 const imgStyle = {
     width: '100%',
     height: 'auto',
+    scale: 1.1,
+};
+
+const imgContainerStyle = {
+    borderRadius: theme.spacing(1.75),
+    overflow: 'hidden',
+    background: theme.palette.background.default,
+    boxShadow: `0 0 ${theme.spacing(2.5)} ${alpha(theme.palette.primary.main, 0.4)}`,
 };
