@@ -397,7 +397,7 @@ export const theme = createTheme({
         },
         button: {
             fontWeight: 300,
-        }
+        },
     },
     palette: {
         primary: {

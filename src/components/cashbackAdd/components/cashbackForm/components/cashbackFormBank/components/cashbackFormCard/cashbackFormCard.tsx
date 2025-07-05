@@ -10,15 +10,18 @@ import {
     useUpdateCardMutation
 } from '../../../../../../../../store/cardApi/cardApiSlice.ts';
 import { showErrorSnackbar } from '../../../../../../../snackbarStack/helpers/showErrorSnackbar.ts';
+import { getShowAddCard } from '../../../../../../../../store/userApi/selectors/getShowAddCard.ts';
 
 export const CashbackFormCard: FC<TCashbackFormCardProps> = ({
     bank,
     card,
     setCard,
 }) => {
+    const _isShowAddCard = useSelector(getShowAddCard);
     const cards = useSelector(getCards).filter(card => card.bank === bank);
     const [prevBank, setPrevBank] = useState(null);
     const [updatedCardName, setUpdatedCardName] = useState(null);
+    const [isShowAddCard, setShowAddCard] = useState(_isShowAddCard);
 
     const [deleteCard, {
         isLoading: isDeleteLoading,
@@ -77,6 +80,12 @@ export const CashbackFormCard: FC<TCashbackFormCardProps> = ({
         if (!prevBank || prevBank !== bank) return;
         setCard(null);
     }, [bank]);
+
+    useEffect(() => {
+        setShowAddCard(_isShowAddCard);
+    }, [_isShowAddCard]);
+
+    if (!card && !isShowAddCard) return null;
 
     return <CashbackFormChips
         addLabel={CASHBACK_FORM_CARD_ADD}
