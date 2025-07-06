@@ -1,7 +1,13 @@
 import React from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import { theme } from '../../style/theme.ts';
-import { REDIRECT_PAGE_BUTTON, REDIRECT_PAGE_LINK, REDIRECT_PAGE_TEXT, REDIRECT_PAGE_TITLE } from './constants.ts';
+import {
+    REDIRECT_PAGE_BUTTON,
+    REDIRECT_PAGE_LINK,
+    REDIRECT_PAGE_TEXT,
+    REDIRECT_PAGE_TEXT_EXTRA,
+    REDIRECT_PAGE_TITLE
+} from './constants.ts';
 import InputRoundedIcon from '@mui/icons-material/InputRounded';
 
 export const RedirectPage = () => {
@@ -13,6 +19,9 @@ export const RedirectPage = () => {
             </Typography>
             <Typography variant={'body2'} textAlign={'center'}>
                 {REDIRECT_PAGE_TEXT}
+            </Typography>
+            <Typography variant={'body2'} textAlign={'center'}>
+                {REDIRECT_PAGE_TEXT_EXTRA}
             </Typography>
             <Button
                 sx={{ mt: 2 }}
