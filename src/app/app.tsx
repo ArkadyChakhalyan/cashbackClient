@@ -28,7 +28,7 @@ import { OfflinePage } from '../pages/offlinePage/offlinePage.tsx';
 import { RedirectPage } from '../pages/redirectPage/redirectPage.tsx';
 
 export const App = () => {
-    if (window.location.href.includes(APP_OLD_DOMAIN) || true) {
+    if (window.location.href.includes(APP_OLD_DOMAIN)) {
         return <RedirectPage />
     }
     const { logout, isAuthenticated } = useAuth();
