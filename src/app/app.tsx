@@ -3,7 +3,6 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import PWAPrompt from 'react-ios-pwa-prompt';
 import { APP_NAME } from '../constants.ts';
 import {
-    APP_OLD_DOMAIN,
     APP_PWA_ADD_TEXT,
     APP_PWA_DESCRIPTION,
     APP_PWA_INSTALL_SHOWED_LS,
@@ -13,7 +12,7 @@ import {
 import { useAuth } from '../auth/authContext.tsx';
 import { useLazyGetUserQuery } from '../store/userApi/userApiSlice.ts';
 import { ERoutes } from '../router/types.ts';
-import { GlobalStyles, Stack } from '@mui/material';
+import { GlobalStyles } from '@mui/material';
 import { Header } from '../components/header/header.tsx';
 import { LandingPage } from '../pages/landingPage/landingPage.tsx';
 import { SnackbarStack } from '../components/snackbarStack/snackbarStack.tsx';
@@ -25,12 +24,8 @@ import { getIsIOS } from '../selectors/getIsIOS.ts';
 import { getIsPWA } from '../selectors/getIsPWA.ts';
 import { Loader } from '../components/loader/loader.tsx';
 import { OfflinePage } from '../pages/offlinePage/offlinePage.tsx';
-import { RedirectPage } from '../pages/redirectPage/redirectPage.tsx';
 
 export const App = () => {
-    if (window.location.href.includes(APP_OLD_DOMAIN)) {
-        return <RedirectPage />
-    }
     const { logout, isAuthenticated } = useAuth();
 
     const location = useLocation();
