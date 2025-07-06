@@ -12,7 +12,6 @@ import * as _ from 'underscore';
 import { useDisableScroll } from '../../customHooks/useDisableScroll.ts';
 import { getShowStories } from '../../store/userApi/selectors/getShowStories.ts';
 import { getIsMobile } from '../../selectors/getIsMobile.ts';
-import { getIsPWA } from '../../selectors/getIsPWA.ts';
 
 export const Stories = () => {
     const isShow = useSelector(getShowStories);
