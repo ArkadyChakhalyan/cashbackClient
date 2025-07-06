@@ -4,7 +4,7 @@ import { Cashbacks } from '../../components/cashbacks/cashbacks.tsx';
 import { CashbackAdd } from '../../components/cashbackAdd/cashbackAdd.tsx';
 import { theme } from '../../style/theme.ts';
 import { getIsNewIphonePWA } from '../../selectors/getIsNewIphonePWA.ts';
-import { Stories } from '../../components/stoties/stories.tsx';
+import { Stories } from '../../components/stories/stories.tsx';
 
 export const DashboardPage = () => {
     const [isError, setError] = useState(null);

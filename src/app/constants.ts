@@ -5,3 +5,5 @@ export const APP_PWA_SHARE_TEXT = `Нажмите на кнопку Подели
 export const APP_PWA_ADD_TEXT = `Далее выбирете На экран «Домой»`;
 
 export const APP_PWA_INSTALL_SHOWED_LS = 'pwa-install-showed';
+
+export const APP_OLD_DOMAIN = 'cashbackcheck.netlify.app';
