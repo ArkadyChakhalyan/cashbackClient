@@ -29,6 +29,7 @@ export const EventProvider: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export const useEvent = (): IEventContextProps => {
+    return; // todo
     const context = useContext(EventContext);
     if (!context) {
         return;
