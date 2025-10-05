@@ -6,7 +6,7 @@ import {
     CASHBACK_FORM_ADD,
     CASHBACK_FORM_ADD_MORE,
     CASHBACK_FORM_ADD_TITLE,
-    CASHBACK_FORM_ADDED, CASHBACK_FORM_ADDED_EVENT,
+    CASHBACK_FORM_ADDED,
     CASHBACK_FORM_EDIT,
     CASHBACK_FORM_EDIT_TITLE,
     getCashbackErrorText,
@@ -37,13 +37,12 @@ import { getBankOrderNumber } from '../../../../selectors/getBankOrderNumber.ts'
 import { getOrderNumber } from '../../../../selectors/getOrderNumber.ts';
 import { showSuccessSnackbar } from '../../../snackbarStack/helpers/showSuccessSnackbar.ts';
 import { getCardOrderNumber } from '../../../../selectors/getCardOrderNumber.ts';
-import { useEvent } from '../../../../event/eventContext.tsx';
 
 export const CashbackForm: FC<TCashbackFormProps> = ({
     isOpen,
     onClose,
 }) => {
-    const { showEvent } = useEvent();
+    // const { showEvent } = useEvent();
 
     const [createCashback, {
         isLoading: isCreateLoading,
@@ -119,9 +118,9 @@ export const CashbackForm: FC<TCashbackFormProps> = ({
             data.bankOrderNumber = getBankOrderNumber(cashbacks, bank);
             data.cardOrderNumber = getCardOrderNumber(cashbacks, card, bank);
             createCashback(data);
-            if (e) {
-                showEvent(e.clientX, e.clientY, CASHBACK_FORM_ADDED_EVENT);
-            }
+            // if (e) {
+            //     showEvent(e.clientX, e.clientY, CASHBACK_FORM_ADDED_EVENT);
+            // }
         }
 
         if (isAddMore) {

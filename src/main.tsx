@@ -7,18 +7,17 @@ import { AuthProvider } from './auth/authContext.tsx';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './style/theme.ts';
 import { App } from './app/app.tsx';
-import { EventProvider } from './event/eventContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
         <Router>
             <StrictMode>
                 <AuthProvider>
-                    <EventProvider>
+                    {/*<EventProvider>*/}
                         <ThemeProvider theme={theme}>
                             <App />
                         </ThemeProvider>
-                    </EventProvider>
+                    {/*</EventProvider>*/}
                 </AuthProvider>
             </StrictMode>
         </Router>
