@@ -196,6 +196,11 @@ export const BANKS: IBank[] = [
         name: 'Хоум Банк',
         value: EBank.HOME,
     },
+    {
+        iconUrl: '/banks/mir.png',
+        name: 'Привет!',
+        value: EBank.MIR,
+    },
 ];
 
 export const SHOW_NEXT_MONTH_DAY = 24;
