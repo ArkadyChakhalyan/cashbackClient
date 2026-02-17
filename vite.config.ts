@@ -50,7 +50,7 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
 
 export default defineConfig({
     plugins: [react(), VitePWA(manifestForPlugin)],
-    base: '/cashbackClient/',
+    // base: '/cashbackClient/',
     server: {
         port: 3000,
         open: true,
