@@ -5,7 +5,6 @@ import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa';
 
 const manifestForPlugin: Partial<VitePWAOptions> = {
     registerType: 'autoUpdate',
-    base: '/cashbackClient/',
     includeAssets: ['favicon.ico', 'apple-touch-icon.png.', 'masked-icon.svg'],
     manifest: {
         name: 'CashbackCheck',
@@ -51,6 +50,7 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
 
 export default defineConfig({
     plugins: [react(), VitePWA(manifestForPlugin)],
+    base: '/cashbackClient/',
     server: {
         port: 3000,
         open: true,
