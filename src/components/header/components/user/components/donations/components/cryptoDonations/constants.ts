@@ -10,7 +10,7 @@ export const CRYPTO_DONATIONS_COPIED = 'Скопировано в буфер о�
 
 export const CRYPTO_DONATIONS_OPTIONS = [
     {
-        address: '0xeb6d88f1a8ac080536b79a0b0b4b8eadf9351b40',
+        address: 'TFcpNDntz2s6NrH2NvPXHZS43Q65wP8CzJ',
         icon: UsdtIcon,
         label: 'USDT',
         value: ECrypto.USDT,
