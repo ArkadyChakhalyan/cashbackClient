@@ -12,7 +12,7 @@ export const Slide_2_1: FC<TSlideProps> = ({
                 sx={imgStyle}
                 component={'img'}
                 onLoad={onLoad}
-                src={'/stories/slide21.png'}
+                src={'./stories/slide21.png'}
             />
         </Stack>
         <Stack sx={contentStyle}>
