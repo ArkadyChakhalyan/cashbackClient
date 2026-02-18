@@ -37,9 +37,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
-        run: |
-          echo "Building with API: $VITE_API_URL"
-          npm run build
+        run: npm run build
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
       - name: Setup Pages
