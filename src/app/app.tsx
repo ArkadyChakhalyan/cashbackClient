@@ -140,7 +140,7 @@ export const App = () => {
                             </ProtectedRoute>
                         }
                     />
-                    <Route path="*" element={<Navigate to={`/${isAuthenticated ? ERoutes.DASHBOARD : `/${ERoutes.LOGIN}`}`} />} />
+                    <Route path="*" element={<Navigate to={`/${isAuthenticated ? ERoutes.DASHBOARD : ERoutes.LOGIN}`} />} />
                 </Routes>
             </>
         }

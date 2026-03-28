@@ -29,6 +29,7 @@ export const SignInButton: FC<TSignInButtonProps> = ({
         const interval = setInterval(() => {
             if (popup && popup.closed) {
                 clearInterval(interval);
+                window.removeEventListener('message', messageListener);
                 setLoading(false);
                 if (!getAuthToken()) {
                     showErrorSnackbar();

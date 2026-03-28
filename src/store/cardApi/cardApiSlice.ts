@@ -60,16 +60,11 @@ export const cardApiSlice = createApi({
                     'getCashbacks',
                     null,
                     (cashbacks) => {
-                        for (let i = 0; i < cashbacks.length; i++) {
-                            const idx = cashbacks.findIndex(cashback => {
-                                return cashback.bank === card.bank &&
-                                    cashback.card &&
-                                    cashback.card.name === card.prevName;
-                            });
-                            if (idx > -1) {
-                                cashbacks.splice(idx, 1, { ...cashbacks[idx], card: data });
+                        cashbacks.forEach((cashback, idx) => {
+                            if (cashback.bank === card.bank && cashback.card && cashback.card.name === card.prevName) {
+                                cashbacks[idx] = { ...cashback, card: data };
                             }
-                        }
+                        });
                     }
                 ));
             },
@@ -95,16 +90,11 @@ export const cardApiSlice = createApi({
                     'getCashbacks',
                     null,
                     (cashbacks) => {
-                        for (let i = 0; i < cashbacks.length; i++) {
-                            const idx = cashbacks.findIndex(cashback => {
-                                return cashback.bank === card.bank &&
-                                    cashback.card &&
-                                    cashback.card.name === card.name;
-                            });
-                            if (idx > -1) {
-                                cashbacks.splice(idx, 1, { ...cashbacks[idx], card: null });
+                        cashbacks.forEach((cashback, idx) => {
+                            if (cashback.bank === card.bank && cashback.card && cashback.card.name === card.name) {
+                                cashbacks[idx] = { ...cashback, card: null };
                             }
-                        }
+                        });
                     }
                 ));
             },
