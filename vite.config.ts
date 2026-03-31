@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'path';
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa';
 
 const manifestForPlugin: Partial<VitePWAOptions> = {
@@ -58,11 +57,6 @@ export default defineConfig({
     },
     optimizeDeps: {
         exclude: ['js-big-decimal, @hello-pangea/dnd']
-    },
-    resolve: {
-        alias: {
-            types: path.resolve(__dirname, '../types/src'),
-        },
     },
     build: {
         outDir: 'dist',
