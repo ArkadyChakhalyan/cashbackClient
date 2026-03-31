@@ -24,6 +24,7 @@ export const CashbacksPeriod = () => {
 
     const currentMonth = new Date().getMonth();
     const nextMonthDate = new Date();
+    nextMonthDate.setDate(1);
     nextMonthDate.setMonth(currentMonth + 1);
     const nextMonth = nextMonthDate.getMonth();
 

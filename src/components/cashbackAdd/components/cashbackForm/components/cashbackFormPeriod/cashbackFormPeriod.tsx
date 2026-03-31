@@ -41,6 +41,7 @@ export const CashbackFormPeriod: FC<TCashbackFormPeriodProps> = ({
         {CASHBACK_FORM_PERIOD_PERIODS.map(period => {
             const date = new Date();
             if (period === ECashbackPeriod.NEXT_MONTH) {
+                date.setDate(1);
                 date.setMonth(date.getMonth() + 1);
             }
             return <ToggleButton value={period} key={period}>
