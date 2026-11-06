@@ -52,6 +52,13 @@ export const BANKS: IBank[] = [
         value: EBank.OZON,
     },
     {
+        iconUrl: './banks/wb.png',
+        name: 'WB Банк',
+        // Cast until cashback-check-types@1.0.26 (which adds EBank.WB) is published to npm;
+        // then replace with EBank.WB.
+        value: 'WB' as EBank,
+    },
+    {
         iconUrl: './banks/sovcom.png',
         name: 'Совкомбанк',
         value: EBank.SOVCOM,
